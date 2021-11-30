@@ -1,0 +1,36 @@
+$primary: #3f51b5;
+$secondary: rgba(0, 0, 0, 0.09);
+$white: white;
+$divider: #E5E5E5;
+
+.topRightBanner {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.appName {
+  color: $white;
+  font-weight: bold;
+}
+
+.header {
+  display: flex;
+  padding: 0px 16px;
+  margin-bottom: 4px;
+  color: $primary;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerGroup {
+  top: 0;
+  position: sticky;
+  background-color: $primary;
+  z-index:2;
+}
+
+.divider {
+  color: red;
+  // margin-bottom: 8px !important;
+}
