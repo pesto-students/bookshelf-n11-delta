@@ -1,7 +1,8 @@
+import React from "react";
 import styles from "./Footer.module.scss";
 
 function Footer() {
   return <div className={styles.footer}></div>;
 }
 
-export default Footer;
+export default React.memo(Footer);

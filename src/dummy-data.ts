@@ -11,6 +11,7 @@ export const DUMMY_BOOKS_DATA: Book[] = [
     imageUri: reactImageUri,
     desc: "ReactJS",
     price: 340,
+    rating: 4.5,
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ export const DUMMY_BOOKS_DATA: Book[] = [
     imageUri: reactImageUri,
     desc: "Intro to React",
     price: 140,
+    rating: 2,
   },
   {
     id: 3,

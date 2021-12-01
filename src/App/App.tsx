@@ -1,50 +1,34 @@
 import {createContext, useReducer} from "react";
-import {
-  BrowserRouter as Router,
-  Navigate,
-  Route,
-  Routes,
-} from "react-router-dom";
-import Dashboard from "../Dashboard/Dashboard";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
+import Dashboard from "../Dashboard/Dashboard";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
-import {UPDATE_SEARCH_TEXT} from "../shared/immutables/action-types";
-import styles from "./App.module.scss";
+import {IAppContext, RootReducer} from "../reducers";
 
-const initialSearchFieldState = {
-  searchField: "",
+const initialSearchTextState: IAppContext = {
+  searchText: "",
 };
 
 export const AppContext = createContext(null);
 
-const reducer = (state, action) => {
-  const newState = {...state};
-  switch (action.type) {
-    case UPDATE_SEARCH_TEXT:
-      newState.searchField = action.data;
-      break;
-    default:
-    // do anything
-  }
-  return newState;
-};
-
 function App() {
-  const [searchText, dispatchSearchAction] = useReducer(reducer, initialSearchFieldState);
+  const [searchState, dispatchSearchAction] = useReducer(
+    RootReducer,
+    initialSearchTextState
+  );
 
   return (
     <Router>
-      <div className={styles.App}>
-        <AppContext.Provider value={{searchText, dispatchSearchAction}}>
+      <>
+        <AppContext.Provider value={{searchState, dispatchSearchAction}}>
           <Header />
           <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/" element={<Navigate to="/dashboard" />} />
+            <Route path="/" element={<Dashboard />} />
           </Routes>
         </AppContext.Provider>
         <Footer />
-      </div>
+      </>
     </Router>
   );
 }

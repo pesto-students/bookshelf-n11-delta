@@ -50,7 +50,7 @@ function Header(): JSX.Element {
           </Stack>
         </div>
       </div>
-      <Divider className={styles.divider} />
+      <Divider/>
     </div>
   );
 }
