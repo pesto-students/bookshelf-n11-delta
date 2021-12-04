@@ -1,0 +1,21 @@
+@import "../../../variables";
+
+.image {
+  width: 300px;
+  min-height: 450px;
+}
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+}
+
+.title {
+  font-weight: 800;
+  color: $primary;
+}
+
+.content {
+  padding: 8px;
+}

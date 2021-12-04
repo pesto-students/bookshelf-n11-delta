@@ -1,2 +1,2 @@
-export * from './nameId';
-export * from './book';
+export * from "./nameId";
+export * from "./book";

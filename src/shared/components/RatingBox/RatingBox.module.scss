@@ -1,5 +1,7 @@
-.ratingContainer {
-  background-color: green;
+@import "../../../variables";
+
+// non-compiled sass block, only for extension
+%ratingContainer {
   color: white;
   font-weight: bold;
   width: 50px;
@@ -8,7 +10,12 @@
   margin: 4px 0px;
 }
 
+.midRating {
+  @extend %ratingContainer;
+  background-color: green;
+}
+
 .lowRating {
-  @extend .ratingContainer;
+  @extend %ratingContainer;
   background-color: yellowgreen;
 }

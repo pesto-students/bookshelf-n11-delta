@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./Footer.module.scss";
 
-function Footer() {
+function FooterLayout() {
   return <div className={styles.footer}></div>;
 }
 
-export default React.memo(Footer);
+export const Footer = React.memo(FooterLayout);

@@ -1,4 +1,4 @@
-import {Book} from "./shared/models";
+import { Book } from "./shared/models";
 
 const reactImageUri = "https://reactjs.org/logo-og.png";
 const jsImageUri =

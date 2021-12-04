@@ -4,15 +4,15 @@ import {Grid} from "@mui/material";
 import axios from "axios";
 import {useContext, useEffect, useReducer} from "react";
 
-import {AppContext} from "../App/App";
-import banner from "../assets/banner.svg";
-import BookCard from "../BookCard/BookCard";
-import {DUMMY_BOOKS_DATA} from "../dummy-data";
-import {DashboardReducer} from "../reducers/dashboard.reducer";
-import {Overlay} from "../shared/components";
-import {Filter} from "../shared/enums";
-import {DASHBOARD_ACTIONS} from "../shared/immutables/action-types";
-import {Book} from "../shared/models";
+import {AppContext} from "../../App/App";
+import banner from "../../assets/banner.svg";
+import {DUMMY_BOOKS_DATA} from "../../dummy-data";
+import {DashboardReducer} from "../../reducers";
+import {Overlay} from "../../shared/components";
+import {Filter} from "../../shared/enums";
+import {DASHBOARD_ACTIONS} from "../../shared/immutables";
+import {Book} from "../../shared/models";
+import {BookCard} from "../BookCard/BookCard";
 import styles from "./Dashboard.module.scss";
 
 const emptyBooksList: Book[] = [];
@@ -24,9 +24,9 @@ const initialDashboardState = {
   sortFilter: Filter.RELEVANCE,
 };
 
-function Dashboard() {
+export const Dashboard = () => {
   const {
-    searchState: {searchText},
+    appState: {searchText},
   } = useContext(AppContext);
   const [state, dispatch] = useReducer(DashboardReducer, initialDashboardState);
 
@@ -111,6 +111,4 @@ function Dashboard() {
       )}
     </>
   );
-}
-
-export default Dashboard;
+};

@@ -1,0 +1,32 @@
+@import "../../variables";
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: "center";
+  align-items: "center";
+  padding-top: 16px;
+}
+
+.dialog {
+  min-width: 500px;
+  min-height: 500px;
+}
+
+.dialogFooter {
+  position: relative;
+  font-size: 14px;
+  font-style: italic;
+  color: $primary;
+  text-align: center;
+  width: 100%;
+
+  .secondaryText {
+    margin-left: 4px;
+  }
+
+  .registerText {
+    color: $secondary;
+    margin-left: 4px;
+  }
+}

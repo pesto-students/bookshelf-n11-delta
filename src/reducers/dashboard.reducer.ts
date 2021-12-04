@@ -11,9 +11,7 @@ export const DashboardReducer = (state, action) => {
     case DASHBOARD_ACTIONS.FILTER_BOOKS:
       if (!!action.searchOn) {
         newState.filteredBooks = newState.books.filter((book) =>
-          book.name
-            .toLowerCase()
-            .includes(action.searchOn.toLowerCase())
+          book.name.toLowerCase().includes(action.searchOn.toLowerCase())
         );
       } else {
         newState.filteredBooks = newState.books;
