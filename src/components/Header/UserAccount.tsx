@@ -28,7 +28,7 @@ export const UserAccount = () => {
       <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
         <Tooltip title="Account settings">
           <IconButton onClick={handleClick} size="small" sx={{ml: 2}}>
-            <Avatar sx={{width: 28, height: 28}} src="/broken-image.jpg" />
+            <Avatar sx={{width: 28, height: 28}}/>
           </IconButton>
         </Tooltip>
       </Box>

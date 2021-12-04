@@ -6,7 +6,6 @@ import {useContext, useEffect, useReducer} from "react";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
-import {DUMMY_BOOKS_DATA} from "../../dummy-data";
 import {DashboardReducer} from "../../reducers";
 import {Overlay} from "../../shared/components";
 import {Filter} from "../../shared/enums";
@@ -37,18 +36,18 @@ export const Dashboard = () => {
     });
   };
 
-  function setDummyDataToBooks() {
-    dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: DUMMY_BOOKS_DATA});
-  }
-
   function getAllBooks() {
+    dispatch({
+      type: DASHBOARD_ACTIONS.GET_ALL_BOOKS,
+    });
     axios
-      .get("")
-      .then((success) => {
-        setDummyDataToBooks();
+      .get("/books")
+      .then(({data}) => {
+        console.log(data.books);
+        dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
       })
-      .catch(() => {
-        setDummyDataToBooks();
+      .catch((error) => {
+        console.log(error);
       });
   }
 
@@ -67,7 +66,7 @@ export const Dashboard = () => {
   const booksGrid = (
     <Grid container className={styles.booksGrid} spacing={2}>
       {filteredBooks.map((book) => (
-        <Grid key={book.id.toString()} item xs={3}>
+        <Grid key={book._id.toString()} item xs={3}>
           <BookCard book={book} />
         </Grid>
       ))}
