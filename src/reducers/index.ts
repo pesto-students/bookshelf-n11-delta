@@ -1,1 +1,3 @@
-export * from './root.reducer';
+export * from "./root.reducer";
+export * from "./dashboard.reducer";
+export * from "./userEntry.reducer";

@@ -1,31 +1,35 @@
 import {createContext, useReducer} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
-import Dashboard from "../Dashboard/Dashboard";
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
+import {Dashboard, Header, Footer, UserEntry} from "../components";
 import {IAppContext, RootReducer} from "../reducers";
 
-const initialSearchTextState: IAppContext = {
+const initialAppState: IAppContext = {
   searchText: "",
+  isUserLoggedIn: false,
+  userEntry: null,
+  open: false,
 };
 
 export const AppContext = createContext(null);
 
 function App() {
-  const [searchState, dispatchSearchAction] = useReducer(
+  const [appState, dispatchAppAction] = useReducer(
     RootReducer,
-    initialSearchTextState
+    initialAppState
   );
 
   return (
     <Router>
       <>
-        <AppContext.Provider value={{searchState, dispatchSearchAction}}>
+        <AppContext.Provider value={{appState, dispatchAppAction}}>
           <Header />
           <Routes>
             <Route path="/" element={<Dashboard />} />
           </Routes>
+          {!!appState.userEntry && (
+            <UserEntry showForm={appState.userEntry} />
+          )}
         </AppContext.Provider>
         <Footer />
       </>

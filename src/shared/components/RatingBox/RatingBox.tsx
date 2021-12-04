@@ -1,14 +1,14 @@
 import Box from "@mui/material/Box";
 import React from "react";
 
-import {HTML_CODES} from "../../immutables";
+import { HTML_CODES } from "../../immutables";
 import styles from "./RatingBox.module.scss";
 
-function RatingBox({rating}) {
+function RatingBox({ rating }) {
   const ratingStr = ` ${rating.toFixed(1)}`;
 
   return (
-    <Box className={rating >= 3 ? styles.ratingContainer : styles.lowRating}>
+    <Box className={rating >= 3 ? styles.midRating : styles.lowRating}>
       {ratingStr} &#9733;
     </Box>
   );

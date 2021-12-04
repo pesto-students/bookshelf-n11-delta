@@ -3,18 +3,20 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import {MemoizedRatingBox} from "../shared/components";
+import styles from "./BookCard.module.scss";
+import {MemoizedRatingBox} from "../../shared/components";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   media: {
     width: "50%",
     objectFit: "cover",
   },
 }));
 
-function BookCard({book}) {
+export const BookCard = (props) => {
   const classes = useStyles();
-  const {name, price, desc, imageUri, rating} = book;
+  const {title, price, author, language, imageUri, rating} = props.book;
+  const desc = [language, author].join(",");
   return (
     <div>
       <Card variant="elevation" sx={{maxWidth: 345, height: 300}}>
@@ -23,11 +25,16 @@ function BookCard({book}) {
           component="img"
           height="140"
           image={imageUri}
-          alt={name}
+          alt={title}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {name}
+          <Typography
+            gutterBottom
+            variant="h5"
+            component="div"
+            className={styles.truncate}
+          >
+            {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {desc}
@@ -38,6 +45,4 @@ function BookCard({book}) {
       </Card>
     </div>
   );
-}
-
-export default BookCard;
+};
