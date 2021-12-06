@@ -5,6 +5,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import styles from "./BookCard.module.scss";
 import {MemoizedRatingBox} from "../../shared/components";
+import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
+import Tooltip from "@mui/material/Tooltip";
 
 const useStyles = makeStyles(() => ({
   media: {
@@ -28,19 +30,23 @@ export const BookCard = (props) => {
           alt={title}
         />
         <CardContent>
-          <Typography
-            gutterBottom
-            variant="h5"
-            component="div"
-            className={styles.truncate}
-          >
-            {title}
-          </Typography>
+          <Tooltip title={title}>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              className={styles.truncate}
+            >
+              {title}
+            </Typography>
+          </Tooltip>
           <Typography variant="body2" color="text.secondary">
             {desc}
           </Typography>
-          {rating && <MemoizedRatingBox rating={rating} />}
-          <Typography sx={{fontWeight: "bold"}}>&#x20b9; {price}</Typography>
+          {<MemoizedRatingBox rating={rating} />}
+          <Typography sx={{fontWeight: "bold"}}>
+            {HTML_SPECIAL_CHARS.RUPEE} {price}
+          </Typography>
         </CardContent>
       </Card>
     </div>

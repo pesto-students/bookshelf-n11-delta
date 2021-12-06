@@ -4,6 +4,7 @@ import {useContext, useEffect} from "react";
 import {object, ref, string} from "yup";
 
 import {AppContext} from "../../App/App";
+import axios from "../../core/axios";
 import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
 import {
   MIN_PASSWORD_LENGTH,
@@ -25,16 +26,34 @@ function SignUpForm({userAction}) {
   useEffect(() => {
     userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: "Sign Up"});
   }, []);
-  
+
   return (
     <>
       <Formik
         initialValues={signUpInitialValues}
         onSubmit={(values, {setSubmitting}) => {
-          setTimeout(() => {
-            dispatchAppAction({type: APP_ACTIONS.LOGIN});
-            setSubmitting(false);
-          }, 400);
+          setSubmitting(true);
+          axios
+            .post("/signup", {
+              name: values.name,
+              email: values.email,
+              password: values.password,
+            })
+            .then(() => {
+              axios
+                .post("/login", {
+                  email: values.email,
+                  password: values.password,
+                })
+                .then(({data}) => {
+                  dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+                })
+                .catch((error) => console.log(error))
+                .finally(() => setSubmitting(false));
+            })
+            .catch(() => {
+              setSubmitting(false);
+            });
         }}
         validationSchema={signUpValidationSchema}
       >
@@ -102,6 +121,7 @@ function SignUpForm({userAction}) {
                 color="primary"
                 size="medium"
                 variant="contained"
+                disabled={isSubmitting}
               >
                 Sign Up
               </Button>

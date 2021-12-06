@@ -9,6 +9,7 @@ const initialAppState: IAppContext = {
   isUserLoggedIn: false,
   userEntry: null,
   open: false,
+  token: {},
 };
 
 export const AppContext = createContext(null);
@@ -27,9 +28,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
           </Routes>
-          {!!appState.userEntry && (
-            <UserEntry showForm={appState.userEntry} />
-          )}
+          {!!appState.userEntry && <UserEntry showForm={appState.userEntry} />}
         </AppContext.Provider>
         <Footer />
       </>

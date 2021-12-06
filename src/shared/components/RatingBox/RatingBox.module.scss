@@ -8,6 +8,7 @@
   padding: 4px;
   border-radius: 4px;
   margin: 4px 0px;
+  text-align: center;
 }
 
 .midRating {
@@ -18,4 +19,9 @@
 .lowRating {
   @extend %ratingContainer;
   background-color: yellowgreen;
+}
+
+.noRating {
+  @extend %ratingContainer;
+  background-color: grey;
 }

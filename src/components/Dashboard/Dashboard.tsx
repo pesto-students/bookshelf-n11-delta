@@ -1,7 +1,7 @@
 import {Button, MenuItem, Select} from "@material-ui/core";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
-import axios from "axios";
+import axios from "../../core/axios";
 import {useContext, useEffect, useReducer} from "react";
 
 import {AppContext} from "../../App/App";
@@ -43,7 +43,7 @@ export const Dashboard = () => {
     axios
       .get("/books")
       .then(({data}) => {
-        console.log(data.books);
+        data.books[0].rating = 4.5;
         dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
       })
       .catch((error) => {

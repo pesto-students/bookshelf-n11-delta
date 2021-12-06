@@ -1,8 +1,13 @@
+import "./index.css";
+import "react-toastify/dist/ReactToastify.css";
+
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import {toast} from "react-toastify";
+
 import App from "./App/App";
 
+toast.configure();
 ReactDOM.render(
   <React.StrictMode>
     <App />

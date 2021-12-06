@@ -1,5 +1,6 @@
 import RegisterIcon from "@material-ui/icons/AccountCircle";
 import {Button, Stack, TextField} from "@mui/material";
+import axios from "../../core/axios";
 import {Formik} from "formik";
 import {useContext, useEffect} from "react";
 import {object, string} from "yup";
@@ -27,10 +28,17 @@ function LoginForm({userAction}) {
       <Formik
         initialValues={loginInitialValues}
         onSubmit={(values, {setSubmitting}) => {
-          setTimeout(() => {
-            dispatchAppAction({type: APP_ACTIONS.LOGIN});
-            setSubmitting(false);
-          }, 400);
+          setSubmitting(true);
+          axios
+            .post("/login", {
+              email: values.email,
+              password: values.password,
+            })
+            .then(({data}) => {
+              dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+            })
+            .catch((error) => console.log(error))
+            .finally(() => setSubmitting(false));
         }}
         validationSchema={loginValidationSchema}
       >
@@ -75,6 +83,7 @@ function LoginForm({userAction}) {
                 size="medium"
                 variant="contained"
                 endIcon={<RegisterIcon />}
+                disabled={isSubmitting}
               >
                 Login
               </Button>
