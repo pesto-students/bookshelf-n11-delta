@@ -77,7 +77,7 @@ export const Dashboard = () => {
     <>
       <img src={banner} alt="banner" className={styles.banner} />
       {isLoading ? (
-        <div style={{minHeight: "256px"}}>
+        <div className={styles.body}>
           <Overlay showBackdrop={true} />
         </div>
       ) : (

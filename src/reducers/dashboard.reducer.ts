@@ -10,8 +10,8 @@ export const DashboardReducer = (state, action) => {
       newState.isLoading = true;
       break;
     case DASHBOARD_ACTIONS.SET_ALL_BOOKS:
-      newState.books = action.data;
-      newState.filteredBooks = action.data;
+      newState.books = [...action.data];
+      newState.filteredBooks = [...action.data];
       newState.isLoading = false;
       break;
     case DASHBOARD_ACTIONS.FILTER_BOOKS:
@@ -34,7 +34,7 @@ export const DashboardReducer = (state, action) => {
           (bookA, bookB) => bookB.price - bookA.price
         );
       } else {
-        newState.filteredBooks.sort((bookA, bookB) => bookA.id - bookB.id);
+        newState.filteredBooks = newState.books;
       }
       break;
     default:

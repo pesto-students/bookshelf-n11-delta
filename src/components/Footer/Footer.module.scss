@@ -1,10 +1,51 @@
 @import "../../variables";
 
 .footer {
-  margin-top: 8px;
   background-color: $primary;
-  height: 100px;
-  bottom: 0;
-  width: 100%;
-  position: fixed;
+  height: $footerHeight;
+  width: calc(100% - 32px);
+  color: $white;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+
+    .heading {
+      font-weight: bold;
+    }
+
+    .body {
+      font-size: 10px;
+      width: 70%;
+      padding-top: 8px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+  }
+
+  .links {
+    font-size: small;
+    font-weight: 500;
+
+    a {
+      color: $white;
+      background-color: transparent;
+      font-weight: bold;
+    }
+
+    a:link,
+    a:visited {
+      text-decoration: none;
+    }
+
+    a:hover,
+    a:active {
+      text-decoration: underline;
+    }
+  }
 }
