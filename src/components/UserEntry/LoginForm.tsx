@@ -1,11 +1,19 @@
 import RegisterIcon from "@material-ui/icons/AccountCircle";
-import {Button, Stack, TextField} from "@mui/material";
-import axios from "../../core/axios";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  TextField,
+} from "@mui/material";
 import {Formik} from "formik";
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
+import env from "react-dotenv";
 import {object, string} from "yup";
 
 import {AppContext} from "../../App/App";
+import axios from "../../core/axios";
 import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
 import {
   MIN_PASSWORD_LENGTH,
@@ -16,6 +24,9 @@ import styles from "./UserEntry.module.scss";
 
 function LoginForm({userAction}) {
   const loginInitialValues = {email: "", password: ""};
+  const [showPassword, setShowPassword] = useState(false);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
     userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: "Login"});
@@ -30,7 +41,7 @@ function LoginForm({userAction}) {
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
           axios
-            .post("/login", {
+            .post(`${env.API_URL}/login`, {
               email: values.email,
               password: values.password,
             })
@@ -54,6 +65,7 @@ function LoginForm({userAction}) {
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
+                className={styles.textField}
                 name="email"
                 label="Email"
                 size="small"
@@ -61,10 +73,11 @@ function LoginForm({userAction}) {
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={!!errors.email}
+                error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
               />
               <TextField
+                className={styles.textField}
                 label="Password"
                 name="password"
                 size="small"
@@ -73,7 +86,7 @@ function LoginForm({userAction}) {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={!!errors?.password}
+                error={touched.password && !!errors?.password}
                 helperText={touched.password && errors.password}
               />
               <Button

@@ -2,6 +2,7 @@ import {Button, Stack, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {useContext, useEffect} from "react";
 import {object, ref, string} from "yup";
+import env from "react-dotenv";
 
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
@@ -12,7 +13,6 @@ import {
   UserEntryState,
 } from "./UserEntry.constant";
 import styles from "./UserEntry.module.scss";
-
 function SignUpForm({userAction}) {
   const signUpInitialValues = {
     name: "",
@@ -34,14 +34,14 @@ function SignUpForm({userAction}) {
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
           axios
-            .post("/signup", {
+            .post(`${env.API_URL}/signup`, {
               name: values.name,
               email: values.email,
               password: values.password,
             })
             .then(() => {
               axios
-                .post("/login", {
+                .post(`${env.API_URL}/login`, {
                   email: values.email,
                   password: values.password,
                 })
@@ -69,6 +69,7 @@ function SignUpForm({userAction}) {
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
+                className={styles.textField}
                 name="name"
                 label="Name"
                 size="small"
@@ -76,11 +77,12 @@ function SignUpForm({userAction}) {
                 value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={!!errors.name}
+                error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
               />
 
               <TextField
+                className={styles.textField}
                 name="email"
                 label="Email"
                 size="small"
@@ -88,10 +90,11 @@ function SignUpForm({userAction}) {
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={!!errors.email}
+                error={touched.email && !!errors.email}
                 helperText={touched.email && errors.email}
               />
               <TextField
+                className={styles.textField}
                 label="Password"
                 name="password"
                 size="small"
@@ -100,10 +103,11 @@ function SignUpForm({userAction}) {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={!!errors?.password}
+                error={touched.password && !!errors?.password}
                 helperText={touched.password && errors.password}
               />
               <TextField
+                className={styles.textField}
                 label="Confirm Password"
                 name="confirmPassword"
                 size="small"
@@ -112,7 +116,7 @@ function SignUpForm({userAction}) {
                 value={values.confirmPassword}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                error={!!errors?.confirmPassword}
+                error={touched.confirmPassword && !!errors?.confirmPassword}
                 helperText={touched.confirmPassword && errors.confirmPassword}
               />
               <Button

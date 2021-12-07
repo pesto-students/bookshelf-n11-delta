@@ -46,6 +46,7 @@ export const RootReducer = (
         refreshToken: data.refreshToken,
       };
       localStorage.setItem(ACCESS_TOKEN, newState.token.accessToken);
+      localStorage.setItem(REFRESH_TOKEN, newState.token.refreshToken);
       break;
     default:
     // do nothing

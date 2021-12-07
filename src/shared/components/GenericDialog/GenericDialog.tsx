@@ -2,7 +2,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import {Dialog, DialogContent, DialogTitle} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import {styled} from "@mui/material/styles";
-import {useState} from "react";
+
 import styles from "./GenericDialog.module.scss";
 import {GenericDialogProps} from "./GenericDialogProps";
 
@@ -12,6 +12,9 @@ const StyledDialog = styled(Dialog)(({theme}) => ({
   },
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
+    position: "relative",
+    display: "flex",
+    justifyContent: "center",
   },
   "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
@@ -54,9 +57,10 @@ export const GenericDialog = (props: GenericDialogProps) => {
 
   return (
     <StyledDialog onClose={handleClose} open={props.open}>
-      <img src={props.image} className={styles.image} alt={props.title} />
-
-      <div className={styles.dialog}>
+      <div
+        className={styles.dialog}
+        style={{backgroundImage: `url(${props.image})`}}
+      >
         <DialogHeader id="title" className={styles.title} onClose={handleClose}>
           {props.title}
         </DialogHeader>

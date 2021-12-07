@@ -1,30 +1,27 @@
-import {useContext, useReducer, useState} from "react";
+import {useContext, useReducer} from "react";
 
-import loginImage from "../../assets/login.jpg";
+import loginImage from "../../assets/signup.png";
 import {GenericDialog} from "../../shared/components";
 import styles from "./UserEntry.module.scss";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import {UserEntryState} from "./UserEntry.constant";
 import {userEntryReducer} from "../../reducers";
-import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
+import {APP_ACTIONS} from "../../shared/immutables";
 import {AppContext} from "../../App/App";
 
 export const UserEntry = ({showForm}) => {
-  const [state, dispatchUserEntryAction] = useReducer(
-    userEntryReducer,
-    {
-      userEntryState: showForm,
-      title: "",
-    }
-  );
+  const [state, dispatchUserEntryAction] = useReducer(userEntryReducer, {
+    userEntryState: showForm,
+    title: "",
+  });
   const handleDialogClose = () => {
     dispatchAppAction({
       type: APP_ACTIONS.USER_ENTRY_COMPLETED,
     });
   };
 
-  const {appState,dispatchAppAction} = useContext(AppContext);
+  const {appState, dispatchAppAction} = useContext(AppContext);
   const {title, userEntryState} = state;
   return (
     <GenericDialog

@@ -2,11 +2,13 @@ import {makeStyles} from "@material-ui/core";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
+import Paper from "@mui/material/Paper";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
-import styles from "./BookCard.module.scss";
+
 import {MemoizedRatingBox} from "../../shared/components";
 import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
-import Tooltip from "@mui/material/Tooltip";
+import styles from "./BookCard.module.scss";
 
 const useStyles = makeStyles(() => ({
   media: {
@@ -20,8 +22,8 @@ export const BookCard = (props) => {
   const {title, price, author, language, imageUri, rating} = props.book;
   const desc = [language, author].join(",");
   return (
-    <div>
-      <Card variant="elevation" sx={{maxWidth: 345, height: 300}}>
+    <Paper elevation={3}>
+      <Card sx={{maxWidth: 345, height: 300}}>
         <CardMedia
           className={classes.media}
           component="img"
@@ -49,6 +51,6 @@ export const BookCard = (props) => {
           </Typography>
         </CardContent>
       </Card>
-    </div>
+    </Paper>
   );
 };

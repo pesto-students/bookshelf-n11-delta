@@ -12,6 +12,7 @@
     "axios": "^0.24.0",
     "cra-template-typescript": "1.1.2",
     "formik": "^2.2.9",
+    "framer-motion": "4.1.17",
     "material-ui-search-bar": "^1.0.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -77,6 +78,5 @@
     "whitelist": [
       "API_URL"
     ]
-  },
-  "proxy": "http://localhost:4000"
+  }
 }

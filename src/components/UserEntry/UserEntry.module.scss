@@ -6,6 +6,10 @@
   justify-content: "center";
   align-items: "center";
   padding-top: 16px;
+
+  .textField {
+    width: 218px;
+  }
 }
 
 .dialog {
@@ -14,12 +18,13 @@
 }
 
 .dialogFooter {
-  position: relative;
+  position: absolute;
   font-size: 14px;
   font-style: italic;
   color: $primary;
   text-align: center;
-  width: 100%;
+  width: calc(100% - 32px);
+  bottom: 16px;
   cursor: pointer;
 
   .secondaryText {

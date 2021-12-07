@@ -13,6 +13,7 @@ import {DASHBOARD_ACTIONS} from "../../shared/immutables";
 import {Book} from "../../shared/models";
 import {BookCard} from "../BookCard/BookCard";
 import styles from "./Dashboard.module.scss";
+import env from "react-dotenv";
 
 const emptyBooksList: Book[] = [];
 
@@ -41,7 +42,7 @@ export const Dashboard = () => {
       type: DASHBOARD_ACTIONS.GET_ALL_BOOKS,
     });
     axios
-      .get("/books")
+      .get(`${env.API_URL}/books`)
       .then(({data}) => {
         data.books[0].rating = 4.5;
         dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
