@@ -1,0 +1,11 @@
+@import "../../../variables";
+
+.text {
+  display: inline;
+  width: 100%;
+}
+
+.readOrHide {
+  color: $primary;
+  cursor: pointer;
+}

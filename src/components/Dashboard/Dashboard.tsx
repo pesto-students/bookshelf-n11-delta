@@ -44,7 +44,6 @@ export const Dashboard = () => {
     axios
       .get(`${env.API_URL}/books`)
       .then(({data}) => {
-        data.books[0].rating = 4.5;
         dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
       })
       .catch((error) => {
@@ -78,9 +77,7 @@ export const Dashboard = () => {
     <>
       <img src={banner} alt="banner" className={styles.banner} />
       {isLoading ? (
-        <div className={styles.body}>
-          <Overlay showBackdrop={true} />
-        </div>
+        <Overlay showBackdrop={true} />
       ) : (
         <>
           <div className={styles.toolbar}>

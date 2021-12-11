@@ -1,0 +1,87 @@
+@import "../../variables";
+$width : 320px;
+$gap: 60px;
+
+.layout {
+  display: flex;
+  margin: 16px;
+
+
+  .imageLayout {
+    flex-direction: column;
+    flex: 1;
+    border: 1px solid $divider;
+    padding: 16px;
+    height: calc(100vh - 262px);
+    width: $width;
+
+    margin: 0px 16px;
+    position: fixed;
+
+
+    .imageBox {
+      border: 1px solid $divider;
+      margin: 16px;
+      height: 82%;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .buttons {
+      flex-direction: row;
+      margin: 16px;
+      position: absolute;
+      bottom: 0;
+      justify-content: space-around;
+    }
+  }
+
+  .description {
+    flex-direction: column;
+    flex: 2;
+    padding-left: 16px;
+    margin-left: $width + $gap;
+
+    .title {
+      font-weight: bold;
+      font-size: x-large;
+    }
+
+    .tabularDetails {
+      flex-direction: column;
+
+      .detailRow {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 8px;
+  
+        .key {
+          color: $textGrey;
+          text-transform: uppercase;
+          font-weight: bold;
+        }
+
+        ul {
+          list-style: none;
+          margin: 0px;
+          padding-left: 16px;
+        }
+        
+        ul li::before {
+          content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+          color: $textGrey;
+          font-weight: bold;
+          display: inline-block; /* Needed to add space between the bullet and the text */
+          width: 1em; /* Also needed for space (tweak if needed) */
+          margin-left: -1em; /* Also needed for space (tweak if needed) */
+        }
+      }
+    }
+  }
+}
+
+
