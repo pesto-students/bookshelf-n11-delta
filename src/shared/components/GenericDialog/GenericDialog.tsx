@@ -59,7 +59,7 @@ export const GenericDialog = (props: GenericDialogProps) => {
     <StyledDialog onClose={handleClose} open={props.open}>
       <div
         className={styles.dialog}
-        style={{backgroundImage: `url(${props.image})`}}
+        style={props.image ? {backgroundImage: `url(${props.image})`, height: "500px"} : {}}
       >
         <DialogHeader id="title" className={styles.title} onClose={handleClose}>
           {props.title}

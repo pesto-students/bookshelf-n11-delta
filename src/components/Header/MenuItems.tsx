@@ -3,16 +3,21 @@ import Login from "@mui/icons-material/Login";
 import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import ShoppingBag from "@mui/icons-material/ShoppingBag";
+import {useNavigate} from "react-router-dom";
 import {APP_ACTIONS} from "../../shared/immutables";
 import {UserEntryState} from "../UserEntry";
 
 export const MenuItems = (isUserLoggedIn, dispatchAction) => {
+  const navigate = useNavigate();
   return [
     {
       id: 0,
       title: "My Profile",
       show: isUserLoggedIn,
       icon: <AccountCircleIcon fontSize="small" />,
+      onClick: () => {
+        navigate('/profile');
+      },
     },
     {
       id: 1,

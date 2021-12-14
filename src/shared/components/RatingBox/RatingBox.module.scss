@@ -2,7 +2,7 @@
 
 // non-compiled sass block, only for extension
 %ratingContainer {
-  color: white;
+  color: $white;
   font-weight: bold;
   width: 50px;
   padding: 4px;
@@ -11,17 +11,15 @@
   text-align: center;
 }
 
-.midRating {
+.rating {
   @extend %ratingContainer;
-  background-color: green;
 }
 
-.lowRating {
+.smallRating {
   @extend %ratingContainer;
-  background-color: yellowgreen;
+  margin: 4px 0px;
+  font-size: 10px;
+  width: 25px;
+  padding: 2px;
 }
 
-.noRating {
-  @extend %ratingContainer;
-  background-color: grey;
-}

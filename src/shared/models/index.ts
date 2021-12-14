@@ -1,2 +1,3 @@
 export * from "./nameId";
-export * from "./book";
+export * from "./book.model";
+export * from "./review.model";

@@ -1,0 +1,8 @@
+@use '../../../mixins' as mixin;
+
+.charts {
+    display: flex;
+    flex-direction: row;
+
+    @include mixin.fxLayoutGap(16px);
+}

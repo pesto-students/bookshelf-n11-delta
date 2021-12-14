@@ -1,39 +1,74 @@
 import {
   Button,
   ButtonProps,
+  Divider,
   Grid,
   Stack,
   styled,
   Typography,
 } from "@mui/material";
-import {useEffect, Fragment} from "react";
+import {Fragment, useEffect, useState} from "react";
 import env from "react-dotenv";
+import {useLocation, useParams} from "react-router-dom";
 import {AnyObject} from "yup/lib/object";
 
 import axios from "../../core/axios";
-import {MemoizedRatingBox, Overlay, ReadMore} from "../../shared/components";
+import {
+  MemoizedRatingBox,
+  Overlay,
+  RatingChart,
+  ReadMore,
+  ReviewDetails,
+} from "../../shared/components";
 import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
-import {Book} from "../../shared/models";
+import {Book, Review} from "../../shared/models";
+import RatingPopup from "../RatingPopup/RatingPopup";
+import {UserEntry, UserEntryState} from "../UserEntry";
 import styles from "./BookDetail.module.scss";
 
-export const BookDetail = () => {
-  let book: Book = {
-    _id: "61a5e8e707f9c7a5238f9e31",
-    title: "Javascript for beginners",
-    description:
-      "Javascript for beginners Javascript for beginners Javascript for beginners Javascript for beginners",
-    language: "english",
-    category: "abc",
-    author: "alisha mahajan",
-    quantity: 12,
-    price: 620,
-    imageUri: "https://reactjs.org/logo-og.png",
-    highlights: ["alisha", "alisha", "alisha"],
-    pages: 235,
-    rating: 4.5,
-  };
+export const BookDetail = (props) => {
+  const {id} = useParams();
+  const location = useLocation();
+  const book: Book = location.state.book;
 
-  let details: AnyObject[] = [];
+  const details: AnyObject[] = [
+    {
+      key: "language",
+      value: book.language,
+    },
+    {
+      key: "author",
+      value: book.author,
+    },
+    {
+      key: "category",
+      value: book.category,
+    },
+  ];
+  const ratings: Partial<Review>[] = [
+    {
+      _id: "1",
+      title: "Best Buy",
+      rating: 4,
+      message: "Content explained very well",
+      userName: "Alisha Mahajan",
+    },
+    {
+      _id: "2",
+      title: "Best Buy",
+      rating: 4,
+      message: "Content explained very well",
+      userName: "Alisha Mahajan",
+    },
+    {
+      _id: "3",
+      title: "Best Buy",
+      rating: 4,
+      message: "Content explained very well",
+      userName: "Alisha Mahajan",
+    },
+  ];
+
   const buttonWidth = "140px";
 
   const AddToCartButton = styled(Button)<ButtonProps>(() => ({
@@ -44,42 +79,20 @@ export const BookDetail = () => {
 
   useEffect(() => {
     getBookDetails();
-  }, []);
+  }, [id]);
 
-  createDetails();
   function getBookDetails() {
-    // error while using react router dom param
-    // const {id} = useParams();
-    const id = "61a5e8e707f9c7a5238f9e31";
+    // fetch reviews relevant to book
     // here problem accessing env
     console.log(env);
     axios
       .get(`http://localhost:4000/book/${id}`)
       .then(({data}) => {
-        book = data;
-        createDetails();
+        console.log(data);
       })
       .catch((error) => {
         console.log(error);
-        createDetails();
       });
-  }
-
-  function createDetails() {
-    details = [
-      {
-        key: "language",
-        value: book.language,
-      },
-      {
-        key: "author",
-        value: book.author,
-      },
-      {
-        key: "category",
-        value: book.category,
-      },
-    ];
   }
 
   const gridRow = (key, value) => {
@@ -91,6 +104,16 @@ export const BookDetail = () => {
         <Grid xs={8}>{value}</Grid>
       </Grid>
     );
+  };
+
+  const handleDialogClose = () => {
+    setOpen(false);
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const openRatingDialog = () => {
+    setOpen(true);
   };
 
   return (
@@ -133,7 +156,25 @@ export const BookDetail = () => {
                 )}
               {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
             </div>
+            {ratings && (
+              <>
+                <div className={styles.ratingHeading}>
+                  <div className={styles.title}>
+                    Rating {HTML_SPECIAL_CHARS.AND} Reviews
+                  </div>
+                  <div className={styles.rateBtn} onClick={openRatingDialog}>
+                    +
+                  </div>
+                </div>
+                <Divider />
+                <RatingChart height="200px" />
+                {ratings.map((rating) => (
+                  <ReviewDetails key={rating._id} review={rating} />
+                ))}
+              </>
+            )}
           </Stack>
+          <RatingPopup open={open} handleDialogClose={handleDialogClose} />
         </>
       ) : (
         <Overlay showBackdrop={true} />

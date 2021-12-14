@@ -1,12 +1,5 @@
 import RegisterIcon from "@material-ui/icons/AccountCircle";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {
-  Button,
-  IconButton,
-  InputAdornment,
-  Stack,
-  TextField,
-} from "@mui/material";
+import {Button, Stack, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {useContext, useEffect, useState} from "react";
 import env from "react-dotenv";
@@ -24,9 +17,6 @@ import styles from "./UserEntry.module.scss";
 
 function LoginForm({userAction}) {
   const loginInitialValues = {email: "", password: ""};
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const handleMouseDownPassword = () => setShowPassword(!showPassword);
 
   useEffect(() => {
     userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: "Login"});
@@ -90,7 +80,7 @@ function LoginForm({userAction}) {
                 helperText={touched.password && errors.password}
               />
               <Button
-                style={{alignSelf: "center"}}
+                style={{alignSelf: "center", width: "150px"}}
                 type="submit"
                 color="primary"
                 size="medium"

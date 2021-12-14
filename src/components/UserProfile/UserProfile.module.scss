@@ -1,0 +1,59 @@
+@import "../../variables";
+
+$avatarContainer: 150px;
+
+.profileLayout {
+  display: flex;
+  height: 100%;
+  margin: 16px;
+
+  .imageLayout {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    // background-image: url("../../assets/profile-removebg-preview.png");
+    // background-position: center;
+    // background-size: cover;
+
+
+    .avatarContainer {
+      height: $avatarContainer;
+      width: $avatarContainer;
+      border-radius: 50%;
+      background-image: url("../../assets/generic-user.png");
+      background-position: center;
+      background-size: cover;
+      border: 1px solid $divider;
+      overflow: hidden;
+      margin: 16px 0px;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .greetingMsg {
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+
+  .infoLayout {
+    flex: 3;
+    flex-direction: column;
+    border: 1px solid $divider;
+
+    .form {
+      margin: 16px;
+      padding: 16px;
+
+      .textField {
+        margin-bottom: 16px;
+        width: 80%;
+      }
+    }
+  }
+}

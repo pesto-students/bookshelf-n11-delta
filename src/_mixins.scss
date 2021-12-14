@@ -1,0 +1,34 @@
+@mixin fxFill {
+  height: 100%;
+  min-height: 100%;
+  min-width: 100%;
+  width: 100%;
+}
+
+@mixin fxFlex {
+  display: flex;
+  flex: 1;
+}
+
+@mixin fxLayout($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+@mixin fxLayoutAlign($y-axis: start, $x-axis: start) {
+  justify-content: $y-axis;
+  align-content: $x-axis;
+}
+
+@mixin fxLayoutGap($gap: 16px) {
+  & > *:not(:last-child) {
+    margin-bottom: $gap;
+  }
+}
+
+@mixin ellipsis($max-width) {
+  max-width: $max-width;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

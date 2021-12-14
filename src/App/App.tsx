@@ -2,6 +2,7 @@ import {createContext, useReducer} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 import {Dashboard, Header, Footer, UserEntry, BookDetail} from "../components";
+import { UserProfile } from "../components/UserProfile/UserProfile";
 import {IAppContext, RootReducer} from "../reducers";
 import styles from "./App.module.scss";
 
@@ -29,6 +30,7 @@ function App() {
           <div className={styles.wrapper}>
             <Routes>
               <Route path="/" element={<Dashboard />} />
+              <Route path="/profile" element={<UserProfile />} />
               <Route path="/books/:id" element={<BookDetail />} />
             </Routes>
             {!!appState.userEntry && (

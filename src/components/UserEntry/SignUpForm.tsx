@@ -3,6 +3,8 @@ import {Formik} from "formik";
 import {useContext, useEffect} from "react";
 import {object, ref, string} from "yup";
 import env from "react-dotenv";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+
 
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
@@ -120,11 +122,12 @@ function SignUpForm({userAction}) {
                 helperText={touched.confirmPassword && errors.confirmPassword}
               />
               <Button
-                style={{alignSelf: "center"}}
+                style={{alignSelf: "center", width: "150px"}}
                 type="submit"
                 color="primary"
                 size="medium"
                 variant="contained"
+                endIcon={<PersonAdd />}
                 disabled={isSubmitting}
               >
                 Sign Up
