@@ -1,5 +1,6 @@
 import {UserEntryState} from "../components/UserEntry";
 import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN} from "../shared/immutables";
+import {Book} from "../shared/models";
 
 export interface IAppContext {
   searchText: string;
@@ -7,6 +8,7 @@ export interface IAppContext {
   userEntry: UserEntryState | null;
   open: boolean;
   user: any;
+  books: Book[];
 }
 
 export const RootReducer = (
@@ -40,6 +42,9 @@ export const RootReducer = (
     case APP_ACTIONS.REGISTER_USER_INFO:
       newState.isUserLoggedIn = true;
       newState.user = data;
+      break;
+    case APP_ACTIONS.SET_BOOKS:
+      newState.books = data.books;
       break;
     default:
     // do nothing

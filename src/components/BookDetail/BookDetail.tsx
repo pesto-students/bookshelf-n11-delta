@@ -182,7 +182,7 @@ export const BookDetail = (props) => {
               </>
             )}
           </Stack>
-          <RatingPopup open={open} handleDialogClose={handleDialogClose} />
+          <RatingPopup open={open} handleDialogClose={handleDialogClose} bookId={id}/>
         </>
       ) : (
         <Overlay showBackdrop={true} />

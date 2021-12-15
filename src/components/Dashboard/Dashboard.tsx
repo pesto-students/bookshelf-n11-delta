@@ -7,19 +7,19 @@ import environment from "../../Environment/environment";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
-import {DashboardReducer} from "../../reducers";
+import {DashboardReducer, IDashboardState} from "../../reducers";
 import {Overlay} from "../../shared/components";
 import {Filter} from "../../shared/enums";
-import {DASHBOARD_ACTIONS} from "../../shared/immutables";
+import {APP_ACTIONS, DASHBOARD_ACTIONS} from "../../shared/immutables";
 import {Book} from "../../shared/models";
 import {BookCard} from "../BookCard/BookCard";
 import styles from "./Dashboard.module.scss";
 
 const emptyBooksList: Book[] = [];
 
-const initialDashboardState = {
+const initialDashboardState : IDashboardState = {
   books: emptyBooksList,
-  filteredBooks: emptyBooksList,
+  searchFilteredBooks: emptyBooksList,
   isLoading: true,
   sortFilter: Filter.RELEVANCE,
 };
@@ -27,6 +27,7 @@ const initialDashboardState = {
 export const Dashboard = () => {
   const {
     appState: {searchText},
+    dispatchAppAction,
   } = useContext(AppContext);
   const [state, dispatch] = useReducer(DashboardReducer, initialDashboardState);
 
@@ -45,6 +46,7 @@ export const Dashboard = () => {
       .get(`${environment.API_URL}/books`)
       .then(({data}) => {
         dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
+        dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +63,7 @@ export const Dashboard = () => {
     });
   }, [searchText]);
 
-  const {isLoading, sortFilter, filteredBooks} = state;
+  const {isLoading, sortFilter, searchFilteredBooks: filteredBooks} = state;
 
   const booksGrid = (
     <Grid container className={styles.booksGrid} spacing={2}>

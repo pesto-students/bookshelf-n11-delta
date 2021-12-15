@@ -22,6 +22,7 @@ const initialAppState: IAppContext = {
   userEntry: null,
   open: false,
   user: null,
+  books: [],
 };
 
 export const AppContext = createContext(null);
