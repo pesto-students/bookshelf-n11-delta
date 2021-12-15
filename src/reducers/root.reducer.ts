@@ -1,19 +1,12 @@
 import {UserEntryState} from "../components/UserEntry";
-import {APP_ACTIONS} from "../shared/immutables";
+import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN} from "../shared/immutables";
 
 export interface IAppContext {
   searchText: string;
   isUserLoggedIn: boolean;
   userEntry: UserEntryState | null;
   open: boolean;
-  token: {
-    accessToken?: string;
-    refreshToken?: string;
-  };
 }
-
-const ACCESS_TOKEN = "accessToken";
-const REFRESH_TOKEN = "refreshToken";
 
 export const RootReducer = (
   state: IAppContext,
@@ -35,18 +28,13 @@ export const RootReducer = (
       break;
     case APP_ACTIONS.LOGOUT:
       newState.isUserLoggedIn = false;
-      newState.token = {};
       localStorage.clear();
       break;
     case APP_ACTIONS.LOGIN:
       newState.isUserLoggedIn = true;
       newState.open = false;
-      newState.token = {
-        accessToken: data.token,
-        refreshToken: data.refreshToken,
-      };
-      localStorage.setItem(ACCESS_TOKEN, newState.token.accessToken);
-      localStorage.setItem(REFRESH_TOKEN, newState.token.refreshToken);
+      localStorage.setItem(ACCESS_TOKEN, data.token);
+      localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
       break;
     default:
     // do nothing

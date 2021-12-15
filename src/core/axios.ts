@@ -1,22 +1,25 @@
 import axios from "axios";
+import env from "react-dotenv";
 import {toast} from "react-toastify";
+
+import {ACCESS_TOKEN, REFRESH_TOKEN} from "../shared/immutables";
 
 const axiosInstance = axios.create({
   baseURL: "",
   timeout: 10000,
 });
 
-// axiosInstance.interceptors.request.use(
-//   (config) => {
-//     // add bearer token
-//     //   const token = TokenService.getAccessToken();
-//     //   if (token) {
-//     //     config.headers['Authorization'] = `Bearer ${token}`;
-//     //   }
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
+axiosInstance.interceptors.request.use(
+  (config) => {
+    // add bearer token
+    const token = localStorage.getItem(ACCESS_TOKEN);
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 axiosInstance.interceptors.response.use(
   (res) => res,
@@ -33,11 +36,18 @@ axiosInstance.interceptors.response.use(
 
         try {
           // refresh token handling
-          //   const oldRefreshToken = TokenService.getRefreshToken();
-          //   const response = await AuthService.refreshToken(oldRefreshToken);
-          //   const {accessToken, refreshToken} = response.data;
-          //   TokenService.setAccessToken(accessToken);
-          //   TokenService.setRefreshToken(refreshToken);
+          const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
+          try {
+            const response = await axios.post(`${env.API_URL}/refresh`, {
+              refresh_token: oldRefreshToken,
+            });
+            const {token, refreshToken} = response.data;
+            localStorage.setItem(ACCESS_TOKEN, token);
+            localStorage.setItem(REFRESH_TOKEN, refreshToken);
+          } catch (err) {
+            console.log("Error occured while refreshing token: ", error);
+            // do nothing
+          }
           return axiosInstance(originalConfig);
         } catch (err) {
           return Promise.reject(err);

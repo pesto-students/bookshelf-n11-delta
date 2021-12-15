@@ -18,7 +18,6 @@ const initialAppState: IAppContext = {
   isUserLoggedIn: false,
   userEntry: null,
   open: false,
-  token: {},
 };
 
 export const AppContext = createContext(null);
