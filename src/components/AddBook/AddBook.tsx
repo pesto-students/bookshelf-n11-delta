@@ -4,9 +4,9 @@ import {Button, Grid, styled, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {Book} from "../../shared/models";
 import axios from "../../core/axios";
-import env from "react-dotenv";
 import {number, object, string} from "yup";
 import ChipInput from "material-ui-chip-input";
+import environment from "../../Environment/environment";
 
 export const AddBook = () => {
   const [iconFile, setIconFile] = useState({
@@ -44,7 +44,7 @@ export const AddBook = () => {
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
           axios
-            .post(`${env.API_URL}/book`, {
+            .post(`${environment.API_URL}/book`, {
               title: values.title,
               author: values.author,
             })

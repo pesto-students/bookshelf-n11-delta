@@ -23,7 +23,7 @@ function FooterLayout() {
       <div className={styles.links}>
         <Stack spacing={1}>
           {links.map((link, index) => (
-            <a key={index} href={link.href} target="_blank">
+            <a key={index} href={link.href} target="_blank" rel="noreferrer">
               {link.title}
             </a>
           ))}

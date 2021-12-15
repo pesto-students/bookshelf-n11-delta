@@ -1,7 +1,6 @@
 import axios from "axios";
-import env from "react-dotenv";
 import {toast} from "react-toastify";
-
+import environment from "../Environment/environment";
 import {ACCESS_TOKEN, REFRESH_TOKEN} from "../shared/immutables";
 
 const axiosInstance = axios.create({
@@ -38,7 +37,7 @@ axiosInstance.interceptors.response.use(
           // refresh token handling
           const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
           try {
-            const response = await axios.post(`${env.API_URL}/refresh`, {
+            const response = await axios.post(`${environment.API_URL}/refresh`, {
               refresh_token: oldRefreshToken,
             });
             const {token, refreshToken} = response.data;

@@ -2,7 +2,7 @@ import RegisterIcon from "@material-ui/icons/AccountCircle";
 import {Button, Stack, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {useContext, useEffect, useState} from "react";
-import env from "react-dotenv";
+import environment from "../../Environment/environment";
 import {object, string} from "yup";
 
 import {AppContext} from "../../App/App";
@@ -31,7 +31,7 @@ function LoginForm({userAction}) {
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
           axios
-            .post(`${env.API_URL}/login`, {
+            .post(`${environment.API_URL}/login`, {
               email: values.email,
               password: values.password,
             })

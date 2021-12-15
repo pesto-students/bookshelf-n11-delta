@@ -8,11 +8,11 @@ import {
   Typography,
 } from "@mui/material";
 import {Fragment, useEffect, useState} from "react";
-import env from "react-dotenv";
 import {useLocation, useParams} from "react-router-dom";
 import {AnyObject} from "yup/lib/object";
 
 import axios from "../../core/axios";
+import environment from "../../Environment/environment";
 import {
   MemoizedRatingBox,
   Overlay,
@@ -23,28 +23,14 @@ import {
 import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
 import {Book, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
-import {UserEntry, UserEntryState} from "../UserEntry";
 import styles from "./BookDetail.module.scss";
 
 export const BookDetail = (props) => {
   const {id} = useParams();
   const location = useLocation();
-  const book: Book = location.state.book;
+  let book: Book = location.state.book;
+  const [details, setDetails] = useState([]);
 
-  const details: AnyObject[] = [
-    {
-      key: "language",
-      value: book.language,
-    },
-    {
-      key: "author",
-      value: book.author,
-    },
-    {
-      key: "category",
-      value: book.category,
-    },
-  ];
   const ratings: Partial<Review>[] = [
     {
       _id: "1",
@@ -82,26 +68,48 @@ export const BookDetail = (props) => {
   }, [id]);
 
   function getBookDetails() {
-    // fetch reviews relevant to book
-    // here problem accessing env
-    console.log(env);
-    axios
-      .get(`http://localhost:4000/book/${id}`)
-      .then(({data}) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (!book) {
+      axios
+        .get(`${environment.API_URL}/book/${id}`)
+        .then(({data}) => {
+          console.log(data);
+          book = data;
+          createBookDetails();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      createBookDetails();
+    }
+  }
+
+  function createBookDetails() {
+    setDetails([
+      {
+        key: "language",
+        value: book.language,
+      },
+      {
+        key: "author",
+        value: book.author,
+      },
+      {
+        key: "category",
+        value: book.category,
+      },
+    ]);
   }
 
   const gridRow = (key, value) => {
     return (
-      <Grid direction="row" spacing={4} className={styles.detailRow}>
-        <Grid xs={4}>
+      <Grid container direction="row" spacing={4} className={styles.detailRow}>
+        <Grid item xs={4}>
           <span className={styles.key}>{key}</span>
         </Grid>
-        <Grid xs={8}>{value}</Grid>
+        <Grid item xs={8}>
+          {value}
+        </Grid>
       </Grid>
     );
   };

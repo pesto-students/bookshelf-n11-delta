@@ -3,6 +3,7 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
 import axios from "../../core/axios";
 import {useContext, useEffect, useReducer} from "react";
+import environment from "../../Environment/environment";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
@@ -13,7 +14,6 @@ import {DASHBOARD_ACTIONS} from "../../shared/immutables";
 import {Book} from "../../shared/models";
 import {BookCard} from "../BookCard/BookCard";
 import styles from "./Dashboard.module.scss";
-import env from "react-dotenv";
 
 const emptyBooksList: Book[] = [];
 
@@ -42,7 +42,7 @@ export const Dashboard = () => {
       type: DASHBOARD_ACTIONS.GET_ALL_BOOKS,
     });
     axios
-      .get(`${env.API_URL}/books`)
+      .get(`${environment.API_URL}/books`)
       .then(({data}) => {
         dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
       })

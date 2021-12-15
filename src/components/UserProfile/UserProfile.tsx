@@ -2,7 +2,7 @@ import {Button, Grid, Stack, styled, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {motion} from "framer-motion";
 import {useContext, useEffect, useState} from "react";
-import env from "react-dotenv";
+import environment from "../../Environment/environment";
 import {object, string} from "yup";
 
 import {AppContext} from "../../App/App";
@@ -37,7 +37,7 @@ export const UserProfile = () => {
   function handleSubmit(values, actions) {
     actions.setSubmitting(true);
     axios
-      .post(`${env.API_URL}/user`, {
+      .post(`${environment.API_URL}/user`, {
         email: values.email,
         name: values.name,
         address: values.address,

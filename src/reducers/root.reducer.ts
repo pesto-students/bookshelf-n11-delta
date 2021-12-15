@@ -6,6 +6,7 @@ export interface IAppContext {
   isUserLoggedIn: boolean;
   userEntry: UserEntryState | null;
   open: boolean;
+  user: any;
 }
 
 export const RootReducer = (
@@ -35,6 +36,10 @@ export const RootReducer = (
       newState.open = false;
       localStorage.setItem(ACCESS_TOKEN, data.token);
       localStorage.setItem(REFRESH_TOKEN, data.refreshToken);
+      break;
+    case APP_ACTIONS.REGISTER_USER_INFO:
+      newState.isUserLoggedIn = true;
+      newState.user = data;
       break;
     default:
     // do nothing
