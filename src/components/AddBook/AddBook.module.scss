@@ -1,0 +1,39 @@
+@use "../../mixins" as mixin;
+@import "../../variables";
+
+.layout {
+  border: 1px solid $divider;
+  border-radius: 4px;
+  margin: 16px;
+  display: flex;
+  flex-direction: row;
+  padding: 32px;
+  @include mixin.fxLayoutGap(32px);
+
+  .image {
+    flex: 1;
+    background-color: $divider;
+    .imageUpload {
+      @include mixin.fxFill();
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+
+  .altText {
+    font-size: 14px;
+    @include mixin.fxLayoutAlign(center, center);
+  }
+
+  .form {
+    flex: 3;
+    margin-left: 32px;
+
+    .textField {
+        width: 100%;
+    }
+  }
+}
