@@ -15,24 +15,23 @@ function RatingPopup({open, handleDialogClose, bookId}) {
   const [title, setTitle] = useState(null);
   const [msg, setMsg] = useState(null);
   const [isSubmitting, setSubmitting] = useState(false);
-  const [success, setSuccess] = useState(true);
+  const [canReview, setCanReview] = useState(false);
 
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
   const handleClose = (
-    event?: React.SyntheticEvent | Event,
+    _event?: React.SyntheticEvent | Event,
     reason?: string
   ) => {
     if (reason === "clickaway") {
       return;
     }
     setSnackBarOpen(false);
+    handleDialogClose();
   };
 
   const {appState} = useContext(AppContext);
   const {isUserLoggedIn} = appState;
-  let canReview = false;
-
   const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
     props,
     ref
@@ -41,27 +40,34 @@ function RatingPopup({open, handleDialogClose, bookId}) {
   });
 
   useEffect(() => {
+    setSnackBarOpen(false);
     if (isUserLoggedIn) {
+      setCanReview(true);
     }
-    setSnackBarOpen(true);
   }, [isUserLoggedIn]);
 
   const handleSubmit = () => {
     setSubmitting(true);
+    console.log(environment.API_URL);
     axios
-      .post(`${environment.API_URL}/${bookId}/review`, {
+      .post(`${environment.API_URL}/reviews/new`, {
+        bookId,
         rating: value,
         title: title,
-        message: msg,
+        comment: msg,
       })
-      .then((success) => {})
-      .catch(() => {
-        setSuccess(false);
+      .then((success) => {
+        console.log(success);
+        setValue(null);
+        setMsg(null);
+        setTitle(null);
+        setSnackBarOpen(true);
+      })
+      .catch((err) => {
+        console.log(err);
       })
       .finally(() => {
-        setSnackBarOpen(true);
         setSubmitting(false);
-        handleDialogClose();
       });
   };
 
@@ -76,7 +82,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
           <Rating
             size="large"
             value={value}
-            onChange={(newValue) => {
+            onChange={(_event, newValue) => {
               setValue(newValue);
             }}
           />
@@ -87,7 +93,9 @@ function RatingPopup({open, handleDialogClose, bookId}) {
             size="small"
             variant="outlined"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) => {
+              setTitle(event.target.value);
+            }}
           />
           <TextField
             className={styles.textField}
@@ -95,7 +103,9 @@ function RatingPopup({open, handleDialogClose, bookId}) {
             placeholder="Review description"
             multiline
             value={msg}
-            onChange={(event) => setMsg(event.target.value)}
+            onChange={(event) => {
+              setMsg(event.target.value);
+            }}
           />
           <Button
             type="submit"
@@ -122,18 +132,12 @@ function RatingPopup({open, handleDialogClose, bookId}) {
       <Snackbar
         anchorOrigin={{vertical: "bottom", horizontal: "center"}}
         open={snackBarOpen}
-        autoHideDuration={5000}
+        autoHideDuration={2000}
         onClose={handleClose}
       >
-        {success ? (
-          <Alert onClose={handleClose} severity="success" sx={{width: "100%"}}>
-            Review added successfully!
-          </Alert>
-        ) : (
-          <Alert onClose={handleClose} severity="error" sx={{width: "100%"}}>
-            Failed to post review!
-          </Alert>
-        )}
+        <Alert onClose={handleClose} severity="success" sx={{width: "100%"}}>
+          Review added successfully!
+        </Alert>
       </Snackbar>
     </GenericDialog>
   );

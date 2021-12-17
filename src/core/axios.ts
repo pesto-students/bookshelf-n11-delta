@@ -8,11 +8,12 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
-axiosInstance.interceptors.request.use(
+axiosInstance.interceptors.request.use( 
   (config) => {
     // add bearer token
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
+      config.params = {...config.params, secret_token: token}
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
@@ -24,7 +25,7 @@ axiosInstance.interceptors.response.use(
   (res) => res,
   async (error) => {
     const originalConfig = error.config;
-    if (!["/login", "/signup"].includes(originalConfig.url) && error.response) {
+    if (!["/login", "/signup"].includes(error.url) && error.response) {
       // Access token expired
       if (
         error.response.status === 401 &&

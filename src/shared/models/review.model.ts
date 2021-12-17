@@ -2,7 +2,7 @@ export class Review{
     _id: string;
     title: string;
     rating: number;
-    message: string;
+    comment: string;
     userId: string;
     userName: string;
   
@@ -10,7 +10,7 @@ export class Review{
       this._id = data._id;
       this.title = data.title;
       this.rating = data.rating;
-      this.message = data.message;
+      this.comment = data.comment;
       this.userId = data.userId;
       this.userName = data.userName;
     }

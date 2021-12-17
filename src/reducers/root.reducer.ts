@@ -44,7 +44,7 @@ export const RootReducer = (
       newState.user = data;
       break;
     case APP_ACTIONS.SET_BOOKS:
-      newState.books = data.books;
+      newState.books = [...data];
       break;
     default:
     // do nothing

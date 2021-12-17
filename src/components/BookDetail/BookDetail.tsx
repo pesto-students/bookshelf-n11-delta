@@ -1,3 +1,4 @@
+import {Reviews} from "@mui/icons-material";
 import {
   Button,
   ButtonProps,
@@ -9,7 +10,6 @@ import {
 } from "@mui/material";
 import {Fragment, useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router-dom";
-import {AnyObject} from "yup/lib/object";
 
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
@@ -21,7 +21,7 @@ import {
   ReviewDetails,
 } from "../../shared/components";
 import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
-import {Book, Review} from "../../shared/models";
+import {Book, ChartRating, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
 import styles from "./BookDetail.module.scss";
 
@@ -30,30 +30,10 @@ export const BookDetail = (props) => {
   const location = useLocation();
   let book: Book = location.state.book;
   const [details, setDetails] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-  const ratings: Partial<Review>[] = [
-    {
-      _id: "1",
-      title: "Best Buy",
-      rating: 4,
-      message: "Content explained very well",
-      userName: "Alisha Mahajan",
-    },
-    {
-      _id: "2",
-      title: "Best Buy",
-      rating: 4,
-      message: "Content explained very well",
-      userName: "Alisha Mahajan",
-    },
-    {
-      _id: "3",
-      title: "Best Buy",
-      rating: 4,
-      message: "Content explained very well",
-      userName: "Alisha Mahajan",
-    },
-  ];
+  const initialChartRating = new ChartRating();
+  const [chartRating, setChartRating] = useState(initialChartRating);
 
   const buttonWidth = "140px";
 
@@ -65,14 +45,20 @@ export const BookDetail = (props) => {
 
   useEffect(() => {
     getBookDetails();
+    getBookReviews();
   }, [id]);
+
+  useEffect(() => {
+    if (reviews.length) {
+      createChartRating();
+    }
+  }, [reviews])
 
   function getBookDetails() {
     if (!book) {
       axios
         .get(`${environment.API_URL}/book/${id}`)
         .then(({data}) => {
-          console.log(data);
           book = data;
           createBookDetails();
         })
@@ -82,6 +68,32 @@ export const BookDetail = (props) => {
     } else {
       createBookDetails();
     }
+  }
+
+  function getBookReviews() {
+    axios
+      .get(`${environment.API_URL}/reviews?bookId=${id}`)
+      .then(({data}) => {
+        const bookReviews = [];
+        data.reviews.forEach((review) => {
+          bookReviews.push(new Review(review));
+        });
+        setReviews(bookReviews);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  function createChartRating() {
+    const data = {...chartRating};
+    [1, 2, 3, 4, 5].forEach((element) => {
+      const length = reviews.filter(
+        (review) => (review.rating === element)
+      ).length;
+      data[`star${element}`] = length;
+    });
+    setChartRating(data);
   }
 
   function createBookDetails() {
@@ -164,7 +176,7 @@ export const BookDetail = (props) => {
                 )}
               {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
             </div>
-            {ratings && (
+            {reviews && (
               <>
                 <div className={styles.ratingHeading}>
                   <div className={styles.title}>
@@ -175,14 +187,18 @@ export const BookDetail = (props) => {
                   </div>
                 </div>
                 <Divider />
-                <RatingChart height="200px" />
-                {ratings.map((rating) => (
+                <RatingChart rating={chartRating} height="200px" />
+                {reviews.map((rating) => (
                   <ReviewDetails key={rating._id} review={rating} />
                 ))}
               </>
             )}
           </Stack>
-          <RatingPopup open={open} handleDialogClose={handleDialogClose} bookId={id}/>
+          <RatingPopup
+            open={open}
+            handleDialogClose={handleDialogClose}
+            bookId={id}
+          />
         </>
       ) : (
         <Overlay showBackdrop={true} />

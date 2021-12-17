@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     if (appState.isUserLoggedIn) {
       axios
-        .get(`${environment.API_URL}\me`)
+        .get(`${environment.API_URL}/me`)
         .then(({data}) =>
           dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data})
         )
