@@ -1,43 +1,92 @@
-import {Filter} from "../shared/enums";
+import {SortTypes} from "../shared/enums";
 import {DASHBOARD_ACTIONS} from "../shared/immutables";
+import {Book, Filter} from "../shared/models";
 
-export const DashboardReducer = (state, action) => {
+export interface IDashboardState {
+  books: Book[];
+  searchFilteredBooks: Book[];
+  isLoading: boolean;
+  sortFilter: SortTypes;
+  filteredBooks: Book[];
+  appliedFilters: Filter;
+}
+
+export const DashboardReducer = (state: IDashboardState, action) => {
   const newState = {...state};
-  switch (action.type) {
+  const {type, data} = action;
+  switch (type) {
     case DASHBOARD_ACTIONS.GET_ALL_BOOKS:
       newState.books = [];
+      newState.searchFilteredBooks = [];
       newState.filteredBooks = [];
       newState.isLoading = true;
+      newState.appliedFilters = {};
       break;
     case DASHBOARD_ACTIONS.SET_ALL_BOOKS:
-      newState.books = [...action.data];
-      newState.filteredBooks = [...action.data];
+      newState.books = [...data];
+      newState.searchFilteredBooks = [...data];
+      newState.filteredBooks = [...data];
       newState.isLoading = false;
       break;
-    case DASHBOARD_ACTIONS.FILTER_BOOKS:
+    case DASHBOARD_ACTIONS.SEARCH_BOOKS:
       if (!!action.searchOn) {
-        newState.filteredBooks = newState.books.filter((book) =>
+        newState.searchFilteredBooks = newState.filteredBooks.filter((book) =>
           book.title.toLowerCase().includes(action.searchOn.toLowerCase())
         );
       } else {
-        newState.filteredBooks = newState.books;
+        newState.searchFilteredBooks = newState.filteredBooks;
       }
       break;
-    case DASHBOARD_ACTIONS.SORT_FILTER:
-      newState.sortFilter = action.data;
-      if (newState.sortFilter === Filter.PRICE_LOW_TO_HIGH) {
-        newState.filteredBooks.sort(
+    case DASHBOARD_ACTIONS.SORT_ACTION:
+      newState.sortFilter = data;
+      if (data === SortTypes.PRICE_LOW_TO_HIGH) {
+        newState.searchFilteredBooks.sort(
           (bookA, bookB) => bookA.price - bookB.price
         );
-      } else if (newState.sortFilter === Filter.PRICE_HIGH_TO_LOW) {
-        newState.filteredBooks.sort(
+      } else if (data === SortTypes.PRICE_HIGH_TO_LOW) {
+        newState.searchFilteredBooks.sort(
           (bookA, bookB) => bookB.price - bookA.price
         );
       } else {
-        newState.filteredBooks = newState.books;
+        newState.searchFilteredBooks = newState.books;
       }
       break;
+    case DASHBOARD_ACTIONS.APPLY_FILTER:
+      newState.appliedFilters = data;
+      applyFilter(newState);
+      break;
+    case DASHBOARD_ACTIONS.CLEAR_FILTER:
+      newState.filteredBooks = [...newState.books];
+      newState.searchFilteredBooks = [...newState.books];
+      newState.appliedFilters = {};
+      break;
     default:
+      // do nothing
+      break;
   }
   return newState;
+};
+
+const applyFilter = (state: IDashboardState) => {
+  const {appliedFilters: filter} = state;
+
+  if (filter.price) {
+    state.filteredBooks = state.books.filter(
+      (book) => book.price >= filter.price.min && book.price <= filter.price.max
+    );
+  } else {
+    state.filteredBooks = [...state.books];
+  }
+  
+  if (filter.language?.length) {
+    state.filteredBooks = state.filteredBooks.filter((book) =>
+      filter.language.includes(book.language)
+    );
+  }
+  if (filter.category?.length) {
+    state.filteredBooks = state.filteredBooks.filter((book) =>
+      filter.category.includes(book.category)
+    );
+  }
+  state.searchFilteredBooks = [...state.filteredBooks];
 };

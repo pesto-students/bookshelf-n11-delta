@@ -1,3 +1,4 @@
+import {Reviews} from "@mui/icons-material";
 import {
   Button,
   ButtonProps,
@@ -8,11 +9,10 @@ import {
   Typography,
 } from "@mui/material";
 import {Fragment, useEffect, useState} from "react";
-import env from "react-dotenv";
 import {useLocation, useParams} from "react-router-dom";
-import {AnyObject} from "yup/lib/object";
 
 import axios from "../../core/axios";
+import environment from "../../Environment/environment";
 import {
   MemoizedRatingBox,
   Overlay,
@@ -21,53 +21,19 @@ import {
   ReviewDetails,
 } from "../../shared/components";
 import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
-import {Book, Review} from "../../shared/models";
+import {Book, ChartRating, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
-import {UserEntry, UserEntryState} from "../UserEntry";
 import styles from "./BookDetail.module.scss";
 
 export const BookDetail = (props) => {
   const {id} = useParams();
   const location = useLocation();
-  const book: Book = location.state.book;
+  let book: Book = location.state.book;
+  const [details, setDetails] = useState([]);
+  const [reviews, setReviews] = useState([]);
 
-  const details: AnyObject[] = [
-    {
-      key: "language",
-      value: book.language,
-    },
-    {
-      key: "author",
-      value: book.author,
-    },
-    {
-      key: "category",
-      value: book.category,
-    },
-  ];
-  const ratings: Partial<Review>[] = [
-    {
-      _id: "1",
-      title: "Best Buy",
-      rating: 4,
-      message: "Content explained very well",
-      userName: "Alisha Mahajan",
-    },
-    {
-      _id: "2",
-      title: "Best Buy",
-      rating: 4,
-      message: "Content explained very well",
-      userName: "Alisha Mahajan",
-    },
-    {
-      _id: "3",
-      title: "Best Buy",
-      rating: 4,
-      message: "Content explained very well",
-      userName: "Alisha Mahajan",
-    },
-  ];
+  const initialChartRating = new ChartRating();
+  const [chartRating, setChartRating] = useState(initialChartRating);
 
   const buttonWidth = "140px";
 
@@ -79,29 +45,83 @@ export const BookDetail = (props) => {
 
   useEffect(() => {
     getBookDetails();
+    getBookReviews();
   }, [id]);
 
+  useEffect(() => {
+    if (reviews.length) {
+      createChartRating();
+    }
+  }, [reviews])
+
   function getBookDetails() {
-    // fetch reviews relevant to book
-    // here problem accessing env
-    console.log(env);
+    if (!book) {
+      axios
+        .get(`${environment.API_URL}/book/${id}`)
+        .then(({data}) => {
+          book = data;
+          createBookDetails();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      createBookDetails();
+    }
+  }
+
+  function getBookReviews() {
     axios
-      .get(`http://localhost:4000/book/${id}`)
+      .get(`${environment.API_URL}/reviews?bookId=${id}`)
       .then(({data}) => {
-        console.log(data);
+        const bookReviews = [];
+        data.reviews.forEach((review) => {
+          bookReviews.push(new Review(review));
+        });
+        setReviews(bookReviews);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  function createChartRating() {
+    const data = {...chartRating};
+    [1, 2, 3, 4, 5].forEach((element) => {
+      const length = reviews.filter(
+        (review) => (review.rating === element)
+      ).length;
+      data[`star${element}`] = length;
+    });
+    setChartRating(data);
+  }
+
+  function createBookDetails() {
+    setDetails([
+      {
+        key: "language",
+        value: book.language,
+      },
+      {
+        key: "author",
+        value: book.author,
+      },
+      {
+        key: "category",
+        value: book.category,
+      },
+    ]);
+  }
+
   const gridRow = (key, value) => {
     return (
-      <Grid direction="row" spacing={4} className={styles.detailRow}>
-        <Grid xs={4}>
+      <Grid container direction="row" spacing={4} className={styles.detailRow}>
+        <Grid item xs={4}>
           <span className={styles.key}>{key}</span>
         </Grid>
-        <Grid xs={8}>{value}</Grid>
+        <Grid item xs={8}>
+          {value}
+        </Grid>
       </Grid>
     );
   };
@@ -156,7 +176,7 @@ export const BookDetail = (props) => {
                 )}
               {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
             </div>
-            {ratings && (
+            {reviews && (
               <>
                 <div className={styles.ratingHeading}>
                   <div className={styles.title}>
@@ -167,14 +187,18 @@ export const BookDetail = (props) => {
                   </div>
                 </div>
                 <Divider />
-                <RatingChart height="200px" />
-                {ratings.map((rating) => (
+                <RatingChart rating={chartRating} height="200px" />
+                {reviews.map((rating) => (
                   <ReviewDetails key={rating._id} review={rating} />
                 ))}
               </>
             )}
           </Stack>
-          <RatingPopup open={open} handleDialogClose={handleDialogClose} />
+          <RatingPopup
+            open={open}
+            handleDialogClose={handleDialogClose}
+            bookId={id}
+          />
         </>
       ) : (
         <Overlay showBackdrop={true} />

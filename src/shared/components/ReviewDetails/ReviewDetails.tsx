@@ -11,7 +11,7 @@ export const ReviewDetails = ({review}: {review: Partial<Review>}) => {
         <div className={styles.title}>{review.title}</div>
       </div>
       <div className={styles.msg}>
-        <ReadMore limit="100">{review.message}</ReadMore>
+        <ReadMore limit="100">{review.comment}</ReadMore>
       </div>
       <div className={styles.userInfo}>{review.userName}</div>
     </div>

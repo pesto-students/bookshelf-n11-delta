@@ -2,37 +2,44 @@ import {Button, MenuItem, Select} from "@material-ui/core";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
 import axios from "../../core/axios";
-import {useContext, useEffect, useReducer} from "react";
+import {useContext, useState, useEffect, useReducer} from "react";
+import environment from "../../Environment/environment";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
-import {DashboardReducer} from "../../reducers";
+import {DashboardReducer, IDashboardState} from "../../reducers";
 import {Overlay} from "../../shared/components";
-import {Filter} from "../../shared/enums";
-import {DASHBOARD_ACTIONS} from "../../shared/immutables";
+import {SortTypes} from "../../shared/enums";
+import {APP_ACTIONS, DASHBOARD_ACTIONS} from "../../shared/immutables";
 import {Book} from "../../shared/models";
 import {BookCard} from "../BookCard/BookCard";
 import styles from "./Dashboard.module.scss";
-import env from "react-dotenv";
+import FilterDrawer from "../FilterDrawer/FilterDrawer";
+import info from "../../assets/info.png";
 
 const emptyBooksList: Book[] = [];
 
-const initialDashboardState = {
+const initialDashboardState: IDashboardState = {
   books: emptyBooksList,
+  searchFilteredBooks: emptyBooksList,
   filteredBooks: emptyBooksList,
   isLoading: true,
-  sortFilter: Filter.RELEVANCE,
+  sortFilter: SortTypes.RELEVANCE,
+  appliedFilters: {},
 };
 
 export const Dashboard = () => {
   const {
     appState: {searchText},
+    dispatchAppAction,
   } = useContext(AppContext);
   const [state, dispatch] = useReducer(DashboardReducer, initialDashboardState);
 
+  const [filterState, setFilterState] = useState(false);
+
   const handleChange = (event) => {
     dispatch({
-      type: DASHBOARD_ACTIONS.SORT_FILTER,
+      type: DASHBOARD_ACTIONS.SORT_ACTION,
       data: event.target.value,
     });
   };
@@ -42,9 +49,10 @@ export const Dashboard = () => {
       type: DASHBOARD_ACTIONS.GET_ALL_BOOKS,
     });
     axios
-      .get(`${env.API_URL}/books`)
+      .get(`${environment.API_URL}/books`)
       .then(({data}) => {
         dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
+        dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
       })
       .catch((error) => {
         console.log(error);
@@ -56,17 +64,17 @@ export const Dashboard = () => {
       getAllBooks();
     }
     dispatch({
-      type: DASHBOARD_ACTIONS.FILTER_BOOKS,
+      type: DASHBOARD_ACTIONS.SEARCH_BOOKS,
       searchOn: searchText,
     });
   }, [searchText]);
 
-  const {isLoading, sortFilter, filteredBooks} = state;
+  const {isLoading, sortFilter, searchFilteredBooks} = state;
 
   const booksGrid = (
     <Grid container className={styles.booksGrid} spacing={2}>
-      {filteredBooks.map((book) => (
-        <Grid key={book._id.toString()} item xs={3}>
+      {searchFilteredBooks.map((book) => (
+        <Grid item key={book._id.toString()} xs={3}>
           <BookCard book={book} />
         </Grid>
       ))}
@@ -82,7 +90,7 @@ export const Dashboard = () => {
         <>
           <div className={styles.toolbar}>
             <Button
-              disabled
+              onClick={() => setFilterState(!filterState)}
               className={styles.filterBtn}
               startIcon={<FilterAltOutlinedIcon />}
             />
@@ -94,16 +102,31 @@ export const Dashboard = () => {
               label="Sort by"
               onChange={handleChange}
             >
-              <MenuItem value={Filter.RELEVANCE}>Relevance</MenuItem>
-              <MenuItem value={Filter.PRICE_LOW_TO_HIGH}>
+              <MenuItem value={SortTypes.RELEVANCE}>Relevance</MenuItem>
+              <MenuItem value={SortTypes.PRICE_LOW_TO_HIGH}>
                 Price - Low to High
               </MenuItem>
-              <MenuItem value={Filter.PRICE_HIGH_TO_LOW}>
+              <MenuItem value={SortTypes.PRICE_HIGH_TO_LOW}>
                 Price - High to Low
               </MenuItem>
             </Select>
           </div>
-          {filteredBooks && booksGrid}
+          <FilterDrawer
+            open={filterState}
+            handleClose={setFilterState}
+            dispatchFilterAction={dispatch}
+          />
+          {searchFilteredBooks.length ? (
+            booksGrid
+          ) : (
+            <div className={styles.notFound}>
+              <img src={info} alt="Info" />
+              <div className={styles.msg}>
+                "Sorry! No results found. Please check the spelling or try
+                searching for something else"
+              </div>
+            </div>
+          )}
         </>
       )}
     </>

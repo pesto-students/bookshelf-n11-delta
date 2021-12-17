@@ -1,15 +1,16 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import {ChartWrapperOptions} from "react-google-charts/dist/types";
+import {ChartRating} from "../../models";
 import styles from "./RatingChart.module.scss";
 
-const data = [
+const initialData = [
   ["Stars", "Number of reviews", {role: "style"}],
-  ["5 ★", 100, "color: green"],
-  ["4 ★", 90, "color: green"],
-  ["3 ★", 70, "color: orange"],
-  ["2 ★", 22, "color: red"],
-  ["1 ★", 19, "color: red"],
+  ["1 ★", 0, "color: red"],
+  ["2 ★", 0, "color: red"],
+  ["3 ★", 0, "color: orange"],
+  ["4 ★", 0, "color: green"],
+  ["5 ★", 0, "color: green"],
 ];
 
 const options: ChartWrapperOptions["options"] = {
@@ -25,17 +26,32 @@ const options: ChartWrapperOptions["options"] = {
   },
 };
 
-export const RatingChart = (props) => {
-  function setData() {}
+export const RatingChart = ({
+  rating,
+  height,
+}: {
+  rating: ChartRating;
+  height: string;
+}) => {
+  function setRatingData() {
+    const clonedData = [...data];
+    clonedData.forEach((ratingData, index) => {
+      if (index !== 0) {
+        ratingData[1] = rating[`star${index}`];
+      }
+    });
+    setData(clonedData);
+  }
 
+  const [data, setData] = useState(initialData);
   useEffect(() => {
-    setData();
-  }, [props.rating]);
+    setRatingData();
+  }, [rating]);
 
   return (
     <div className={styles.charts}>
       <Chart
-        height={props.height}
+        height={height}
         chartType="PieChart"
         data={data}
         options={{
@@ -44,7 +60,7 @@ export const RatingChart = (props) => {
       />
       <Chart
         chartType="BarChart"
-        height={props.height}
+        height={height}
         data={data}
         options={options}
       />
