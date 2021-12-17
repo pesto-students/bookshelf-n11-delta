@@ -6,12 +6,22 @@ import ShoppingBag from "@mui/icons-material/ShoppingBag";
 import {useNavigate} from "react-router-dom";
 import {APP_ACTIONS} from "../../shared/immutables";
 import {UserEntryState} from "../UserEntry";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
-export const MenuItems = (isUserLoggedIn, dispatchAction) => {
+export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
   const navigate = useNavigate();
   return [
     {
       id: 0,
+      title: "Admin",
+      show: isSuperAdmin,
+      icon: <AdminPanelSettingsIcon fontSize="small" />,
+      onClick: () => {
+        navigate("/admin/home");
+      },
+    },
+    {
+      id: 1,
       title: "My Profile",
       show: isUserLoggedIn,
       icon: <AccountCircleIcon fontSize="small" />,
@@ -20,13 +30,13 @@ export const MenuItems = (isUserLoggedIn, dispatchAction) => {
       },
     },
     {
-      id: 1,
+      id: 2,
       title: "Orders",
       show: isUserLoggedIn,
       icon: <ShoppingBag fontSize="small" />,
     },
     {
-      id: 2,
+      id: 3,
       title: "Login",
       show: !isUserLoggedIn,
       icon: <Login fontSize="small" />,
@@ -38,7 +48,7 @@ export const MenuItems = (isUserLoggedIn, dispatchAction) => {
       },
     },
     {
-      id: 3,
+      id: 4,
       title: "Logout",
       show: isUserLoggedIn,
       icon: <Logout fontSize="small" />,
@@ -47,7 +57,7 @@ export const MenuItems = (isUserLoggedIn, dispatchAction) => {
       },
     },
     {
-      id: 4,
+      id: 5,
       title: "Sign Up",
       show: !isUserLoggedIn,
       icon: <PersonAdd fontSize="small" />,

@@ -1,14 +1,14 @@
-import Avatar from '@mui/material/Avatar';
-import Box from '@mui/material/Box';
-import IconButton from '@mui/material/IconButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
-import {useContext, useState} from 'react';
+import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import Tooltip from "@mui/material/Tooltip";
+import { useContext, useState } from "react";
 
-import {AppContext} from '../../App/App';
-import {MenuItems} from './MenuItems';
+import { AppContext } from "../../App/App";
+import { MenuItems } from "./MenuItems";
 
 export const UserAccount = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -20,15 +20,19 @@ export const UserAccount = () => {
     setAnchorEl(null);
   };
 
-  const {appState, dispatchAppAction} = useContext(AppContext);
-  const menuItems = MenuItems(appState.isUserLoggedIn, dispatchAppAction);
+  const { appState, dispatchAppAction } = useContext(AppContext);
+  const menuItems = MenuItems(
+    appState.isUserLoggedIn,
+    appState.isSuperAdmin,
+    dispatchAppAction
+  );
 
   return (
     <>
-      <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         <Tooltip title="Account settings">
-          <IconButton onClick={handleClick} size="small" sx={{ml: 2}}>
-            <Avatar sx={{width: 28, height: 28}}/>
+          <IconButton onClick={handleClick} size="small" sx={{ ml: 2 }}>
+            <Avatar sx={{ width: 28, height: 28 }} />
           </IconButton>
         </Tooltip>
       </Box>
@@ -63,8 +67,8 @@ export const UserAccount = () => {
             },
           },
         }}
-        transformOrigin={{horizontal: "right", vertical: "top"}}
-        anchorOrigin={{horizontal: "right", vertical: "bottom"}}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         {menuItems.map(
           (menuItem) =>
