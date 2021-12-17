@@ -5,3 +5,6 @@ export * from "./Footer/Footer";
 export * from "./UserEntry/UserEntry";
 export * from "./BookDetail/BookDetail";
 export * from "./AddBook/AddBook";
+export * from "./Admin/AdminHome";
+export * from "./Admin/UserList";
+export * from "./Admin/BookList";
