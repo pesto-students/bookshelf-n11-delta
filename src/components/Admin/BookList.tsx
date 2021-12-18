@@ -1,23 +1,24 @@
-import { useState, useEffect } from "react";
-import TablePagination from "@mui/material/TablePagination";
-import styles from "./Admin.module.scss";
 import {
-  Grid,
+  Button,
   Container,
+  Grid,
+  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
+  tableCellClasses,
   TableContainer,
   TableHead,
-  Stack,
   TableRow,
-  Paper,
   Typography,
-  Button,
-  tableCellClasses,
 } from "@mui/material";
+import TablePagination from "@mui/material/TablePagination";
 import SearchBar from "material-ui-search-bar";
-import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+
+import styles from "./Admin.module.scss";
 
 export const BookList = () => {
   // State for saving Book records to display
@@ -64,7 +65,7 @@ export const BookList = () => {
 
   // return the view
   return (
-    <Container style={{ padding: "40px 0 70px 0" }}>
+    <Container style={{padding: "40px 0 70px 0"}}>
       <Grid container rowSpacing={5}>
         <Grid item xs={12}>
           <div
@@ -119,7 +120,7 @@ export const BookList = () => {
                       },
                     }}
                   >
-                    <TableHead style={{ backgroundColor: "#8e99d7" }}>
+                    <TableHead style={{backgroundColor: "#8e99d7"}}>
                       <TableRow>
                         <TableCell>#</TableCell>
                         <TableCell align="right">Title</TableCell>
@@ -139,8 +140,8 @@ export const BookList = () => {
                             key={row._id}
                             style={
                               index % 2
-                                ? { background: "#EDEDEF" }
-                                : { background: "white" }
+                                ? {background: "#EDEDEF"}
+                                : {background: "white"}
                             }
                           >
                             <TableCell component="th" scope="row">

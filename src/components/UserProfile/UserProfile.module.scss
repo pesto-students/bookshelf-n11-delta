@@ -1,3 +1,4 @@
+@use "../../mixins" as mixin;
 @import "../../variables";
 
 $avatarContainer: 150px;
@@ -28,6 +29,7 @@ $avatarContainer: 150px;
       border: 1px solid $divider;
       overflow: hidden;
       margin: 16px 0px;
+      cursor: pointer;
 
       img {
         height: 100%;
@@ -45,6 +47,20 @@ $avatarContainer: 150px;
     flex: 3;
     flex-direction: column;
     border: 1px solid $divider;
+
+    .heading {
+      font-weight: bold;
+      color: $primary;
+      display: flex;
+      margin-top: 32px;
+      margin-left: 32px;
+      @include mixin.fxLayoutGap(16px);
+
+      .title {
+        margin-right: 32px;
+        font-size: 18px;
+      }
+    }
 
     .form {
       margin: 16px;
