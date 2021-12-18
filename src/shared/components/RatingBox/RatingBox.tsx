@@ -4,16 +4,24 @@ import React from "react";
 import {HTML_SPECIAL_CHARS} from "../../immutables";
 import styles from "./RatingBox.module.scss";
 
-const GREEN_COLOR = "#008000";
-const LIME_COLOR = "#adff2f";
 const GREY_COLOR = "#808080";
+const RATING_MAP = ["red", "red", "orange", "green", "green"];
 
 function RatingBox(props) {
   const rating = props.rating;
   const roundOffDigit = props.roundOff ?? 1;
   const ratingStr = rating ? ` ${rating.toFixed(roundOffDigit)}` : "-";
 
-  const bgColor = rating ? (rating >= 3 ? GREEN_COLOR : LIME_COLOR) : GREY_COLOR;
+  const bgColor = getRatingColor(rating);
+
+  function getRatingColor(rating) {
+    let color = GREY_COLOR;
+
+    if (rating) {
+      color = RATING_MAP[rating - 1];
+    }
+    return color;
+  }
   return (
     <Box
       style={{backgroundColor: bgColor}}

@@ -59,7 +59,7 @@ export const AddBook = () => {
           data.append("category", values.category);
           data.append("price", `${values.price}`);
           data.append("language", values.language);
-          data.append("highlights", values.highlights?.toString());
+          data.append("highlights", chips?.join(";"));
 
           axios
             .post(`${environment.API_URL}/upload/book`, data)
@@ -114,7 +114,35 @@ export const AddBook = () => {
                   helperText={touched.author && errors.author}
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={6}>
+                <TextField
+                  className={styles.textField}
+                  label="Category"
+                  name="category"
+                  size="small"
+                  variant="outlined"
+                  value={values.category}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.category && !!errors?.category}
+                  helperText={touched.category && errors.category}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <TextField
+                  className={styles.textField}
+                  label="Language"
+                  name="language"
+                  size="small"
+                  variant="outlined"
+                  value={values.language}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  error={touched.language && !!errors?.language}
+                  helperText={touched.language && errors.language}
+                />
+              </Grid>
+              <Grid item xs={4}>
                 <TextField
                   className={styles.textField}
                   label="Quantity"
@@ -132,7 +160,7 @@ export const AddBook = () => {
                   helperText={touched.quantity && errors.quantity}
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <TextField
                   className={styles.textField}
                   label="Price"
@@ -150,7 +178,7 @@ export const AddBook = () => {
                   helperText={touched.price && errors.price}
                 />
               </Grid>
-              <Grid item xs={3}>
+              <Grid item xs={4}>
                 <TextField
                   className={styles.textField}
                   label="Pages"
@@ -166,20 +194,6 @@ export const AddBook = () => {
                   }}
                   error={touched.pages && !!errors?.pages}
                   helperText={touched.pages && errors.pages}
-                />
-              </Grid>
-              <Grid item xs={3}>
-                <TextField
-                  className={styles.textField}
-                  label="Language"
-                  name="language"
-                  size="small"
-                  variant="outlined"
-                  value={values.language}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  error={touched.language && !!errors?.language}
-                  helperText={touched.language && errors.language}
                 />
               </Grid>
               <Grid item xs={12}>

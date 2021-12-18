@@ -13,6 +13,8 @@
   .image {
     flex: 1;
     background-color: $divider;
+    height: 300px;
+    
     .imageUpload {
       @include mixin.fxFill();
 

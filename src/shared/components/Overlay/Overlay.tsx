@@ -1,5 +1,6 @@
 import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
+import styles from "./Overlay.module.scss";
 
 export function Overlay({ showBackdrop }) {
   if (!!showBackdrop) {
@@ -8,9 +9,9 @@ export function Overlay({ showBackdrop }) {
         sx={{ color: "#3f51b5", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={true}
       >
-        <CircularProgress color="inherit" />
+        <CircularProgress className={styles.overlay} color="inherit" />
       </Backdrop>
     );
   }
-  return <CircularProgress color="primary" />;
+  return <CircularProgress className={styles.overlay} color="primary" />;
 }
