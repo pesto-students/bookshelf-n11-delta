@@ -13,30 +13,21 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
   return [
     {
       id: 0,
-      title: "Admin",
-      show: isSuperAdmin,
-      icon: <AdminPanelSettingsIcon fontSize="small" />,
-      onClick: () => {
-        navigate("/admin/home");
-      },
-    },
-    {
-      id: 1,
       title: "My Profile",
-      show: isUserLoggedIn,
+      show: isUserLoggedIn && !isSuperAdmin,
       icon: <AccountCircleIcon fontSize="small" />,
       onClick: () => {
         navigate('/profile');
       },
     },
     {
-      id: 2,
+      id: 1,
       title: "Orders",
       show: isUserLoggedIn,
       icon: <ShoppingBag fontSize="small" />,
     },
     {
-      id: 3,
+      id: 2,
       title: "Login",
       show: !isUserLoggedIn,
       icon: <Login fontSize="small" />,
@@ -48,7 +39,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
       },
     },
     {
-      id: 4,
+      id: 3,
       title: "Logout",
       show: isUserLoggedIn,
       icon: <Logout fontSize="small" />,
@@ -57,7 +48,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
       },
     },
     {
-      id: 5,
+      id: 4,
       title: "Sign Up",
       show: !isUserLoggedIn,
       icon: <PersonAdd fontSize="small" />,

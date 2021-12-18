@@ -1,20 +1,20 @@
-import { useState, useEffect } from "react";
 import {
-  Grid,
+  Button,
   Container,
+  Grid,
+  Paper,
+  Stack,
   Table,
   TableBody,
   TableCell,
+  tableCellClasses,
   TableContainer,
   TableHead,
-  Stack,
   TableRow,
-  Paper,
   Typography,
-  Button,
-  tableCellClasses,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 export const AdminHome = () => {
   // State for saving User records to display
@@ -45,7 +45,7 @@ export const AdminHome = () => {
 
   // return the view
   return (
-    <Container style={{ padding: "40px 0 70px 0" }}>
+    <Container style={{padding: "40px 0 70px 0"}}>
       <Grid container rowSpacing={5}>
         <Grid item xs={12}>
           <div
@@ -65,7 +65,7 @@ export const AdminHome = () => {
                 <Typography variant="h5">Recent Users</Typography>
                 <Button
                   component={Link}
-                  to="/admin/users"
+                  to="/users"
                   variant="contained"
                   size="small"
                   style={{
@@ -88,7 +88,7 @@ export const AdminHome = () => {
                       },
                     }}
                   >
-                    <TableHead style={{ backgroundColor: "#8e99d7" }}>
+                    <TableHead style={{backgroundColor: "#8e99d7"}}>
                       <TableRow>
                         <TableCell>#</TableCell>
                         <TableCell align="right">Username</TableCell>
@@ -105,8 +105,8 @@ export const AdminHome = () => {
                           key={row._id}
                           style={
                             index % 2
-                              ? { background: "#EDEDEF" }
-                              : { background: "white" }
+                              ? {background: "#EDEDEF"}
+                              : {background: "white"}
                           }
                         >
                           <TableCell component="th" scope="row">
@@ -114,10 +114,18 @@ export const AdminHome = () => {
                           </TableCell>
                           <TableCell align="right">{row.username}</TableCell>
                           <TableCell align="right">{row.email}</TableCell>
-                          <TableCell align="right">{row.addresses ?? row.addresses[0].addressLine1}</TableCell>
-                          <TableCell align="right">{row.addresses ?? row.addresses[0].city}</TableCell>
-                          <TableCell align="right">{row.addresses ?? row.addresses[0].state}</TableCell>
-                          <TableCell align="right">{row.addresses ?? row.addresses[0].pincode}</TableCell>
+                          <TableCell align="right">
+                            {row.addresses ?? row.addresses[0].addressLine1}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.addresses ?? row.addresses[0].city}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.addresses ?? row.addresses[0].state}
+                          </TableCell>
+                          <TableCell align="right">
+                            {row.addresses ?? row.addresses[0].pincode}
+                          </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
@@ -146,7 +154,7 @@ export const AdminHome = () => {
                 <Typography variant="h5">Recent Books</Typography>
                 <Button
                   component={Link}
-                  to="/admin/books"
+                  to="/books"
                   variant="contained"
                   size="small"
                   style={{
@@ -169,7 +177,7 @@ export const AdminHome = () => {
                       },
                     }}
                   >
-                    <TableHead style={{ backgroundColor: "#8e99d7" }}>
+                    <TableHead style={{backgroundColor: "#8e99d7"}}>
                       <TableRow>
                         <TableCell>#</TableCell>
                         <TableCell align="right">Title</TableCell>
@@ -184,8 +192,8 @@ export const AdminHome = () => {
                           key={row._id}
                           style={
                             index % 2
-                              ? { background: "#EDEDEF" }
-                              : { background: "white" }
+                              ? {background: "#EDEDEF"}
+                              : {background: "white"}
                           }
                         >
                           <TableCell component="th" scope="row">
