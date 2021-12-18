@@ -27,7 +27,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
       return;
     }
     setSnackBarOpen(false);
-    handleDialogClose();
+    handleDialogClose(true);
   };
 
   const {appState} = useContext(AppContext);
@@ -57,7 +57,6 @@ function RatingPopup({open, handleDialogClose, bookId}) {
         comment: msg,
       })
       .then((success) => {
-        console.log(success);
         setValue(null);
         setMsg(null);
         setTitle(null);

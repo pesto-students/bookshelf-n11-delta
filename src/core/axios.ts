@@ -8,12 +8,12 @@ const axiosInstance = axios.create({
   timeout: 10000,
 });
 
-axiosInstance.interceptors.request.use( 
+axiosInstance.interceptors.request.use(
   (config) => {
     // add bearer token
     const token = localStorage.getItem(ACCESS_TOKEN);
     if (token) {
-      config.params = {...config.params, secret_token: token}
+      config.params = {...config.params, secret_token: token};
       config.headers["Authorization"] = `Bearer ${token}`;
     }
     return config;
@@ -38,9 +38,12 @@ axiosInstance.interceptors.response.use(
           // refresh token handling
           const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
           try {
-            const response = await axios.post(`${environment.API_URL}/refresh`, {
-              refresh_token: oldRefreshToken,
-            });
+            const response = await axios.post(
+              `${environment.API_URL}/refresh`,
+              {
+                refresh_token: oldRefreshToken,
+              }
+            );
             const {token, refreshToken} = response.data;
             localStorage.setItem(ACCESS_TOKEN, token);
             localStorage.setItem(REFRESH_TOKEN, refreshToken);

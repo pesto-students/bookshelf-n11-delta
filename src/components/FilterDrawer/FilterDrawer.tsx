@@ -21,7 +21,7 @@ const enum CheckBoxType {
 
 function FilterDrawer({open, handleClose, dispatchFilterAction}) {
   const [priceCheckbox, setPriceCheckbox] = useState(false);
-  const [price, setPrice] = useState<number[]>([100, 1000]);
+  const [price, setPrice] = useState<number[]>([0, 1000]);
   const [lang, setLang] = useState([]);
   const [categories, setCategories] = useState([]);
   const [langCheckedState, setLangCheckedState] = useState([]);

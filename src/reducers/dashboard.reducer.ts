@@ -39,17 +39,7 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       break;
     case DASHBOARD_ACTIONS.SORT_ACTION:
       newState.sortFilter = data;
-      if (data === SortTypes.PRICE_LOW_TO_HIGH) {
-        newState.searchFilteredBooks.sort(
-          (bookA, bookB) => bookA.price - bookB.price
-        );
-      } else if (data === SortTypes.PRICE_HIGH_TO_LOW) {
-        newState.searchFilteredBooks.sort(
-          (bookA, bookB) => bookB.price - bookA.price
-        );
-      } else {
-        newState.searchFilteredBooks = newState.books;
-      }
+      applySort(newState);
       break;
     case DASHBOARD_ACTIONS.APPLY_FILTER:
       newState.appliedFilters = data;
@@ -77,7 +67,7 @@ const applyFilter = (state: IDashboardState) => {
   } else {
     state.filteredBooks = [...state.books];
   }
-  
+
   if (filter.language?.length) {
     state.filteredBooks = state.filteredBooks.filter((book) =>
       filter.language.includes(book.language)
@@ -89,4 +79,16 @@ const applyFilter = (state: IDashboardState) => {
     );
   }
   state.searchFilteredBooks = [...state.filteredBooks];
+  applySort(state);
+};
+
+const applySort = (state: IDashboardState) => {
+  const data = state.sortFilter;
+  if (data === SortTypes.PRICE_LOW_TO_HIGH) {
+    state.searchFilteredBooks.sort((bookA, bookB) => bookA.price - bookB.price);
+  } else if (data === SortTypes.PRICE_HIGH_TO_LOW) {
+    state.searchFilteredBooks.sort((bookA, bookB) => bookB.price - bookA.price);
+  } else {
+    state.searchFilteredBooks = [...state.filteredBooks];
+  }
 };

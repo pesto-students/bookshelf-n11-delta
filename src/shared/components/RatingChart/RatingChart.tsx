@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import {ChartWrapperOptions} from "react-google-charts/dist/types";
+
 import {ChartRating} from "../../models";
 import styles from "./RatingChart.module.scss";
 

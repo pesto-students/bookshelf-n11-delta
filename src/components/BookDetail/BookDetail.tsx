@@ -31,6 +31,7 @@ export const BookDetail = (props) => {
   let book: Book = location.state.book;
   const [details, setDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [showLoader, setShowLoader] = useState(false);
 
   const initialChartRating = new ChartRating();
   const [chartRating, setChartRating] = useState(initialChartRating);
@@ -52,7 +53,7 @@ export const BookDetail = (props) => {
     if (reviews.length) {
       createChartRating();
     }
-  }, [reviews])
+  }, [reviews]);
 
   function getBookDetails() {
     if (!book) {
@@ -71,6 +72,7 @@ export const BookDetail = (props) => {
   }
 
   function getBookReviews() {
+    setShowLoader(true);
     axios
       .get(`${environment.API_URL}/reviews?bookId=${id}`)
       .then(({data}) => {
@@ -82,14 +84,15 @@ export const BookDetail = (props) => {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setShowLoader(false));
   }
 
   function createChartRating() {
     const data = {...chartRating};
     [1, 2, 3, 4, 5].forEach((element) => {
       const length = reviews.filter(
-        (review) => (review.rating === element)
+        (review) => review.rating === element
       ).length;
       data[`star${element}`] = length;
     });
@@ -126,8 +129,11 @@ export const BookDetail = (props) => {
     );
   };
 
-  const handleDialogClose = () => {
+  const handleDialogClose = (fetchReviews = false) => {
     setOpen(false);
+    if (fetchReviews) {
+      getBookReviews();
+    }
   };
 
   const [open, setOpen] = useState(false);
@@ -168,30 +174,42 @@ export const BookDetail = (props) => {
               {book.highlights &&
                 gridRow(
                   "highlights",
-                  <ul className={styles.bookHighlights}>
-                    {book.highlights.map((highlight, index) => (
-                      <li key={index}>{highlight}</li>
-                    ))}
-                  </ul>
+                  !!book.highlights.length ? (
+                    <ul className={styles.bookHighlights}>
+                      {book.highlights.map((highlight, index) => (
+                        <li key={index}>{highlight}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <span>-</span>
+                  )
                 )}
               {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
             </div>
-            {reviews && (
-              <>
-                <div className={styles.ratingHeading}>
-                  <div className={styles.title}>
-                    Rating {HTML_SPECIAL_CHARS.AND} Reviews
-                  </div>
-                  <div className={styles.rateBtn} onClick={openRatingDialog}>
-                    +
-                  </div>
+            <div className={styles.ratingHeading}>
+              <div className={styles.title}>
+                Rating {HTML_SPECIAL_CHARS.AND} Reviews
+              </div>
+              {!showLoader && (
+                <div className={styles.rateBtn} onClick={openRatingDialog}>
+                  +
                 </div>
-                <Divider />
-                <RatingChart rating={chartRating} height="200px" />
-                {reviews.map((rating) => (
-                  <ReviewDetails key={rating._id} review={rating} />
-                ))}
-              </>
+              )}
+            </div>
+            <Divider />
+            {!showLoader ? (
+              !!reviews.length ? (
+                <>
+                  <RatingChart rating={chartRating} height="200px" />
+                  {reviews.map((rating) => (
+                    <ReviewDetails key={rating._id} review={rating} />
+                  ))}
+                </>
+              ) : (
+                <div className={styles.noRatingMsg}>No reviews available</div>
+              )
+            ) : (
+              <Overlay showBackdrop={false}/>
             )}
           </Stack>
           <RatingPopup
@@ -201,7 +219,7 @@ export const BookDetail = (props) => {
           />
         </>
       ) : (
-        <Overlay showBackdrop={true} />
+        <Overlay showBackdrop={false} />
       )}
     </div>
   );
