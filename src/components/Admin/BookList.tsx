@@ -65,7 +65,7 @@ export const BookList = () => {
 
   // return the view
   return (
-    <Container style={{padding: "40px 0 70px 0"}}>
+    <Container style={{padding: "40px 0 40px 0"}}>
       <Grid container rowSpacing={5}>
         <Grid item xs={12}>
           <div
@@ -96,7 +96,7 @@ export const BookList = () => {
                   />
                   <Button
                     component={Link}
-                    to="/admin/books"
+                    to="/books/new"
                     variant="contained"
                     size="small"
                     style={{

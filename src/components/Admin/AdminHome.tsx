@@ -45,7 +45,7 @@ export const AdminHome = () => {
 
   // return the view
   return (
-    <Container style={{padding: "40px 0 70px 0"}}>
+    <Container style={{padding: "40px 0 40px 0"}}>
       <Grid container rowSpacing={5}>
         <Grid item xs={12}>
           <div

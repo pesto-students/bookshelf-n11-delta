@@ -2,9 +2,9 @@
 @import "../../variables";
 
 .layout {
-  border: 1px solid $divider;
+  border: 2px solid $divider;
   border-radius: 4px;
-  margin: 16px;
+  margin: 40px 0 40px 0;
   display: flex;
   flex-direction: row;
   padding: 32px;

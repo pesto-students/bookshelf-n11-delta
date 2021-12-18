@@ -1,3 +1,4 @@
+import { Container } from "@material-ui/core";
 import {Button, Grid, styled, TextField} from "@mui/material";
 import {Formik} from "formik";
 import ChipInput from "material-ui-chip-input";
@@ -31,6 +32,7 @@ export const AddBook = () => {
   });
 
   return (
+    <Container>
     <div className={styles.layout}>
       <div className={styles.image}>
         <label htmlFor="avatar">
@@ -221,9 +223,14 @@ export const AddBook = () => {
                   helperText="Press Enter to add multiple items"
                 />
               </Grid>
-              <Grid item xs={8}>
+              <Grid container item xs={12} justifyContent="flex-end">
                 <Button
-                  style={{marginTop: "8px"}}
+                  style={{
+                    paddingLeft: "25px",
+                    paddingRight: "25px",
+                    backgroundColor: "#f44336",
+                    marginTop: "16px",
+                  }}
                   type="submit"
                   color="primary"
                   size="medium"
@@ -238,6 +245,7 @@ export const AddBook = () => {
         )}
       </Formik>
     </div>
+    </Container>
   );
 };
 
