@@ -1,0 +1,47 @@
+@use "../../mixins" as mixin;
+@import "../../variables";
+
+.card {
+
+  border: 1px solid $divider;
+  border-radius: 4px;
+  margin: 16px;
+
+  .heading {
+    color: $textGrey;
+    font-weight: bold;
+    padding: 16px;
+  }
+
+  .tabularDetails {
+    display: flex;
+    flex-direction: column;
+
+
+    .detailRow {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 8px;
+      font-weight: bold;
+      padding: 4px 16px;
+
+      .key {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .deliveryBlock {
+    display: flex;
+    flex-direction: column;
+    @include mixin.fxLayoutGap(16px);
+
+    .title {
+      font-weight: bold;
+      color: $darkTextGrey;
+    }
+
+    .address {
+    }
+  }
+}

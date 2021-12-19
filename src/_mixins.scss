@@ -26,6 +26,12 @@
   }
 }
 
+@mixin fxLayoutHorzGap($gap: 16px) {
+  & > *:not(:last-child) {
+    margin-right: $gap;
+  }
+}
+
 @mixin ellipsis($max-width) {
   max-width: $max-width;
   white-space: nowrap;

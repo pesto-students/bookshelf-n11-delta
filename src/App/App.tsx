@@ -7,6 +7,7 @@ import {
   AdminHome,
   BookDetail,
   BookList,
+  Cart,
   Dashboard,
   Footer,
   Header,
@@ -86,6 +87,8 @@ function App() {
                 <>
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/books/:id" element={<BookDetail />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/buy" element={<Cart />} />
                 </>
               )}
               <Route path="*" element={<NotFound />} />
