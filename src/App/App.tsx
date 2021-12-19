@@ -1,5 +1,6 @@
 import {createContext, useEffect, useReducer, useState} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {AnyObject} from "yup/lib/object";
 
 import {
   AddBook,
@@ -17,7 +18,7 @@ import {UserProfile} from "../components/UserProfile/UserProfile";
 import axios from "../core/axios";
 import environment from "../Environment/environment";
 import {IAppContext, RootReducer} from "../reducers";
-import {APP_ACTIONS} from "../shared/immutables";
+import {ACCESS_TOKEN, APP_ACTIONS, REFRESH_TOKEN} from "../shared/immutables";
 import styles from "./App.module.scss";
 
 const initialAppState: IAppContext = {
@@ -39,6 +40,15 @@ function App() {
   );
 
   const [isAdmin, setIsAdmin] = useState(appState.isSuperAdmin);
+
+  useEffect(() => {
+    const data: AnyObject = {};
+    data.token = localStorage.getItem(ACCESS_TOKEN);
+    if (data.token) {
+      data.refreshToken = localStorage.getItem(REFRESH_TOKEN);
+      dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+    }
+  }, []);
 
   useEffect(() => {
     if (appState.isUserLoggedIn) {
@@ -66,13 +76,16 @@ function App() {
                 path="/"
                 element={isAdmin ? <AdminHome /> : <Dashboard />}
               />
-              <Route path="/profile" element={<UserProfile />} />
-              <Route path="/books/new" element={<AddBook />} />
-              <Route path="/books/:id" element={<BookDetail />} />
-              {isAdmin && (
+              {isAdmin ? (
                 <>
                   <Route path="/users" element={<UserList />} />
                   <Route path="/books" element={<BookList />} />
+                  <Route path="/books/new" element={<AddBook />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/books/:id" element={<BookDetail />} />
                 </>
               )}
               <Route path="*" element={<NotFound />} />

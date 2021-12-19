@@ -10,7 +10,7 @@ export class Book{
   imageUri: string;
   highlights: string[];
   pages: number;
-  rating?: number;
+  avgRating?: number;
 
   constructor(data: Partial<Book> = {}) {
     this._id = data._id;
@@ -24,6 +24,6 @@ export class Book{
     this.imageUri = data.imageUri ?? "";
     this.highlights = data.highlights ?? [];
     this.pages = data.pages ?? 0;
-    this.rating = data.rating;
+    this.avgRating = data.avgRating;
   }
 }
