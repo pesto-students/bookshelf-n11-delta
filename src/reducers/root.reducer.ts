@@ -37,7 +37,7 @@ export const RootReducer = (
       break;
     case APP_ACTIONS.LOGIN:
       newState.isUserLoggedIn = true;
-      newState.isSuperAdmin = data.user.isSuperAdmin;
+      newState.isSuperAdmin = data.user?.isSuperAdmin;
       newState.open = false;
       localStorage.setItem(ACCESS_TOKEN, data.token);
       localStorage.setItem(REFRESH_TOKEN, data.refreshToken);

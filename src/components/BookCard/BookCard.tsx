@@ -23,7 +23,7 @@ export const BookCard = (props) => {
   const classes = useStyles();
   const navigate = useNavigate();
 
-  const {_id, title, price, author, language, imageUri, rating} = props.book;
+  const {_id, title, price, author, language, imageUri, avgRating} = props.book;
   const desc = [language, author].join(",");
   return (
     <Paper elevation={3}>
@@ -60,7 +60,7 @@ export const BookCard = (props) => {
             <Typography variant="body2" color="text.secondary">
               {desc}
             </Typography>
-            <MemoizedRatingBox rating={rating} />
+            <MemoizedRatingBox rating={avgRating} />
             <Typography sx={{fontWeight: "bold"}}>
               {HTML_SPECIAL_CHARS.RUPEE} {price}
             </Typography>

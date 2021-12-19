@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import {Fragment, useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
@@ -28,7 +28,9 @@ import styles from "./BookDetail.module.scss";
 export const BookDetail = (props) => {
   const {id} = useParams();
   const location = useLocation();
-  let book: Book = location.state.book;
+  const navigate = useNavigate();
+
+  let book: Book = location.state?.book;
   const [details, setDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -65,6 +67,7 @@ export const BookDetail = (props) => {
         })
         .catch((error) => {
           console.log(error);
+          navigate("/");
         });
     } else {
       createBookDetails();
@@ -161,7 +164,7 @@ export const BookDetail = (props) => {
           </div>
           <Stack spacing={1} className={styles.description}>
             <div className={styles.title}>{book.title}</div>
-            <MemoizedRatingBox rating={book.rating} />
+            <MemoizedRatingBox rating={book.avgRating} />
             <Typography sx={{fontWeight: "bold", fontSize: "24px"}}>
               {HTML_SPECIAL_CHARS.RUPEE} {book.price}
             </Typography>

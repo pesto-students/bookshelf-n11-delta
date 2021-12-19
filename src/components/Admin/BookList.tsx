@@ -102,7 +102,6 @@ export const BookList = () => {
                     style={{
                       paddingLeft: "25px",
                       paddingRight: "25px",
-                      backgroundColor: "#f44336",
                     }}
                   >
                     Add Book to Catalogue

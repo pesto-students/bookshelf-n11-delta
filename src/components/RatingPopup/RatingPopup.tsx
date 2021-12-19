@@ -1,14 +1,16 @@
 import SendIcon from "@mui/icons-material/Send";
 import {Button, Rating, TextField} from "@mui/material";
-import {useState, useEffect, useContext, forwardRef} from "react";
+import MuiAlert, {AlertProps} from "@mui/material/Alert";
+import Snackbar from "@mui/material/Snackbar";
+import {forwardRef, useContext, useEffect, useState} from "react";
+import {AnyObject} from "yup/lib/types";
+
 import {AppContext} from "../../App/App";
 import info from "../../assets/info.png";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
-import MuiAlert, {AlertProps} from "@mui/material/Alert";
 import {GenericDialog} from "../../shared/components";
 import styles from "./RatingPopup.module.scss";
-import Snackbar from "@mui/material/Snackbar";
 
 function RatingPopup({open, handleDialogClose, bookId}) {
   const [value, setValue] = useState(null);
@@ -42,13 +44,17 @@ function RatingPopup({open, handleDialogClose, bookId}) {
   useEffect(() => {
     setSnackBarOpen(false);
     if (isUserLoggedIn) {
-      setCanReview(true);
+      axios
+        .post(`${environment.API_URL}/reviews/user/${bookId}`)
+        .then((success: AnyObject) => {
+          setCanReview(success.canPostReview);
+        })
+        .catch((error) => console.log(error));
     }
   }, [isUserLoggedIn]);
 
   const handleSubmit = () => {
     setSubmitting(true);
-    console.log(environment.API_URL);
     axios
       .post(`${environment.API_URL}/reviews/new`, {
         bookId,
