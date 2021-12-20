@@ -61,7 +61,7 @@ function AddressConfirmation({handleDelivery}) {
       .then(({data}) => {
         dispatchAppAction({
           type: APP_ACTIONS.UPDATE_ADDRESS,
-          value: addressData,
+          data: addressData,
         });
         actions.setSubmitting(false);
         setHasAddress(true);

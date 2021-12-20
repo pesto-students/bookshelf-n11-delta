@@ -2,7 +2,6 @@
 @import "../../variables";
 
 .card {
-
   border: 1px solid $divider;
   border-radius: 4px;
   margin: 16px;
@@ -16,7 +15,6 @@
   .tabularDetails {
     display: flex;
     flex-direction: column;
-
 
     .detailRow {
       display: flex;
@@ -39,9 +37,11 @@
     .title {
       font-weight: bold;
       color: $darkTextGrey;
+      padding: 16px;
     }
 
     .address {
+      padding: 4px 16px;
     }
   }
 }

@@ -3,6 +3,7 @@ import {CartItem} from "../shared/models";
 
 export interface ICartContext {
   products: Partial<CartItem>[];
+  totalPrice: number;
 }
 
 export const CartReducer = (
@@ -15,6 +16,9 @@ export const CartReducer = (
     case CART_ACTIONS.UPDATE_QTY:
       const pdt = newState.products.find((pdt) => pdt._id === data.id);
       pdt.qtyOrdered = data.value;
+      break;
+    case CART_ACTIONS.SET_PAYABLE_AMOUNT:
+      newState.totalPrice = data.value;
       break;
     default:
     // do nothing

@@ -1,4 +1,7 @@
 import {Box, Button} from "@mui/material";
+import Step from "@mui/material/Step";
+import StepLabel from "@mui/material/StepLabel";
+import Stepper from "@mui/material/Stepper";
 import {
   createContext,
   useContext,
@@ -6,26 +9,27 @@ import {
   useReducer,
   useState,
 } from "react";
-import {useLocation} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 import {AppContext} from "../../App/App";
-import {CartReducer} from "../../reducers";
+import {CartReducer, ICartContext} from "../../reducers";
 import {BookCartTile} from "../../shared/components";
+import AddressConfirmation from "../AddressConfirmation/AddressConfirmation";
 import {Price} from "../Price/Price";
 import styles from "./Cart.module.scss";
-import Stepper from "@mui/material/Stepper";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import AddressConfirmation from "../AddressConfirmation/AddressConfirmation";
 
 export const CartContext = createContext(null);
 const steps = ["Delivery Address", "Place Order"];
 
 export const Cart = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const {appState} = useContext(AppContext);
-  const initialState = {products: location.state.cartItems};
+  const initialState: ICartContext = {
+    products: location.state.cartItems,
+    totalPrice: 0,
+  };
   const [cartState, dispatchCartActions] = useReducer(
     CartReducer,
     initialState
@@ -35,6 +39,18 @@ export const Cart = () => {
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const processPayment = () => {
+    let total = 0;
+    cartState.products.forEach((pdt) => {
+      total += pdt.qtyOrdered * pdt.price;
+    });
+    navigate("/payment", {
+      state: {
+        amount: total,
+      },
+    });
   };
 
   const [address, setAddress] = useState(null);
@@ -67,7 +83,7 @@ export const Cart = () => {
           <div className={styles.leftLayout}>
             {activeStep === 0 ? (
               <div className={styles.borderLayoutBox}>
-              <AddressConfirmation handleDelivery={handleNext}/>
+                <AddressConfirmation handleDelivery={handleNext} />
               </div>
             ) : (
               <>
@@ -80,9 +96,15 @@ export const Cart = () => {
                 <div className={styles.borderLayoutBox}>
                   <div>
                     Order confirmation will be sent to:{" "}
-                    <span className={styles.boldText}>{appState.user?.email}</span>
+                    <span className={styles.boldText}>
+                      {appState.user?.email}
+                    </span>
                   </div>
-                  <Button variant="contained" size="small">
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={processPayment}
+                  >
                     PLACE ORDER
                   </Button>
                 </div>

@@ -9,6 +9,8 @@
     "@material-ui/icons": "^4.11.2",
     "@mui/icons-material": "^5.2.0",
     "@mui/material": "^5.2.1",
+    "@stripe/react-stripe-js": "^1.7.0",
+    "@stripe/stripe-js": "^1.22.0",
     "axios": "^0.24.0",
     "cra-template-typescript": "1.1.2",
     "formik": "^2.2.9",

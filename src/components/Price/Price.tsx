@@ -1,7 +1,7 @@
 import {Divider, Grid} from "@mui/material";
 import {useContext, useState, useEffect} from "react";
 import {CartContext} from "../Cart/Cart";
-import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
+import {CART_ACTIONS, HTML_SPECIAL_CHARS} from "../../shared/immutables";
 import styles from "./Price.module.scss";
 
 export const Price = ({deliveryFee, address}) => {
@@ -9,7 +9,7 @@ export const Price = ({deliveryFee, address}) => {
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
 
-  const {cartState} = useContext(CartContext);
+  const {cartState, dispatchCartActions} = useContext(CartContext);
 
   useEffect(() => {
     let priceToPay = 0;
@@ -20,8 +20,12 @@ export const Price = ({deliveryFee, address}) => {
     });
     setPrice(priceToPay);
     setQuantity(qty);
-    setTotal(priceToPay + +deliveryFee);
+    const total = priceToPay + +deliveryFee;
+    setTotal(total);
+    // dispatchCartActions({type: CART_ACTIONS.SET_PAYABLE_AMOUNT, value: total});
   }, [cartState, deliveryFee]);
+
+
 
   const gridRow = (key, value) => {
     return (

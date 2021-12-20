@@ -51,11 +51,8 @@ export const RootReducer = (
       break;
     case APP_ACTIONS.UPDATE_ADDRESS:
       if (!!newState.user) {
-        newState.user.addressLine1 = data.addressLine1;
-        newState.user.addressLine2 = data.addressLine2;
-        newState.user.city = data.city;
-        newState.user.state = data.state;
-        newState.user.pincode = data.pincode;
+        const address = {...data};
+        newState.user.addresses = [address];
       }
       break;
     default:
