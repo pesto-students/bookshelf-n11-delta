@@ -4,3 +4,4 @@ export * from "./GenericDialog/GenericDialog";
 export * from "./ReadMore/ReadMore";
 export * from "./ReviewDetails/ReviewDetails";
 export * from "./RatingChart/RatingChart";
+export * from "./BookCartTile/BookCartTile";

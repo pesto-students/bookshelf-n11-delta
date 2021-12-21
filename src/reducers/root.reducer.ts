@@ -49,6 +49,12 @@ export const RootReducer = (
     case APP_ACTIONS.SET_BOOKS:
       newState.books = [...data];
       break;
+    case APP_ACTIONS.UPDATE_ADDRESS:
+      if (!!newState.user) {
+        const address = {...data};
+        newState.user.addresses = [address];
+      }
+      break;
     default:
     // do nothing
   }

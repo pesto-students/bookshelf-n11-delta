@@ -21,7 +21,7 @@ import {
   ReviewDetails,
 } from "../../shared/components";
 import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
-import {Book, ChartRating, Review} from "../../shared/models";
+import {Book, CartItem, ChartRating, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
 import styles from "./BookDetail.module.scss";
 
@@ -132,6 +132,21 @@ export const BookDetail = (props) => {
     );
   };
 
+  const buyBook = () => {
+    const date = new Date();
+    const cartItem = new CartItem({
+      ...book,
+      qtyOrdered: 1,
+      createdOn: date,
+      modifiedOn: date,
+    });
+    navigate(`/buy`, {
+      state: {
+        cartItems: [cartItem],
+      },
+    });
+  };
+
   const handleDialogClose = (fetchReviews = false) => {
     setOpen(false);
     if (fetchReviews) {
@@ -157,7 +172,11 @@ export const BookDetail = (props) => {
               <AddToCartButton variant="contained" color="secondary">
                 ADD TO CART
               </AddToCartButton>
-              <Button style={{width: buttonWidth}} variant="contained">
+              <Button
+                style={{width: buttonWidth}}
+                variant="contained"
+                onClick={buyBook}
+              >
                 BUY NOW
               </Button>
             </div>
@@ -212,7 +231,7 @@ export const BookDetail = (props) => {
                 <div className={styles.noRatingMsg}>No reviews available</div>
               )
             ) : (
-              <Overlay showBackdrop={false}/>
+              <Overlay showBackdrop={false} />
             )}
           </Stack>
           <RatingPopup

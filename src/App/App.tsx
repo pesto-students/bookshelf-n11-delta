@@ -7,10 +7,12 @@ import {
   AdminHome,
   BookDetail,
   BookList,
+  Cart,
   Dashboard,
   Footer,
   Header,
   NotFound,
+  StripeContainer,
   UserEntry,
   UserList,
 } from "../components";
@@ -86,6 +88,9 @@ function App() {
                 <>
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/books/:id" element={<BookDetail />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/buy" element={<Cart />} />
+                  <Route path="/payment" element={<StripeContainer />}/>
                 </>
               )}
               <Route path="*" element={<NotFound />} />

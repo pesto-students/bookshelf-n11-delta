@@ -1,0 +1,30 @@
+@import "../../variables";
+
+.stepper {
+    margin: 16px 64px 16px 64px;
+}
+
+.layout {
+    display: flex;
+
+    .leftLayout {
+        flex: 3;
+
+        .borderLayoutBox {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid $divider;
+            border-radius: 4px;
+            margin: 16px;
+            padding: 16px;
+
+            .boldText {
+                font-weight: bold;
+            }
+        }
+    }
+    .priceColumn{
+        flex: 2;
+    }
+}

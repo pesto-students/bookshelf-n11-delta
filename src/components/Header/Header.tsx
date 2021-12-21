@@ -1,14 +1,14 @@
-import { makeStyles } from "@material-ui/core";
+import {makeStyles} from "@material-ui/core";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge, Divider, Stack } from "@mui/material";
+import {Badge, Divider, Stack} from "@mui/material";
 import SearchBar from "material-ui-search-bar";
-import { useContext } from "react";
+import {useContext} from "react";
+import {useNavigate} from "react-router-dom";
 
-import { AppContext } from "../../App/App";
-import { APP_ACTIONS } from "../../shared/immutables";
+import {AppContext} from "../../App/App";
+import {APP_ACTIONS} from "../../shared/immutables";
 import styles from "./Header.module.scss";
-import { UserAccount } from "./UserAccount";
-import { useNavigate } from "react-router-dom";
+import {UserAccount} from "./UserAccount";
 
 const useStyles = makeStyles((theme) => ({
   badge: {
@@ -18,11 +18,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const Header = () => {
   const classes = useStyles();
-  const { dispatchAppAction } = useContext(AppContext);
+  const {dispatchAppAction} = useContext(AppContext);
   const navigate = useNavigate();
 
   const changeInputValue = (newValue) => {
-    dispatchAppAction({ type: APP_ACTIONS.UPDATE_SEARCH_TEXT, data: newValue });
+    dispatchAppAction({type: APP_ACTIONS.UPDATE_SEARCH_TEXT, data: newValue});
   };
 
   const clearSearchBar = () => {
@@ -52,11 +52,11 @@ export const Header = () => {
           <Stack direction="row" alignItems="center" spacing={2}>
             <UserAccount />
             <Badge
-              classes={{ badge: classes.badge }}
+              classes={{badge: classes.badge}}
               badgeContent={1}
               color="error"
             >
-              <ShoppingCartIcon style={{ color: "white" }} />
+              <ShoppingCartIcon style={{color: "white"}} />
             </Badge>
           </Stack>
         </div>
