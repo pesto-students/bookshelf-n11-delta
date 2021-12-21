@@ -47,7 +47,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
       axios
         .post(`${environment.API_URL}/reviews/user/${bookId}`)
         .then((success: AnyObject) => {
-          setCanReview(success.canPostReview);
+          setCanReview(success.data.canPostReview);
         })
         .catch((error) => console.log(error));
     }

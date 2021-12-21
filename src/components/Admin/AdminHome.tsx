@@ -45,7 +45,7 @@ export const AdminHome = () => {
 
   // return the view
   return (
-    <Container style={{padding: "40px 0 40px 0"}}>
+    <Container style={{padding: "40px 0 70px 0"}}>
       <Grid container rowSpacing={5}>
         <Grid item xs={12}>
           <div
@@ -115,16 +115,16 @@ export const AdminHome = () => {
                           <TableCell align="right">{row.username}</TableCell>
                           <TableCell align="right">{row.email}</TableCell>
                           <TableCell align="right">
-                            {row.addresses ?? row.addresses[0].addressLine1}
+                            {row.addresses?.[0]?.addressLine1}
                           </TableCell>
                           <TableCell align="right">
-                            {row.addresses ?? row.addresses[0].city}
+                            {row.addresses?.[0]?.city}
                           </TableCell>
                           <TableCell align="right">
-                            {row.addresses ?? row.addresses[0].state}
+                            {row.addresses?.[0]?.state}
                           </TableCell>
                           <TableCell align="right">
-                            {row.addresses ?? row.addresses[0].pincode}
+                            {row.addresses?.[0]?.pincode}
                           </TableCell>
                         </TableRow>
                       ))}

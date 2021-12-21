@@ -56,19 +56,26 @@ function AddressConfirmation({handleDelivery}) {
       pincode: values.pincode,
     };
     // TODO alisha: needs to update api for backend integration
-    axios
-      .patch(`${environment.API_URL}/address`, addressData)
-      .then(({data}) => {
-        dispatchAppAction({
-          type: APP_ACTIONS.UPDATE_ADDRESS,
-          data: addressData,
-        });
-        actions.setSubmitting(false);
-        setHasAddress(true);
-        setAddressInfo({...addressInfo, ...addressData});
-      })
-      .catch((error) => console.log(error))
-      .finally(() => actions.setSubmitting(false));
+    dispatchAppAction({
+      type: APP_ACTIONS.UPDATE_ADDRESS,
+      data: addressData,
+    });
+    actions.setSubmitting(false);
+    setHasAddress(true);
+    setAddressInfo({...addressInfo, ...addressData});
+    // axios
+    //   .patch(`${environment.API_URL}/address`, addressData)
+    //   .then(({data}) => {
+    //     dispatchAppAction({
+    //       type: APP_ACTIONS.UPDATE_ADDRESS,
+    //       data: addressData,
+    //     });
+    //     actions.setSubmitting(false);
+    //     setHasAddress(true);
+    //     setAddressInfo({...addressInfo, ...addressData});
+    //   })
+    //   .catch((error) => console.log(error))
+    //   .finally(() => actions.setSubmitting(false));
   }
 
   const TextWrappedInGrid = (
