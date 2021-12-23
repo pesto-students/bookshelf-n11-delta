@@ -16,6 +16,8 @@ import {
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
+import environment from "../../Environment/environment";
+
 export const AdminHome = () => {
   // State for saving User records to display
   // and to implement pagination in table
@@ -24,7 +26,7 @@ export const AdminHome = () => {
   const [searched, setSearched] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:4000/users/bytimestamp?page=1&limit=5`, {
+    fetch(`${environment.API_URL}/users/bytimestamp?page=1&limit=5`, {
       method: "GET",
     })
       .then((res) => res.json())
@@ -33,7 +35,7 @@ export const AdminHome = () => {
       })
       .catch((error) => console.log(error));
 
-    fetch(`http://localhost:4000/books/bytimestamp?page=1&limit=5`, {
+    fetch(`${environment.API_URL}/books/bytimestamp?page=1&limit=5`, {
       method: "GET",
     })
       .then((res) => res.json())

@@ -19,6 +19,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 import styles from "./Admin.module.scss";
+import environment from "../../Environment/environment";
 
 export const BookList = () => {
   // State for saving Book records to display
@@ -52,7 +53,7 @@ export const BookList = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:4000/books/bytimestamp`, {
+    fetch(`${environment.API_URL}/books/bytimestamp`, {
       method: "GET",
     })
       .then((res) => res.json())

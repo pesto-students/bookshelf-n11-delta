@@ -1,0 +1,15 @@
+@import "../../variables";
+
+.orderOuterBox {
+    margin: 10px 0 10px 0;
+    border: 2px solid #e5e5e5;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+    .orderInnerBox {
+        margin-left: 20px;
+        border: 2px solid #e5e5e5;
+        padding: 20px;
+        border-radius: 5px;
+    }

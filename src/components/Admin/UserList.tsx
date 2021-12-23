@@ -17,6 +17,7 @@ import SearchBar from "material-ui-search-bar";
 import { useEffect, useState } from "react";
 
 import styles from "./Admin.module.scss";
+import environment from "../../Environment/environment";
 
 export const UserList = () => {
   // State for saving User records to display
@@ -52,7 +53,7 @@ export const UserList = () => {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:4000/users/bytimestamp`, {
+    fetch(`${environment.API_URL}/users/bytimestamp`, {
       method: "GET",
     })
       .then((res) => res.json())
