@@ -1,52 +1,37 @@
-import {makeStyles} from "@material-ui/core";
-import {Button, TextField, InputProps} from "@mui/material";
-import {useEffect, useState} from "react";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import {IconButton, TextField} from "@mui/material";
+import {useState} from "react";
 
 import styles from "./QuantityPicker.module.scss";
-
-const useStyles = makeStyles((theme) => ({
-  input: {
-    height: 40,
-    margin: "0px 16px",
-
-  },
-  button: {
-    height: 30,
-    fontWeight: "bold",
-  },
-}));
 
 const MIN_QTY = 1;
 
 export const QuantityPicker = ({qty, max, setQty}) => {
-  const classes = useStyles();
-
   const [value, setValue] = useState(qty);
 
   const handleInputChange = (newValue) => {
     if (newValue >= MIN_QTY && newValue <= max) {
       _setQtyValue(newValue);
     }
-  }
+  };
 
   const _setQtyValue = (newValue) => {
     setValue(newValue);
     setQty(newValue);
-  }
+  };
 
   return (
     <div className={styles.quantityInput}>
-      <Button
-        variant="outlined"
-        className={classes.button}
+      <IconButton
+        color="primary"
+        size="large"
         onClick={() => _setQtyValue(Math.max(MIN_QTY, value - 1))}
         disabled={value === MIN_QTY}
-        size="small"
       >
-        -
-      </Button>
+        <RemoveCircleOutlineIcon />
+      </IconButton>
       <TextField
-        className={classes.input}
         type="number"
         variant="outlined"
         size="small"
@@ -58,15 +43,14 @@ export const QuantityPicker = ({qty, max, setQty}) => {
           handleInputChange(event.target.value);
         }}
       />
-      <Button
-        variant="outlined"
-        className={classes.button}
+      <IconButton
+        color="primary"
         disabled={value === max}
+        size="large"
         onClick={() => _setQtyValue(Math.min(max, value + 1))}
-        size="small"
       >
-        +
-      </Button>
+        <AddCircleOutlineIcon />
+      </IconButton>
     </div>
   );
 };
