@@ -4,6 +4,7 @@ import {Badge, Divider, Stack} from "@mui/material";
 import SearchBar from "material-ui-search-bar";
 import {useContext} from "react";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 import {AppContext} from "../../App/App";
 import {APP_ACTIONS} from "../../shared/immutables";
@@ -16,9 +17,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+toast.configure();
 export const Header = () => {
   const classes = useStyles();
-  const {dispatchAppAction} = useContext(AppContext);
+  const {appState, dispatchAppAction} = useContext(AppContext);
   const navigate = useNavigate();
 
   const changeInputValue = (newValue) => {
@@ -27,6 +29,18 @@ export const Header = () => {
 
   const clearSearchBar = () => {
     changeInputValue("");
+  };
+
+  const cartProcessing = () => {
+    if (appState.isUserLoggedIn) {
+      navigate(`/cart`, {
+        state: {
+          cartItems: appState.cartItems,
+        },
+      });
+    } else {
+      toast.error("Please login to view cart items");
+    }
   };
 
   return (
@@ -53,10 +67,13 @@ export const Header = () => {
             <UserAccount />
             <Badge
               classes={{badge: classes.badge}}
-              badgeContent={1}
+              badgeContent={appState.cartItems.length}
               color="error"
             >
-              <ShoppingCartIcon style={{color: "white"}} />
+              <ShoppingCartIcon
+                style={{color: "white"}}
+                onClick={cartProcessing}
+              />
             </Badge>
           </Stack>
         </div>

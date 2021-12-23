@@ -1,16 +1,40 @@
-import {useContext} from "react";
-import {CartContext} from "../../../components";
-import {CART_ACTIONS, HTML_SPECIAL_CHARS} from "../../immutables";
+import {useNavigate} from "react-router-dom";
+
+import {HTML_SPECIAL_CHARS} from "../../immutables";
 import {CartItem} from "../../models";
 import {QuantityPicker} from "../QuantityPicker/QuantityPicker";
 import styles from "./BookCartTile.module.scss";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-export const BookCartTile = ({item}) => {
-  const {cartState, dispatchCartActions} = useContext(CartContext);
+export const BookCartTile = ({
+  item,
+  qtyUpdate,
+  showDelete,
+}: {
+  item: Partial<CartItem>;
+  qtyUpdate: (id, value) => void;
+  showDelete: boolean;
+}) => {
+  const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   effect
-  // }, [input])
+  const getBookDetails = (item) => {
+    const bookItem = {...item};
+    delete bookItem.id;
+    delete bookItem.qtyOrdered;
+    delete bookItem.createdOn;
+    delete bookItem.modifiedOn;
+    return bookItem;
+  };
+
+  const handleTitleClick = () => {
+    const book = getBookDetails(item);
+    navigate(`/books/${item._id}`, {
+      state: {
+        book,
+      },
+    });
+  };
 
   return (
     <div className={styles.bookTile}>
@@ -21,20 +45,31 @@ export const BookCartTile = ({item}) => {
             qty={item.qtyOrdered}
             max={item.quantity}
             setQty={(value) => {
-              dispatchCartActions({
-                type: CART_ACTIONS.UPDATE_QTY,
-                data: {id: item._id, value},
-              });
+              qtyUpdate(item._id, value);
             }}
           />
         </div>
       </div>
       <div className={styles.description}>
-        <div className={styles.title}>{item.title}</div>
-        <div className={styles.info}>{item.language}, {item.author}</div>
+        <div className={styles.title} onClick={handleTitleClick}>
+          {item.title}
+        </div>
+        <div className={styles.info}>
+          {item.language}, {item.author}
+        </div>
         <div className={styles.info}>
           {HTML_SPECIAL_CHARS.RUPEE} {item.price}
         </div>
+        {showDelete && (
+          <Button
+            variant="outlined"
+            startIcon={<DeleteIcon />}
+            onClick={() => qtyUpdate(item._id, 0)}
+            style={{width: "150px"}}
+          >
+            Delete
+          </Button>
+        )}
       </div>
     </div>
   );

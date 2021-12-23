@@ -12,3 +12,4 @@ export * from "./NotFound/NotFound";
 export * from "./Cart/Cart";
 export * from "./Orders/Orders";
 export * from "./Payment";
+export * from "./CartList/CartList";

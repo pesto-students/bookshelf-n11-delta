@@ -32,7 +32,6 @@
   .deliveryBlock {
     display: flex;
     flex-direction: column;
-    @include mixin.fxLayoutGap(16px);
 
     .title {
       font-weight: bold;

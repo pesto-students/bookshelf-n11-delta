@@ -7,10 +7,11 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import {Fragment, useEffect, useState, useContext} from "react";
+import {Fragment, useContext, useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {AppContext} from "../../App/App";
+import {toast} from "react-toastify";
 
+import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
 import {
@@ -20,11 +21,16 @@ import {
   ReadMore,
   ReviewDetails,
 } from "../../shared/components";
-import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
+import {
+  ADD_ITEM_TO_CART,
+  APP_ACTIONS,
+  HTML_SPECIAL_CHARS,
+} from "../../shared/immutables";
 import {Book, CartItem, ChartRating, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
 import styles from "./BookDetail.module.scss";
 
+toast.configure();
 export const BookDetail = () => {
   const {id} = useParams();
   const location = useLocation();
@@ -35,7 +41,7 @@ export const BookDetail = () => {
   const [reviews, setReviews] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
 
-  const {appState} = useContext(AppContext);
+  const {appState, dispatchAppAction} = useContext(AppContext);
 
   const initialChartRating = new ChartRating();
   const [chartRating, setChartRating] = useState(initialChartRating);
@@ -159,6 +165,52 @@ export const BookDetail = () => {
     }
   };
 
+  const addToCartHandler = () => {
+    const orderDetails = [];
+    const item = appState.cartItems.find(
+      (cartItem) => cartItem._id === book._id
+    );
+    const quantity = (item?.qtyOrdered ?? 0) + 1;
+
+    orderDetails.push({
+      bookId: book._id,
+      price: book.price,
+      quantity,
+    });
+    appState.cartItems.forEach((item) => {
+      if (item._id !== id) {
+        orderDetails.push({
+          bookId: item._id,
+          price: item.price,
+          quantity: item.qtyOrdered,
+        });
+      }
+    });
+    axios
+      .patch(`${environment.API_URL}/cart`, {orderDetails})
+      .then(() => {
+        toast.success(
+          `${book.title} with quantity: ${quantity} added to cart successfully`
+        );
+        if (!!item) {
+          dispatchAppAction({
+            type: APP_ACTIONS.UPDATE_CART,
+            data: {id: book._id, value: quantity},
+          });
+        } else {
+          const item = new CartItem({
+            ...book,
+            qtyOrdered: quantity,
+          });
+          dispatchAppAction({
+            type: APP_ACTIONS.UPDATE_CART,
+            data: {item, action: ADD_ITEM_TO_CART},
+          });
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
   const [open, setOpen] = useState(false);
 
   const openRatingDialog = () => {
@@ -178,6 +230,7 @@ export const BookDetail = () => {
                 disabled={!appState.isUserLoggedIn}
                 variant="contained"
                 color="secondary"
+                onClick={addToCartHandler}
               >
                 ADD TO CART
               </AddToCartButton>
