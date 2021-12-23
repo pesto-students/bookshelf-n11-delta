@@ -1,22 +1,23 @@
-import {useState, useEffect, useContext} from "react";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {AppContext} from "../../App/App";
 import {Button, Grid, TextField} from "@mui/material";
+import Accordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
 import {Formik} from "formik";
+import {useContext, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {object, string} from "yup";
+
+import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
-import styles from "./AddressConfirmation.module.scss";
-import {object, string} from "yup";
 import {APP_ACTIONS} from "../../shared/immutables";
+import styles from "./AddressConfirmation.module.scss";
 
 function AddressConfirmation({handleDelivery}) {
   const initialAddressData = {
     addressLine1: "",
-    addressLine2: "",
     city: "",
     state: "",
     pincode: "",
@@ -24,6 +25,8 @@ function AddressConfirmation({handleDelivery}) {
 
   const [addressInfo, setAddressInfo] = useState(initialAddressData);
   const [hasAddress, setHasAddress] = useState(false);
+
+  const navigate = useNavigate();
 
   const {appState, dispatchAppAction} = useContext(AppContext);
   useEffect(() => {
@@ -38,7 +41,6 @@ function AddressConfirmation({handleDelivery}) {
     setHasAddress(!!primaryAdd);
     const profile = {
       addressLine1: primaryAdd?.addressLine1,
-      addressLine2: primaryAdd?.addressLine2,
       city: primaryAdd?.city,
       state: primaryAdd?.state,
       pincode: primaryAdd?.pincode,
@@ -46,37 +48,33 @@ function AddressConfirmation({handleDelivery}) {
     setAddressInfo({...addressInfo, ...profile});
   }
 
-  function handleSubmit(values, actions) {
+  const handleCancel = () => {
+    // go back to previos route
+    navigate(-1);
+  };
+
+  const handleSubmit = (values, actions) => {
     actions.setSubmitting(true);
     const addressData = {
       addressLine1: values.addressLine1,
-      addressLine2: values.addressLine2,
       city: values.city,
       state: values.state,
       pincode: values.pincode,
     };
-    // TODO alisha: needs to update api for backend integration
-    dispatchAppAction({
-      type: APP_ACTIONS.UPDATE_ADDRESS,
-      data: addressData,
-    });
-    actions.setSubmitting(false);
-    setHasAddress(true);
-    setAddressInfo({...addressInfo, ...addressData});
-    // axios
-    //   .patch(`${environment.API_URL}/address`, addressData)
-    //   .then(({data}) => {
-    //     dispatchAppAction({
-    //       type: APP_ACTIONS.UPDATE_ADDRESS,
-    //       data: addressData,
-    //     });
-    //     actions.setSubmitting(false);
-    //     setHasAddress(true);
-    //     setAddressInfo({...addressInfo, ...addressData});
-    //   })
-    //   .catch((error) => console.log(error))
-    //   .finally(() => actions.setSubmitting(false));
-  }
+    axios
+      .post(`${environment.API_URL}/cart/address`, {address: addressData})
+      .then(({data}) => {
+        dispatchAppAction({
+          type: APP_ACTIONS.UPDATE_ADDRESS,
+          data: addressData,
+        });
+        actions.setSubmitting(false);
+        setHasAddress(true);
+        setAddressInfo({...addressInfo, ...addressData});
+      })
+      .catch((error) => console.log(error))
+      .finally(() => actions.setSubmitting(false));
+  };
 
   const TextWrappedInGrid = (
     width,
@@ -91,11 +89,11 @@ function AddressConfirmation({handleDelivery}) {
     return (
       <Grid item xs={width}>
         <TextField
-          className={styles.textField}
           name={name}
           label={label}
           size="small"
           variant="outlined"
+          fullWidth
           value={values[`${name}`]}
           onChange={onChangeHandler}
           onBlur={onBlurHandler}
@@ -111,15 +109,25 @@ function AddressConfirmation({handleDelivery}) {
       {hasAddress ? (
         <>
           <div className={styles.address}>
-            Address: {addressInfo.addressLine1}, {addressInfo.addressLine2},{" "}
-            {addressInfo.city},{addressInfo.state}, PIN: {addressInfo.pincode}
+            Address: {addressInfo.addressLine1}, {addressInfo.city},
+            {addressInfo.state}, PIN: {addressInfo.pincode}
           </div>
-          <Button variant="contained" size="small" onClick={handleDelivery}>
-            Deliver to this Address
-          </Button>
+          <div className={styles.buttons}>
+            <Button variant="contained" size="small" onClick={handleDelivery}>
+              Deliver to this Address
+            </Button>
+            <Button
+              style={{minWidth: "100px"}}
+              variant="outlined"
+              size="small"
+              onClick={handleCancel}
+            >
+              Cancel
+            </Button>
+          </div>
         </>
       ) : (
-        <div className={styles.accordion}>
+        <div className={styles.layout}>
           <Accordion>
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Add delivery Address</Typography>
@@ -144,17 +152,7 @@ function AddressConfirmation({handleDelivery}) {
                       {TextWrappedInGrid(
                         12,
                         "addressLine1",
-                        "Address Line 1",
-                        values,
-                        handleChange,
-                        handleBlur,
-                        touched,
-                        errors
-                      )}
-                      {TextWrappedInGrid(
-                        12,
-                        "addressLine2",
-                        "Address Line 2",
+                        "Address",
                         values,
                         handleChange,
                         handleBlur,
@@ -217,7 +215,6 @@ function AddressConfirmation({handleDelivery}) {
 
 const addValidationSchema = object().shape({
   addressLine1: string().required("Required field"),
-  addressLine2: string().required("Required field"),
   city: string().required("Required field"),
   state: string().required("Required field"),
   pincode: string().required("Required field"),

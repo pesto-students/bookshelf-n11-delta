@@ -1,10 +1,18 @@
+@use "../../mixins" as mixins;
 @import "../../variables";
 
-.address {
-    margin: 16px;
-    color: $primary;
+.layout {
+  min-height: 300px;
 }
 
-.accordion {
-    min-height: 300px;
-}
+.address {
+    margin: 0px 16px 16px;
+    color: $primary;
+  }
+  
+  .buttons {
+    margin: 0px 16px;
+    display: flex;
+    justify-content: space-between;
+    @include mixins.fxLayoutHorzGap();
+  }

@@ -25,6 +25,9 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
       title: "Orders",
       show: isUserLoggedIn,
       icon: <ShoppingBag fontSize="small" />,
+      onClick: () => {
+        navigate('/orders');
+      },
     },
     {
       id: 2,
