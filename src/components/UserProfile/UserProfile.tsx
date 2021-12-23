@@ -43,7 +43,7 @@ export const UserProfile = () => {
       addresses.find((address) => !!address?.default) ?? addresses[0];
     const profile = {
       email: user.email,
-      name: user.name,
+      name: user.username,
       address: primaryAdd?.addressLine1,
       city: primaryAdd?.city,
       state: primaryAdd?.state,
@@ -63,8 +63,8 @@ export const UserProfile = () => {
         state: values.state,
         pincode: values.pin,
       })
-      .then(({data}) => {
-        console.log(data);
+      .then(() => {
+        setFormDisabled(true);
       })
       .catch((error) => console.log(error))
       .finally(() => actions.setSubmitting(false));

@@ -1,12 +1,8 @@
-@use "../../../mixins" as mixins;
-
 .quantityInput {
   display: flex;
   flex-direction: row;
   margin: 16px 0px 16px 16px;
-  align-items: center;
-  @include mixins.fxLayoutHorzGap(16px);
-  
+  align-items: center;  
 }
 
 input::-webkit-outer-spin-button,
