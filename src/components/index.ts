@@ -10,4 +10,5 @@ export * from "./Admin/UserList";
 export * from "./Admin/BookList";
 export * from "./NotFound/NotFound";
 export * from "./Cart/Cart";
+export * from "./Orders/Orders";
 export * from "./Payment";

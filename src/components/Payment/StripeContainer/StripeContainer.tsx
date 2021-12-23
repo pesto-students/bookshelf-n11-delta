@@ -10,9 +10,10 @@ export const StripeContainer = () => {
   const location = useLocation();
 
   const amount = location.state?.amount ?? 0;
+  const products = location.state?.products ?? [];
   return (
     <Elements stripe={stripeTestPromise}>
-      <PaymentForm amount={amount} />
+      <PaymentForm amount={amount} products={products}/>
     </Elements>
   );
 };

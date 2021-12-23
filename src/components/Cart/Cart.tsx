@@ -49,6 +49,7 @@ export const Cart = () => {
     navigate("/payment", {
       state: {
         amount: total,
+        products: cartState.products,
       },
     });
   };

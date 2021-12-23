@@ -1,4 +1,3 @@
-import {Reviews} from "@mui/icons-material";
 import {
   Button,
   ButtonProps,
@@ -8,8 +7,9 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import {Fragment, useEffect, useState} from "react";
+import {Fragment, useEffect, useState, useContext} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
+import {AppContext} from "../../App/App";
 
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
@@ -25,7 +25,7 @@ import {Book, CartItem, ChartRating, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
 import styles from "./BookDetail.module.scss";
 
-export const BookDetail = (props) => {
+export const BookDetail = () => {
   const {id} = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -34,6 +34,8 @@ export const BookDetail = (props) => {
   const [details, setDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
+
+  const {appState} = useContext(AppContext);
 
   const initialChartRating = new ChartRating();
   const [chartRating, setChartRating] = useState(initialChartRating);
@@ -44,6 +46,9 @@ export const BookDetail = (props) => {
     backgroundColor: "#f44336",
     marginRight: "16px",
     width: buttonWidth,
+    "&:hover": {
+      backgroundColor: "#d2190b",
+    },
   }));
 
   useEffect(() => {
@@ -169,10 +174,15 @@ export const BookDetail = (props) => {
               <img src={book.imageUri} alt={book.title} />
             </div>
             <div className={styles.buttons}>
-              <AddToCartButton variant="contained" color="secondary">
+              <AddToCartButton
+                disabled={!appState.isUserLoggedIn}
+                variant="contained"
+                color="secondary"
+              >
                 ADD TO CART
               </AddToCartButton>
               <Button
+                disabled={!appState.isUserLoggedIn}
                 style={{width: buttonWidth}}
                 variant="contained"
                 onClick={buyBook}

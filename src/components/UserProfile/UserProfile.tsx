@@ -56,11 +56,12 @@ export const UserProfile = () => {
   function handleSubmit(values, actions) {
     actions.setSubmitting(true);
     axios
-      .post(`${environment.API_URL}/user`, {
-        email: values.email,
-        name: values.name,
-        address: values.address,
-        pin: values.pin,
+      .post(`${environment.API_URL}/me`, {
+        username: values.name,
+        addressLine1: values.address,
+        city: values.city,
+        state: values.state,
+        pincode: values.pin,
       })
       .then(({data}) => {
         console.log(data);
@@ -123,7 +124,7 @@ export const UserProfile = () => {
             id="avatar"
             type="file"
             onChange={onFileChange}
-            disabled={formDisabled}
+            disabled={true}
           />
           <div className={styles.avatarContainer}>
             {!!iconFile.url && <img src={iconFile.url} />}
