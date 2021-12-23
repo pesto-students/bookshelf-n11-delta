@@ -1,6 +1,6 @@
 import {UserEntryState} from "../components/UserEntry";
-import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN} from "../shared/immutables";
-import {Book} from "../shared/models";
+import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN, ADD_ITEM_TO_CART} from "../shared/immutables";
+import {Book, CartItem} from "../shared/models";
 
 export interface IAppContext {
   searchText: string;
@@ -10,6 +10,7 @@ export interface IAppContext {
   open: boolean;
   user: any;
   books: Book[];
+  cartItems: Partial<CartItem>[];
 }
 
 export const RootReducer = (
@@ -33,6 +34,7 @@ export const RootReducer = (
     case APP_ACTIONS.LOGOUT:
       newState.isUserLoggedIn = false;
       newState.isSuperAdmin = false;
+      newState.cartItems = [];
       localStorage.clear();
       break;
     case APP_ACTIONS.LOGIN:
@@ -53,6 +55,24 @@ export const RootReducer = (
       if (!!newState.user) {
         const address = {...data};
         newState.user.addresses = [address];
+      }
+      break;
+    case APP_ACTIONS.SET_CART:
+      newState.cartItems = [...data];
+      break;
+    case APP_ACTIONS.UPDATE_CART:
+      if (data.action === ADD_ITEM_TO_CART) {
+        newState.cartItems = [...newState.cartItems, data.item];
+      } else {
+        // find appropriate book, _id depicts bookId
+        if (data.value) {
+          const item = newState.cartItems.find((item) => item._id === data.id);
+          item.qtyOrdered = data.value;
+        } else {
+          newState.cartItems = newState.cartItems.filter(
+            (item) => item._id != data.id
+          );
+        }
       }
       break;
     default:

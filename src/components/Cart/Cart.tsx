@@ -14,6 +14,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {AppContext} from "../../App/App";
 import {CartReducer, ICartContext} from "../../reducers";
 import {BookCartTile} from "../../shared/components";
+import {CART_ACTIONS} from "../../shared/immutables";
 import AddressConfirmation from "../AddressConfirmation/AddressConfirmation";
 import {Price} from "../Price/Price";
 import styles from "./Cart.module.scss";
@@ -66,6 +67,13 @@ export const Cart = () => {
     }
   }, [appState]);
 
+  const qtyUpdate = (id, value) => {
+    dispatchCartActions({
+      type: CART_ACTIONS.UPDATE_QTY,
+      data: {id, value},
+    });
+  };
+
   return (
     <>
       <Box className={styles.stepper}>
@@ -90,30 +98,35 @@ export const Cart = () => {
               <>
                 {cartState.products.map((item) => (
                   <div key={item.id}>
-                    <BookCartTile item={item} />
+                    <BookCartTile
+                      item={item}
+                      qtyUpdate={(id, value) => qtyUpdate(id, value)}
+                      showDelete={false}
+                    />
                   </div>
                 ))}
-
-                <div className={styles.borderLayoutBox}>
-                  <div>
-                    Order confirmation will be sent to:{" "}
-                    <span className={styles.boldText}>
-                      {appState.user?.email}
-                    </span>
-                  </div>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    onClick={processPayment}
-                  >
-                    PLACE ORDER
-                  </Button>
-                </div>
               </>
             )}
           </div>
-          <div className={styles.priceColumn}>
+          <div className={styles.rightLayout}>
             <Price deliveryFee="0" address={address} />
+            {activeStep === steps.length - 1 && (
+              <div className={styles.borderLayoutBox}>
+                <div>
+                  Order confirmation will be sent to:{" "}
+                  <span className={styles.boldText}>
+                    {appState.user?.email}
+                  </span>
+                </div>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={processPayment}
+                >
+                  PLACE ORDER
+                </Button>
+              </div>
+            )}
           </div>
         </CartContext.Provider>
       </div>

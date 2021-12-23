@@ -8,6 +8,7 @@ import {
   BookDetail,
   BookList,
   Cart,
+  CartList,
   Dashboard,
   Footer,
   Header,
@@ -22,6 +23,7 @@ import axios from "../core/axios";
 import environment from "../Environment/environment";
 import {IAppContext, RootReducer} from "../reducers";
 import {ACCESS_TOKEN, APP_ACTIONS, REFRESH_TOKEN} from "../shared/immutables";
+import {CartItem} from "../shared/models";
 import styles from "./App.module.scss";
 
 const initialAppState: IAppContext = {
@@ -32,6 +34,7 @@ const initialAppState: IAppContext = {
   open: false,
   user: null,
   books: [],
+  cartItems: [],
 };
 
 export const AppContext = createContext(null);
@@ -59,6 +62,23 @@ function App() {
         .get(`${environment.API_URL}/me`)
         .then(({data}) => {
           dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data});
+        })
+        .catch((err) => console.log(err));
+
+      axios
+        .get(`${environment.API_URL}/cart`)
+        .then(({data}) => {
+          const {orderDetails} = data;
+          const items = [];
+          orderDetails.forEach((order) => {
+            const cartItem: Partial<CartItem> = {
+              ...order.bookId,
+              id: order._id,
+              qtyOrdered: order.quantity,
+            };
+            items.push(cartItem);
+          });
+          dispatchAppAction({type: APP_ACTIONS.SET_CART, data: items});
         })
         .catch((err) => console.log(err));
     }
@@ -89,7 +109,7 @@ function App() {
                 <>
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/books/:id" element={<BookDetail />} />
-                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/cart" element={<CartList />} />
                   <Route path="/buy" element={<Cart />} />
                   <Route path="/orders" element={<Orders />} />
                   <Route path="/payment" element={<StripeContainer />} />
