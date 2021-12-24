@@ -12,9 +12,10 @@ import {
   Typography,
 } from "@mui/material";
 import moment from "moment";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 
+import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
 import {Overlay} from "../../shared/components";
@@ -25,10 +26,25 @@ export const Orders = () => {
   const [isLoading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const {
+    appState: {books},
+  } = useContext(AppContext);
 
   useEffect(() => {
     getUserOrders();
   }, []);
+
+  const redirectToBooksPage = (id) => {
+    const book = books.find((book) => book._id === id);
+    if (!!book) {
+      // redirect to books detail page
+      navigate(`/books/${id}`, {
+        state: {
+          book,
+        },
+      });
+    }
+  };
 
   const getUserOrders = () => {
     setLoading(true);
@@ -86,9 +102,9 @@ export const Orders = () => {
                             <TableCell
                               align="right"
                               style={{cursor: "pointer"}}
-                              onClick={() => {
-                                navigate(`/`);
-                              }}
+                              onClick={() =>
+                                redirectToBooksPage(orderDetail?.bookId?._id)
+                              }
                             >
                               {orderDetail?.bookId?.title}
                             </TableCell>
