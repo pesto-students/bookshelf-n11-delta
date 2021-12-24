@@ -29,7 +29,7 @@ axiosInstance.interceptors.response.use(
       // Access token expired
       if (
         error.response.status === 401 &&
-        error.response.data.message === "TokenExpiredError" &&
+        error.response.data === "TokenExpiredError" &&
         !originalConfig._retry
       ) {
         originalConfig._retry = true;

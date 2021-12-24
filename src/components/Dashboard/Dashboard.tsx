@@ -30,7 +30,7 @@ const initialDashboardState: IDashboardState = {
 
 export const Dashboard = () => {
   const {
-    appState: {searchText},
+    appState: {searchText, books},
     dispatchAppAction,
   } = useContext(AppContext);
   const [state, dispatch] = useReducer(DashboardReducer, initialDashboardState);
@@ -48,16 +48,24 @@ export const Dashboard = () => {
     dispatch({
       type: DASHBOARD_ACTIONS.GET_ALL_BOOKS,
     });
-    axios
-      .get(`${environment.API_URL}/books`)
-      .then(({data}) => {
-        dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: data.books});
-        dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (books.length) {
+      setBooks(books);
+    } else {
+      axios
+        .get(`${environment.API_URL}/books`)
+        .then(({data}) => {
+          setBooks(data.books);
+          dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
+
+  const setBooks = (bookList) => {
+    dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: bookList});
+  };
 
   useEffect(() => {
     if (!state.books.length) {

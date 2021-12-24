@@ -3,15 +3,15 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {Badge, Divider, Stack} from "@mui/material";
 import SearchBar from "material-ui-search-bar";
 import {useContext} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
 import {AppContext} from "../../App/App";
-import {APP_ACTIONS} from "../../shared/immutables";
+import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
 import styles from "./Header.module.scss";
 import {UserAccount} from "./UserAccount";
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   badge: {
     fontSize: "10px",
   },
@@ -22,9 +22,13 @@ export const Header = () => {
   const classes = useStyles();
   const {appState, dispatchAppAction} = useContext(AppContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const changeInputValue = (newValue) => {
     dispatchAppAction({type: APP_ACTIONS.UPDATE_SEARCH_TEXT, data: newValue});
+    if (location.pathname != DASHBOARD_ROUTE) {
+      navigate(DASHBOARD_ROUTE);
+    }
   };
 
   const clearSearchBar = () => {
@@ -49,32 +53,36 @@ export const Header = () => {
         <h3
           className={styles.appName}
           onClick={() => {
-            navigate("/");
+            navigate(DASHBOARD_ROUTE);
           }}
         >
           BOOKSHELF
         </h3>
-        <SearchBar
-          style={{
-            width: "50%",
-            height: "36px",
-          }}
-          onChange={changeInputValue}
-          onCancelSearch={clearSearchBar}
-        />
+        {!appState.isSuperAdmin && (
+          <SearchBar
+            style={{
+              width: "50%",
+              height: "36px",
+            }}
+            onChange={changeInputValue}
+            onCancelSearch={clearSearchBar}
+          />
+        )}
         <div className={styles.topRightBanner}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <UserAccount />
-            <Badge
-              classes={{badge: classes.badge}}
-              badgeContent={appState.cartItems.length}
-              color="error"
-            >
-              <ShoppingCartIcon
-                style={{color: "white"}}
-                onClick={cartProcessing}
-              />
-            </Badge>
+            {!appState.isSuperAdmin && (
+              <Badge
+                classes={{badge: classes.badge}}
+                badgeContent={appState.cartItems.length}
+                color="error"
+              >
+                <ShoppingCartIcon
+                  style={{color: "white"}}
+                  onClick={cartProcessing}
+                />
+              </Badge>
+            )}
           </Stack>
         </div>
       </div>

@@ -122,7 +122,7 @@ function SignUpForm({userAction}) {
                 helperText={touched.confirmPassword && errors.confirmPassword}
               />
               <Button
-                style={{alignSelf: "center", width: "150px"}}
+                style={{alignSelf: "center", width: "300px"}}
                 type="submit"
                 color="primary"
                 size="medium"

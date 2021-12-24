@@ -227,7 +227,7 @@ export const BookDetail = () => {
             </div>
             <div className={styles.buttons}>
               <AddToCartButton
-                disabled={!appState.isUserLoggedIn}
+                disabled={!appState.isUserLoggedIn || !book.quantity}
                 variant="contained"
                 color="secondary"
                 onClick={addToCartHandler}
@@ -235,7 +235,7 @@ export const BookDetail = () => {
                 ADD TO CART
               </AddToCartButton>
               <Button
-                disabled={!appState.isUserLoggedIn}
+                disabled={!appState.isUserLoggedIn || !book.quantity}
                 style={{width: buttonWidth}}
                 variant="contained"
                 onClick={buyBook}
@@ -271,6 +271,11 @@ export const BookDetail = () => {
                 )}
               {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
             </div>
+            {!book.quantity && (
+            <div className={styles.notAvailableMsg}>
+              Sorry, currently item is out of stock
+            </div>
+          )}
             <div className={styles.ratingHeading}>
               <div className={styles.title}>
                 Rating {HTML_SPECIAL_CHARS.AND} Reviews

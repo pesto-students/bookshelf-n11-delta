@@ -47,6 +47,7 @@ export const RootReducer = (
     case APP_ACTIONS.REGISTER_USER_INFO:
       newState.isUserLoggedIn = true;
       newState.user = data;
+      newState.isSuperAdmin = data.isSuperAdmin;
       break;
     case APP_ACTIONS.SET_BOOKS:
       newState.books = [...data];
