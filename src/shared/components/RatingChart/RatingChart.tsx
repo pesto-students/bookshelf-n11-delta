@@ -3,6 +3,7 @@ import {Chart} from "react-google-charts";
 import {ChartWrapperOptions} from "react-google-charts/dist/types";
 
 import {ChartRating} from "../../models";
+import {Overlay} from "../Overlay/Overlay";
 import styles from "./RatingChart.module.scss";
 
 const initialData = [
@@ -54,6 +55,7 @@ export const RatingChart = ({
       <Chart
         height={height}
         chartType="PieChart"
+        loader={<Overlay showBackdrop={true} />}
         data={data}
         options={{
           is3D: true,

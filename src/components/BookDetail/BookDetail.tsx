@@ -1,3 +1,6 @@
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Button,
   ButtonProps,
@@ -40,18 +43,16 @@ export const BookDetail = () => {
   const [details, setDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
 
   const {appState, dispatchAppAction} = useContext(AppContext);
 
   const initialChartRating = new ChartRating();
   const [chartRating, setChartRating] = useState(initialChartRating);
 
-  const buttonWidth = "140px";
-
-  const AddToCartButton = styled(Button)<ButtonProps>(() => ({
+  const AddToCartButton = styled(LoadingButton)<ButtonProps>(() => ({
     backgroundColor: "#f44336",
     marginRight: "16px",
-    width: buttonWidth,
     "&:hover": {
       backgroundColor: "#d2190b",
     },
@@ -167,6 +168,7 @@ export const BookDetail = () => {
 
   const addToCartHandler = () => {
     const orderDetails = [];
+    setCartLoading(true);
     const item = appState.cartItems.find(
       (cartItem) => cartItem._id === book._id
     );
@@ -208,7 +210,8 @@ export const BookDetail = () => {
           });
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
+      .finally(() => setCartLoading(false));
   };
 
   const [open, setOpen] = useState(false);
@@ -229,15 +232,17 @@ export const BookDetail = () => {
               <AddToCartButton
                 disabled={!appState.isUserLoggedIn || !book.quantity}
                 variant="contained"
-                color="secondary"
+                startIcon={<AddShoppingCartIcon />}
+                loading={cartLoading}
+                loadingPosition="start"
                 onClick={addToCartHandler}
               >
                 ADD TO CART
               </AddToCartButton>
               <Button
                 disabled={!appState.isUserLoggedIn || !book.quantity}
-                style={{width: buttonWidth}}
                 variant="contained"
+                startIcon={<ShoppingBasketOutlinedIcon />}
                 onClick={buyBook}
               >
                 BUY NOW
@@ -272,10 +277,10 @@ export const BookDetail = () => {
               {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
             </div>
             {!book.quantity && (
-            <div className={styles.notAvailableMsg}>
-              Sorry, currently item is out of stock
-            </div>
-          )}
+              <div className={styles.notAvailableMsg}>
+                Sorry, currently item is out of stock
+              </div>
+            )}
             <div className={styles.ratingHeading}>
               <div className={styles.title}>
                 Rating {HTML_SPECIAL_CHARS.AND} Reviews

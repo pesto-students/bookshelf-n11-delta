@@ -109,8 +109,9 @@ function AddressConfirmation({handleDelivery}) {
       {hasAddress ? (
         <>
           <div className={styles.address}>
-            Address: {addressInfo.addressLine1}, {addressInfo.city},
-            {addressInfo.state}, PIN: {addressInfo.pincode}
+            <div className={styles.title}>Address: </div>
+              <div>{addressInfo.addressLine1}, {addressInfo.city}</div>
+              <div>{addressInfo.state}, PIN: {addressInfo.pincode}</div>
           </div>
           <div className={styles.buttons}>
             <Button variant="contained" size="small" onClick={handleDelivery}>

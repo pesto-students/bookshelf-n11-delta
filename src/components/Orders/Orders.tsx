@@ -17,17 +17,21 @@ import {useNavigate} from "react-router-dom";
 
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
+import {Overlay} from "../../shared/components";
 import styles from "./Orders.module.scss";
 
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     getUserOrders();
   }, []);
 
-  function getUserOrders() {
+  const getUserOrders = () => {
+    setLoading(true);
     axios
       .get(`${environment.API_URL}/orders`)
       .then(({data}) => {
@@ -35,8 +39,9 @@ export const Orders = () => {
       })
       .catch((error) => {
         console.log(error);
-      });
-  }
+      })
+      .finally(() => setLoading(false));
+  };
 
   // return the view
   return (
@@ -45,7 +50,9 @@ export const Orders = () => {
         <Typography style={{marginLeft: "20px"}} variant="h5">
           My Orders
         </Typography>
-        {orders.length > 0 ? (
+        {isLoading ? (
+          <Overlay showBackdrop={true} />
+        ) : orders.length ? (
           orders.map((order) => (
             <Grid container rowSpacing={0} className={styles.orderOuterBox}>
               <Grid item xs={8}>
