@@ -1,6 +1,5 @@
 import {createContext, useEffect, useReducer, useState} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
-import {AnyObject} from "yup/lib/object";
 
 import {
   AddBook,
@@ -13,16 +12,16 @@ import {
   Footer,
   Header,
   NotFound,
+  Orders,
   StripeContainer,
   UserEntry,
   UserList,
-  Orders,
 } from "../components";
 import {UserProfile} from "../components/UserProfile/UserProfile";
 import axios from "../core/axios";
 import environment from "../Environment/environment";
 import {IAppContext, RootReducer} from "../reducers";
-import {ACCESS_TOKEN, APP_ACTIONS, REFRESH_TOKEN} from "../shared/immutables";
+import {APP_ACTIONS, REFRESH_TOKEN} from "../shared/immutables";
 import {CartItem} from "../shared/models";
 import styles from "./App.module.scss";
 
@@ -48,11 +47,12 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(appState.isSuperAdmin);
 
   useEffect(() => {
-    const data: AnyObject = {};
-    data.token = localStorage.getItem(ACCESS_TOKEN);
-    if (data.token) {
-      data.refreshToken = localStorage.getItem(REFRESH_TOKEN);
-      dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+    if (refreshToken) {
+      axios
+        .post(`${environment.API_URL}/refresh`, {refreshToken})
+        .then(({data}) => dispatchAppAction({type: APP_ACTIONS.LOGIN, data}))
+        .catch((err) => console.log(err));
     }
   }, []);
 
@@ -111,10 +111,10 @@ function App() {
                   <Route path="/books/:id" element={<BookDetail />} />
                   <Route path="/cart" element={<CartList />} />
                   <Route path="/buy" element={<Cart />} />
-                  <Route path="/orders" element={<Orders />} />
                   <Route path="/payment" element={<StripeContainer />} />
                 </>
               )}
+              <Route path="/orders" element={<Orders />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             {!!appState.userEntry && (

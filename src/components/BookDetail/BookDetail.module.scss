@@ -1,11 +1,10 @@
 @import "../../variables";
-$width : 320px;
+$width: 320px;
 $gap: 60px;
 
 .layout {
   display: flex;
   margin: 16px;
-
 
   .imageLayout {
     flex-direction: column;
@@ -17,7 +16,6 @@ $gap: 60px;
 
     margin: 0px 16px;
     position: fixed;
-
 
     .imageBox {
       border: 1px solid $divider;
@@ -58,7 +56,7 @@ $gap: 60px;
         display: flex;
         flex-direction: row;
         margin-bottom: 8px;
-  
+
         .key {
           color: $textGrey;
           text-transform: uppercase;
@@ -70,9 +68,9 @@ $gap: 60px;
           margin: 0px;
           padding-left: 16px;
         }
-        
+
         ul li::before {
-          content: "\2022";  /* Add content: \2022 is the CSS Code/unicode for a bullet */
+          content: "\2022"; /* Add content: \2022 is the CSS Code/unicode for a bullet */
           color: $textGrey;
           font-weight: bold;
           display: inline-block; /* Needed to add space between the bullet and the text */
@@ -80,6 +78,12 @@ $gap: 60px;
           margin-left: -1em; /* Also needed for space (tweak if needed) */
         }
       }
+    }
+
+    .notAvailableMsg {
+      color: red;
+      font-weight: bold;
+      margin-bottom: 8px;
     }
 
     .ratingHeading {
@@ -114,5 +118,3 @@ $gap: 60px;
     }
   }
 }
-
-

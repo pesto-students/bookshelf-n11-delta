@@ -32,4 +32,24 @@
       font-weight: bold;
     }
   }
+
+  .emptyCart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .image {
+      width: 100%;
+    }
+
+    .msg {
+      text-align: center;
+      color: $textGrey;
+      font-weight: bold;
+    }
+
+    .btn {
+      margin: 16px 0px;
+    }
+  }
 }

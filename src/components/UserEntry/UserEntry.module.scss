@@ -8,6 +8,14 @@
   .textField {
     width: 300px;
   }
+  .guestLogin {
+    align-self: flex-end;
+    margin-right: -16px;
+    color: $primary;
+  }
+  .inputIcon {
+    margin-right: 8px;
+  }
 }
 
 .dialog {

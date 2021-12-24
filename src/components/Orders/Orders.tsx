@@ -1,4 +1,3 @@
-import moment from "moment";
 import {
   Container,
   Grid,
@@ -12,8 +11,9 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import moment from "moment";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
@@ -25,13 +25,12 @@ export const Orders = () => {
 
   useEffect(() => {
     getUserOrders();
-  }, [1]);
+  }, []);
 
   function getUserOrders() {
     axios
       .get(`${environment.API_URL}/orders`)
-      .then(({ data }) => {
-        console.log(data);
+      .then(({data}) => {
         setOrders(data.orders);
       })
       .catch((error) => {
@@ -41,9 +40,9 @@ export const Orders = () => {
 
   // return the view
   return (
-    <Container style={{ marginTop: "30px", marginBottom: "30px" }}>
+    <Container style={{marginTop: "30px", marginBottom: "30px"}}>
       <Stack direction="column">
-        <Typography style={{ marginLeft: "20px" }} variant="h5">
+        <Typography style={{marginLeft: "20px"}} variant="h5">
           My Orders
         </Typography>
         {orders.length > 0 ? (
@@ -58,7 +57,7 @@ export const Orders = () => {
                         tableLayout: "fixed",
                       }}
                     >
-                      <TableHead style={{ backgroundColor: "#757ce8" }}>
+                      <TableHead style={{backgroundColor: "#757ce8"}}>
                         <TableRow>
                           <TableCell>#</TableCell>
                           <TableCell align="right">Book Name</TableCell>
@@ -72,14 +71,14 @@ export const Orders = () => {
                             key={orderDetail?.bookId?._id}
                             style={
                               index % 2
-                                ? { background: "#EDEDEF" }
-                                : { background: "white" }
+                                ? {background: "#EDEDEF"}
+                                : {background: "white"}
                             }
                           >
                             <TableCell>{index + 1}</TableCell>
                             <TableCell
                               align="right"
-                              style={{ cursor: "pointer" }}
+                              style={{cursor: "pointer"}}
                               onClick={() => {
                                 navigate(`/`);
                               }}
