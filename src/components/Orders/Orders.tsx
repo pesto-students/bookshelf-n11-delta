@@ -10,16 +10,17 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import moment from "moment";
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+} from '@mui/material';
+import moment from 'moment';
+import {useContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
-import {AppContext} from "../../App/App";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import {Overlay} from "../../shared/components";
-import styles from "./Orders.module.scss";
+import {AppContext} from '../../App/App';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {Overlay} from '../../shared/components';
+import {DASHBOARD_ROUTE} from '../../shared/immutables';
+import styles from './Orders.module.scss';
 
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -27,12 +28,18 @@ export const Orders = () => {
 
   const navigate = useNavigate();
   const {
-    appState: {books},
+    appState: {books, isUserLoggedIn},
   } = useContext(AppContext);
 
   useEffect(() => {
     getUserOrders();
   }, []);
+
+  useEffect(() => {
+    if (!isUserLoggedIn) {
+      navigate(DASHBOARD_ROUTE);
+    }
+  }, [isUserLoggedIn]);
 
   const redirectToBooksPage = (id) => {
     const book = books.find((book) => book._id === id);

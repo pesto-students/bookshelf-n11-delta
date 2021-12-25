@@ -62,7 +62,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
         title: title,
         comment: msg,
       })
-      .then((success) => {
+      .then(() => {
         setValue(null);
         setMsg(null);
         setTitle(null);
