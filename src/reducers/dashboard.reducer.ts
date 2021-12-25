@@ -5,11 +5,16 @@ import {Book, Filter} from "../shared/models";
 export interface IDashboardState {
   books: Book[];
   searchFilteredBooks: Book[];
+  dashboardFilteredBooks: Book[];
   isLoading: boolean;
   sortFilter: SortTypes;
   filteredBooks: Book[];
   appliedFilters: Filter;
+  hasMore: boolean;
 }
+
+// 2 rows by default
+const SCROLL_LIMIT = 8;
 
 export const DashboardReducer = (state: IDashboardState, action) => {
   const newState = {...state};
@@ -21,12 +26,16 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       newState.filteredBooks = [];
       newState.isLoading = true;
       newState.appliedFilters = {};
+      newState.dashboardFilteredBooks = [];
+      newState.hasMore = true;
       break;
     case DASHBOARD_ACTIONS.SET_ALL_BOOKS:
       newState.books = [...data];
       newState.searchFilteredBooks = [...data];
       newState.filteredBooks = [...data];
       newState.isLoading = false;
+      newState.hasMore = data.length > SCROLL_LIMIT;
+      updateDashboardFilteredBooks(newState);
       break;
     case DASHBOARD_ACTIONS.SEARCH_BOOKS:
       if (!!action.searchOn) {
@@ -36,6 +45,7 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       } else {
         newState.searchFilteredBooks = newState.filteredBooks;
       }
+      updateDashboardFilteredBooks(newState);
       break;
     case DASHBOARD_ACTIONS.SORT_ACTION:
       newState.sortFilter = data;
@@ -49,6 +59,10 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       newState.filteredBooks = [...newState.books];
       newState.searchFilteredBooks = [...newState.books];
       newState.appliedFilters = {};
+      updateDashboardFilteredBooks(newState);
+      break;
+    case DASHBOARD_ACTIONS.UPDATE_DASHBOARD_SCROLL:
+      handleDashboardScroll(newState);
       break;
     default:
       // do nothing
@@ -91,4 +105,26 @@ const applySort = (state: IDashboardState) => {
   } else {
     state.searchFilteredBooks = [...state.filteredBooks];
   }
+  updateDashboardFilteredBooks(state);
+};
+
+const updateDashboardFilteredBooks = (state: IDashboardState) => {
+  let length = state.dashboardFilteredBooks.length;
+  if (!length) {
+    length = Math.min(SCROLL_LIMIT, state.searchFilteredBooks.length);
+  }
+  state.hasMore = state.searchFilteredBooks.length > state.dashboardFilteredBooks.length;
+  state.dashboardFilteredBooks = state.searchFilteredBooks.slice(0, length);
+};
+
+const handleDashboardScroll = (state) => {
+  if (state.dashboardFilteredBooks.length >= state.searchFilteredBooks.length) {
+    state.hasMore = false;
+    return;
+  }
+  const length = state.dashboardFilteredBooks.length;
+  state.dashboardFilteredBooks = state.searchFilteredBooks.slice(
+    0,
+    length + SCROLL_LIMIT
+  );
 };

@@ -1,21 +1,22 @@
 import {Button, MenuItem, Select} from "@material-ui/core";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
-import axios from "../../core/axios";
-import {useContext, useState, useEffect, useReducer} from "react";
-import environment from "../../Environment/environment";
+import {useContext, useEffect, useReducer, useState} from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
+import info from "../../assets/info.png";
+import axios from "../../core/axios";
+import environment from "../../Environment/environment";
 import {DashboardReducer, IDashboardState} from "../../reducers";
 import {Overlay} from "../../shared/components";
 import {SortTypes} from "../../shared/enums";
 import {APP_ACTIONS, DASHBOARD_ACTIONS} from "../../shared/immutables";
 import {Book} from "../../shared/models";
 import {BookCard} from "../BookCard/BookCard";
-import styles from "./Dashboard.module.scss";
 import FilterDrawer from "../FilterDrawer/FilterDrawer";
-import info from "../../assets/info.png";
+import styles from "./Dashboard.module.scss";
 
 const emptyBooksList: Book[] = [];
 
@@ -23,9 +24,11 @@ const initialDashboardState: IDashboardState = {
   books: emptyBooksList,
   searchFilteredBooks: emptyBooksList,
   filteredBooks: emptyBooksList,
+  dashboardFilteredBooks: emptyBooksList,
   isLoading: true,
   sortFilter: SortTypes.RELEVANCE,
   appliedFilters: {},
+  hasMore: true,
 };
 
 export const Dashboard = () => {
@@ -36,6 +39,12 @@ export const Dashboard = () => {
   const [state, dispatch] = useReducer(DashboardReducer, initialDashboardState);
 
   const [filterState, setFilterState] = useState(false);
+
+  const fetchMoreData = () => {
+    setTimeout(() => {
+      dispatch({type: DASHBOARD_ACTIONS.UPDATE_DASHBOARD_SCROLL});
+    }, environment.LOADING_DELAY);
+  };
 
   const handleChange = (event) => {
     dispatch({
@@ -77,16 +86,31 @@ export const Dashboard = () => {
     });
   }, [searchText]);
 
-  const {isLoading, sortFilter, searchFilteredBooks} = state;
+  const {
+    isLoading,
+    sortFilter,
+    searchFilteredBooks,
+    hasMore,
+    dashboardFilteredBooks,
+  } = state;
+
+  const gridLoader = <div className={styles.booksGridLoader}>Loading...</div>;
 
   const booksGrid = (
-    <Grid container className={styles.booksGrid} spacing={2}>
-      {searchFilteredBooks.map((book) => (
-        <Grid item key={book._id.toString()} xs={3}>
-          <BookCard book={book} />
-        </Grid>
-      ))}
-    </Grid>
+    <InfiniteScroll
+      dataLength={dashboardFilteredBooks.length}
+      next={fetchMoreData}
+      hasMore={hasMore}
+      loader={gridLoader}
+    >
+      <Grid container className={styles.booksGrid} spacing={2}>
+        {dashboardFilteredBooks.map((book) => (
+          <Grid item key={book._id.toString()} xs={3}>
+            <BookCard book={book} />
+          </Grid>
+        ))}
+      </Grid>
+    </InfiniteScroll>
   );
 
   return (
