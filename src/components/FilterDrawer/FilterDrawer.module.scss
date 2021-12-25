@@ -2,18 +2,19 @@
 @import "../../variables";
 
 .container {
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    @include mixins.fxLayoutGap(16px);
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  @include mixins.fxLayoutGap(16px);
 
-    .heading {
-        color: $primary;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
+  .heading {
+    color: $primary;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 
-    .priceSlider {
-        margin-left: 16px;
-    }
+  .priceSlider {
+    margin-left: 16px;
+    width: 90%;
+  }
 }

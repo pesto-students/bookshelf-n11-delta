@@ -1,4 +1,3 @@
-import {Filter1Rounded} from "@material-ui/icons";
 import {Divider} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -21,23 +20,27 @@ const enum CheckBoxType {
 
 function FilterDrawer({open, handleClose, dispatchFilterAction}) {
   const [priceCheckbox, setPriceCheckbox] = useState(false);
-  const [price, setPrice] = useState<number[]>([0, 1000]);
+  const [price, setPrice] = useState<number[]>([0, 100]);
   const [lang, setLang] = useState([]);
   const [categories, setCategories] = useState([]);
   const [langCheckedState, setLangCheckedState] = useState([]);
   const [categoryCheckedState, setCategoryCheckedState] = useState([]);
+  const [maxPrice, setMaxPrice] = useState(0);
 
   const {appState} = useContext(AppContext);
 
   useEffect(() => {
     const langSet = new Set();
     const categorySet = new Set();
+    let max = 0;
     appState.books?.forEach((book) => {
       langSet.add(book.language);
       categorySet.add(book.category);
+      max = Math.max(max, book.price);
     });
     setLang(Array.from(langSet));
     setCategories(Array.from(categorySet));
+    setMaxPrice(max);
   }, [appState.books]);
 
   useEffect(() => {
@@ -48,7 +51,6 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
     setCategoryCheckedState(new Array(categories.length).fill(false));
   }, [categories]);
 
-  const MAX_PRICE_VALUE = 10000;
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
     setPrice(newValue as number[]);
   };
@@ -167,7 +169,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
           label="PRICE"
         />
         <Slider
-          max={MAX_PRICE_VALUE}
+          max={maxPrice}
           value={price}
           className={styles.priceSlider}
           onChange={handlePriceChange}

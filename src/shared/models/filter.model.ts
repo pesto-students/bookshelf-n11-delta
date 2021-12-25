@@ -5,10 +5,4 @@ export class Filter {
   };
   language?: string[];
   category?: string[];
-
-  constructor(data: Partial<Filter> = {}) {
-  //   this.price = {};
-  //   this.language = data.language;
-  //   this.category = data.category;
-  }
 }
