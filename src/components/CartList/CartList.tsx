@@ -1,21 +1,28 @@
 import {Button, Divider, Paper} from "@mui/material";
-import {useContext} from "react";
-import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useContext, useEffect} from "react";
+import {Link, useNavigate} from "react-router-dom";
 
 import {AppContext} from "../../App/App";
+import emptyCart from "../../assets/empty-cart.jpeg";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
 import {BookCartTile} from "../../shared/components";
-import {APP_ACTIONS} from "../../shared/immutables";
+import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
 import styles from "./CartList.module.scss";
-import emptyCart from "../../assets/empty-cart.jpeg"
+
 export const CartList = () => {
   const navigate = useNavigate();
 
   const {
-    appState: {cartItems},
+    appState: {cartItems, isUserLoggedIn},
     dispatchAppAction,
   } = useContext(AppContext);
+
+  useEffect(() => {
+    if (!isUserLoggedIn) {
+      navigate(DASHBOARD_ROUTE);
+    }
+  }, [isUserLoggedIn]);
 
   const qtyUpdate = (id, value) => {
     const orderDetails = [];
@@ -51,9 +58,7 @@ export const CartList = () => {
     <div className={styles.layout}>
       <Paper elevation={2}>
         <div className={styles.header}>
-          <div className={styles.title}>
-            My Cart ({cartItems.length})
-          </div>
+          <div className={styles.title}>My Cart ({cartItems.length})</div>
           <Button
             variant="contained"
             onClick={checkout}
@@ -74,15 +79,18 @@ export const CartList = () => {
             </div>
           ))
         ) : (
-              <div className={styles.emptyCart}>
-              <img src={emptyCart} alt="empty-cart" className={styles.banner} />
-              <div className={styles.msg}>
-                Your cart is currently empty
-              </div>
-              <Button className={styles.btn} component={Link} to="/" variant="contained">
-                CONTINUE SHOPPING
-              </Button>
-            </div>
+          <div className={styles.emptyCart}>
+            <img src={emptyCart} alt="empty-cart" className={styles.banner} />
+            <div className={styles.msg}>Your cart is currently empty</div>
+            <Button
+              className={styles.btn}
+              component={Link}
+              to="/"
+              variant="contained"
+            >
+              CONTINUE SHOPPING
+            </Button>
+          </div>
         )}
       </Paper>
     </div>

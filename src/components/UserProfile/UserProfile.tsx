@@ -3,11 +3,13 @@ import {Button, Grid, Stack, styled, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {motion} from "framer-motion";
 import {useContext, useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {object, string} from "yup";
 
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
+import {DASHBOARD_ROUTE} from "../../shared/immutables";
 import styles from "./UserProfile.module.scss";
 
 export const UserProfile = () => {
@@ -25,6 +27,7 @@ export const UserProfile = () => {
   const [formDisabled, setFormDisabled] = useState(true);
 
   const [userInfo, setUserInfo] = useState(initialProfileData);
+  const navigate = useNavigate();
 
   const Input = styled("input")({
     display: "none",
@@ -35,6 +38,12 @@ export const UserProfile = () => {
   useEffect(() => {
     getUserInfo();
   }, [appState.user]);
+
+  useEffect(() => {
+    if (!appState.isUserLoggedIn) {
+      navigate(DASHBOARD_ROUTE);
+    }
+  }, [appState.isUserLoggedIn]);
 
   function getUserInfo() {
     const user = appState.user ?? {};

@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import {Fragment, useContext, useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {toast} from "react-toastify";
 
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
@@ -33,7 +32,6 @@ import {Book, CartItem, ChartRating, Review} from "../../shared/models";
 import RatingPopup from "../RatingPopup/RatingPopup";
 import styles from "./BookDetail.module.scss";
 
-toast.configure();
 export const BookDetail = () => {
   const {id} = useParams();
   const location = useLocation();
@@ -44,6 +42,7 @@ export const BookDetail = () => {
   const [reviews, setReviews] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
+  const [inCart, setInCart] = useState(false);
 
   const {appState, dispatchAppAction} = useContext(AppContext);
 
@@ -68,6 +67,11 @@ export const BookDetail = () => {
       createChartRating();
     }
   }, [reviews]);
+
+  useEffect(() => {
+    const isPresent = appState.cartItems.some((item) => item._id === book._id);
+    setInCart(isPresent);
+  }, [appState.cartItems]);
 
   function getBookDetails() {
     if (!book) {
@@ -166,18 +170,23 @@ export const BookDetail = () => {
     }
   };
 
+  const navigateToCart = () => {
+    navigate("/cart");
+  };
+
   const addToCartHandler = () => {
+    if (inCart) {
+      navigateToCart();
+      return;
+    }
+
     const orderDetails = [];
     setCartLoading(true);
-    const item = appState.cartItems.find(
-      (cartItem) => cartItem._id === book._id
-    );
-    const quantity = (item?.qtyOrdered ?? 0) + 1;
 
     orderDetails.push({
       bookId: book._id,
       price: book.price,
-      quantity,
+      quantity: 1,
     });
     appState.cartItems.forEach((item) => {
       if (item._id !== id) {
@@ -191,24 +200,15 @@ export const BookDetail = () => {
     axios
       .patch(`${environment.API_URL}/cart`, {orderDetails})
       .then(() => {
-        toast.success(
-          `${book.title} with quantity: ${quantity} added to cart successfully`
-        );
-        if (!!item) {
-          dispatchAppAction({
-            type: APP_ACTIONS.UPDATE_CART,
-            data: {id: book._id, value: quantity},
-          });
-        } else {
-          const item = new CartItem({
-            ...book,
-            qtyOrdered: quantity,
-          });
-          dispatchAppAction({
-            type: APP_ACTIONS.UPDATE_CART,
-            data: {item, action: ADD_ITEM_TO_CART},
-          });
-        }
+        const item = new CartItem({
+          ...book,
+          qtyOrdered: 1,
+        });
+        dispatchAppAction({
+          type: APP_ACTIONS.UPDATE_CART,
+          data: {item, action: ADD_ITEM_TO_CART},
+        });
+        navigateToCart();
       })
       .catch((err) => console.log(err))
       .finally(() => setCartLoading(false));
@@ -237,7 +237,7 @@ export const BookDetail = () => {
                 loadingPosition="start"
                 onClick={addToCartHandler}
               >
-                ADD TO CART
+                {inCart ? "GO TO CART" : "ADD TO CART"}
               </AddToCartButton>
               <Button
                 disabled={!appState.isUserLoggedIn || !book.quantity}
