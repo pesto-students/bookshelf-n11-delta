@@ -71,7 +71,7 @@ export const Orders = () => {
     <Container style={{marginTop: "30px", marginBottom: "30px"}}>
       <Stack direction="column">
         <Typography style={{marginLeft: "20px"}} variant="h5">
-          My Orders
+          Orders
         </Typography>
         {isLoading ? (
           <Overlay showBackdrop={true} />
