@@ -1,10 +1,23 @@
 import CloseIcon from "@mui/icons-material/Close";
-import {Dialog, DialogContent, DialogTitle} from "@mui/material";
+import {Dialog, DialogContent, DialogTitle, Slide} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import {styled} from "@mui/material/styles";
+import {TransitionProps} from "@mui/material/transitions";
+import React, {forwardRef} from "react";
 
 import styles from "./GenericDialog.module.scss";
 import {GenericDialogProps} from "./GenericDialogProps";
+
+const Transition = forwardRef(function Transition(
+  props: TransitionProps & {
+    children: React.ReactElement<any, any>;
+  },
+  ref: React.Ref<unknown>
+) {
+  return (
+    <Slide direction="down" mountOnEnter unmountOnExit ref={ref} {...props} />
+  );
+});
 
 const StyledDialog = styled(Dialog)(({theme}) => ({
   "& .MuiPaper-root": {
@@ -56,10 +69,18 @@ export const GenericDialog = (props: GenericDialogProps) => {
   };
 
   return (
-    <StyledDialog onClose={handleClose} open={props.open}>
+    <StyledDialog
+      {...(props.addAnimation ? {TransitionComponent: Transition} : null)}
+      onClose={handleClose}
+      open={props.open}
+    >
       <div
         className={styles.dialog}
-        style={props.image ? {backgroundImage: `url(${props.image})`, height: "500px"} : {}}
+        style={
+          props.image
+            ? {backgroundImage: `url(${props.image})`, height: "500px"}
+            : {}
+        }
       >
         <DialogHeader id="title" className={styles.title} onClose={handleClose}>
           {props.title}
