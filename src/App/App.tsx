@@ -13,7 +13,9 @@ import {
   Header,
   NotFound,
   Orders,
+  Payments,
   StripeContainer,
+  TermsAndConditions,
   UserEntry,
   UserList,
 } from "../components";
@@ -115,6 +117,8 @@ function App() {
                 </>
               )}
               <Route path="/orders" element={<Orders />} />
+              <Route path="/terms" element={<TermsAndConditions />} />
+              <Route path="/payments" element={<Payments />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
             {!!appState.userEntry && (

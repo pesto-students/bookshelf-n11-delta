@@ -5,10 +5,9 @@ import styles from "./Footer.module.scss";
 
 function FooterLayout() {
   const links = [
-    {title: "ABOUT US", href: ""},
-    {title: "TERMS & CONDITIONS", href: ""},
-    {title: "COPYRIGHT", href: ""},
-    {title: "FACEBOOK", href: ""},
+    {title: "ABOUT US", href: "/about"},
+    {title: "TERMS & CONDITIONS", href: "/terms"},
+    {title: "PAYMENTS", href: "/payments"},
   ];
 
   return (
