@@ -44,6 +44,7 @@
     "start": "react-scripts start",
     "start-dev": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
+    "heroku-postbuild": "yarn build --prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "commit": "git-cz",
@@ -80,9 +81,5 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
-  },
-  "engines": {
-    "node": "14.13.0",
-    "npm": "6.14.8"
   }
 }

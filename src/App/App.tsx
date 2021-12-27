@@ -70,9 +70,8 @@ function App() {
       axios
         .get(`${environment.API_URL}/cart`)
         .then(({data}) => {
-          const {orderDetails} = data;
           const items = [];
-          orderDetails.forEach((order) => {
+          data?.orderDetails.forEach((order) => {
             const cartItem: Partial<CartItem> = {
               ...order.bookId,
               id: order._id,
