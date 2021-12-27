@@ -3,6 +3,7 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
 import {useContext, useEffect, useReducer, useState} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Carousel from "react-material-ui-carousel";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
@@ -16,6 +17,7 @@ import {APP_ACTIONS, DASHBOARD_ACTIONS} from "../../shared/immutables";
 import {Book} from "../../shared/models";
 import {BookCard} from "../BookCard/BookCard";
 import FilterDrawer from "../FilterDrawer/FilterDrawer";
+import {CAROUSEL_IMAGES} from "./carousel-images";
 import styles from "./Dashboard.module.scss";
 
 const emptyBooksList: Book[] = [];
@@ -115,11 +117,18 @@ export const Dashboard = () => {
 
   return (
     <>
-      <img src={banner} alt="banner" className={styles.banner} />
       {isLoading ? (
-        <Overlay showBackdrop={true} />
+        <>
+          <img src={banner} className={styles.banner} alt="banner" />
+          <Overlay showBackdrop={true} />
+        </>
       ) : (
         <>
+          <Carousel stopAutoPlayOnHover={true}>
+            {CAROUSEL_IMAGES.map((item, i) => (
+              <img src={item} className={styles.banner} alt="banner" key={i} />
+            ))}
+          </Carousel>
           <div className={styles.toolbar}>
             <Button
               onClick={() => setFilterState(!filterState)}

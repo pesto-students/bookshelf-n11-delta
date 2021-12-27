@@ -14,6 +14,7 @@ import {Fragment, useContext, useEffect, useState} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
 
 import {AppContext} from "../../App/App";
+import noReviews from "../../assets/no-reviews.svg";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
 import {
@@ -301,7 +302,10 @@ export const BookDetail = () => {
                   ))}
                 </>
               ) : (
-                <div className={styles.noRatingMsg}>No reviews available</div>
+                <div className={styles.noReviews}>
+                  <img src={noReviews} className={styles.image} alt="" />
+                  <div className={styles.noRatingMsg}>No reviews available</div>
+                </div>
               )
             ) : (
               <Overlay showBackdrop={false} />

@@ -4,11 +4,11 @@
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  padding: 8px 0px;
 }
 
 .appName {
-  color: $white;
-  font-weight: bold;
+  height: 30px;
   cursor: pointer;
 }
 
