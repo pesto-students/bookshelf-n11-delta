@@ -1,19 +1,26 @@
 import {useEffect, useState} from "react";
 import {Chart} from "react-google-charts";
 import {ChartWrapperOptions} from "react-google-charts/dist/types";
+import {RATING_MAP} from "../../immutables";
 
 import {ChartRating} from "../../models";
 import {Overlay} from "../Overlay/Overlay";
 import styles from "./RatingChart.module.scss";
 
-const initialData = [
-  ["Stars", "Number of reviews", {role: "style"}],
-  ["1 ★", 0, "color: red"],
-  ["2 ★", 0, "color: red"],
-  ["3 ★", 0, "color: orange"],
-  ["4 ★", 0, "color: green"],
-  ["5 ★", 0, "color: green"],
-];
+// data for BAR CHART
+const headerData = [["Stars", "Number of reviews", {role: "style"}]];
+
+const initialData = [1, 2, 3, 4, 5].reduce((acc, item) => {
+  const rowData = [`${item} ★`, 0, `color: ${RATING_MAP[item - 1]}`];
+  acc.push(rowData);
+  return acc;
+}, headerData as any[]);
+
+// data for PIE CHART
+const slices = RATING_MAP.reduce((acc, item, index) => {
+  const color = item;
+  return {...acc, ...{[index]: {color}}};
+}, {});
 
 const options: ChartWrapperOptions["options"] = {
   legend: "none",
@@ -57,9 +64,7 @@ export const RatingChart = ({
         chartType="PieChart"
         loader={<Overlay showBackdrop={true} />}
         data={data}
-        options={{
-          is3D: true,
-        }}
+        options={{is3D: true, slices}}
       />
       <Chart
         chartType="BarChart"

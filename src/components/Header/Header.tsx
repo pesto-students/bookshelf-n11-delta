@@ -5,7 +5,7 @@ import SearchBar from "material-ui-search-bar";
 import {useContext} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
-
+import logo from "../../assets/bookshelf.svg";
 import {AppContext} from "../../App/App";
 import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
 import styles from "./Header.module.scss";
@@ -50,14 +50,13 @@ export const Header = () => {
   return (
     <div className={styles.headerGroup}>
       <div className={styles.header}>
-        <h3
+        <img
           className={styles.appName}
+          src={logo}
           onClick={() => {
             navigate(DASHBOARD_ROUTE);
           }}
-        >
-          BOOKSHELF
-        </h3>
+        />
         {!appState.isSuperAdmin && (
           <SearchBar
             style={{

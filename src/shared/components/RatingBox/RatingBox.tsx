@@ -1,11 +1,10 @@
 import Box from "@mui/material/Box";
 import React from "react";
 
-import {HTML_SPECIAL_CHARS} from "../../immutables";
+import {HTML_SPECIAL_CHARS, RATING_MAP} from "../../immutables";
 import styles from "./RatingBox.module.scss";
 
 const GREY_COLOR = "#808080";
-const RATING_MAP = ["red", "red", "orange", "green", "green"];
 
 function RatingBox(props) {
   const rating = props.rating;
