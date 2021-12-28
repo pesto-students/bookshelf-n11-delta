@@ -29,7 +29,8 @@ export const BookCard = (props) => {
     <Paper elevation={3}>
       <motion.div
         className={styles.card}
-        whileHover={{}}
+        whileHover={{scale: 1.05}}
+        whileTap={{scale: 0.9}}
         onClick={() => {
           navigate(`/books/${_id}`, {
             state: {
@@ -38,7 +39,7 @@ export const BookCard = (props) => {
           });
         }}
       >
-        <Card sx={{maxWidth: 345, height: 300}}>
+        <Card sx={{width: 336, height: 300}}>
           <CardMedia
             className={classes.media}
             component="img"

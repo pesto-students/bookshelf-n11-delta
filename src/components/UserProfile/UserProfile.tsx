@@ -1,5 +1,5 @@
 import EditIcon from "@mui/icons-material/Edit";
-import {Button, Grid, Stack, styled, TextField} from "@mui/material";
+import {Button, Grid, Paper, Stack, styled, TextField} from "@mui/material";
 import {Formik} from "formik";
 import {motion} from "framer-motion";
 import {useContext, useEffect, useState} from "react";
@@ -120,131 +120,133 @@ export const UserProfile = () => {
   };
 
   return (
-    <Stack spacing={2} direction="row" className={styles.profileLayout}>
-      <motion.div
-        className={styles.imageLayout}
-        initial={{opacity: 0}}
-        animate={{scale: [1, 1.2, 1], opacity: [0.5, 0.5, 1]}}
-        transition={{ease: "easeOut", duration: 1}}
-      >
-        <label htmlFor="avatar">
-          <Input
-            accept="image/*"
-            id="avatar"
-            type="file"
-            onChange={onFileChange}
-            disabled={true}
-          />
-          <div className={styles.avatarContainer}>
-            {!!iconFile.url && <img src={iconFile.url} />}
-          </div>
-        </label>
-        <div className={styles.greetingMsg}>Hello {userInfo.name}</div>
-      </motion.div>
-      <div className={styles.infoLayout}>
-        {userInfo.display && (
-          <>
-            <div className={styles.heading}>
-              <div className={styles.title}>PERSONAL INFORMATION</div>
-              <EditIcon onClick={() => setFormDisabled(!formDisabled)} />
+    <Paper elevation={2} className={styles.profileLayout}>
+      <Stack spacing={2} direction="row">
+        <motion.div
+          className={styles.imageLayout}
+          initial={{opacity: 0}}
+          animate={{scale: [1, 1.2, 1], opacity: [0.5, 0.5, 1]}}
+          transition={{ease: "easeOut", duration: 1}}
+        >
+          <label htmlFor="avatar">
+            <Input
+              accept="image/*"
+              id="avatar"
+              type="file"
+              onChange={onFileChange}
+              disabled={true}
+            />
+            <div className={styles.avatarContainer}>
+              {!!iconFile.url && <img src={iconFile.url} />}
             </div>
-            <Formik
-              initialValues={userInfo}
-              onSubmit={(values, actions) => handleSubmit(values, actions)}
-              validationSchema={profileValidationSchema}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <form className={styles.form} onSubmit={handleSubmit}>
-                  <Grid container spacing={2}>
-                    {TextWrappedInGrid(
-                      8,
-                      "name",
-                      "Name",
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      "email",
-                      "Email",
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                      true
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      "address",
-                      "Address",
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      "city",
-                      "City",
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      "state",
-                      "State",
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      "pin",
-                      "Pin code",
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors
-                    )}
-                    <Grid item xs={8}>
-                      <Button
-                        style={{minWidth: "150px"}}
-                        type="submit"
-                        color="primary"
-                        size="medium"
-                        variant="contained"
-                        disabled={isSubmitting || formDisabled}
-                      >
-                        Save
-                      </Button>
+          </label>
+          <div className={styles.greetingMsg}>Hello {userInfo.name}</div>
+        </motion.div>
+        <div className={styles.infoLayout}>
+          {userInfo.display && (
+            <>
+              <div className={styles.heading}>
+                <div className={styles.title}>PERSONAL INFORMATION</div>
+                <EditIcon onClick={() => setFormDisabled(!formDisabled)} />
+              </div>
+              <Formik
+                initialValues={userInfo}
+                onSubmit={(values, actions) => handleSubmit(values, actions)}
+                validationSchema={profileValidationSchema}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  isSubmitting,
+                }) => (
+                  <form className={styles.form} onSubmit={handleSubmit}>
+                    <Grid container spacing={2}>
+                      {TextWrappedInGrid(
+                        8,
+                        "name",
+                        "Name",
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors
+                      )}
+                      {TextWrappedInGrid(
+                        8,
+                        "email",
+                        "Email",
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors,
+                        true
+                      )}
+                      {TextWrappedInGrid(
+                        8,
+                        "address",
+                        "Address",
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors
+                      )}
+                      {TextWrappedInGrid(
+                        8,
+                        "city",
+                        "City",
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors
+                      )}
+                      {TextWrappedInGrid(
+                        8,
+                        "state",
+                        "State",
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors
+                      )}
+                      {TextWrappedInGrid(
+                        8,
+                        "pin",
+                        "Pin code",
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors
+                      )}
+                      <Grid item xs={8}>
+                        <Button
+                          style={{minWidth: "150px"}}
+                          type="submit"
+                          color="primary"
+                          size="medium"
+                          variant="contained"
+                          disabled={isSubmitting || formDisabled}
+                        >
+                          Save
+                        </Button>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </form>
-              )}
-            </Formik>
-          </>
-        )}
-      </div>
-    </Stack>
+                  </form>
+                )}
+              </Formik>
+            </>
+          )}
+        </div>
+      </Stack>
+    </Paper>
   );
 };
 

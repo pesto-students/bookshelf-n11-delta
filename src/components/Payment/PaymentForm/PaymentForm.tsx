@@ -1,4 +1,4 @@
-import {Button} from "@mui/material";
+import {Button, Paper} from "@mui/material";
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 import {StripeCardElementOptions} from "@stripe/stripe-js";
 import {useContext, useState} from "react";
@@ -103,7 +103,7 @@ export const PaymentForm = ({amount, products}) => {
   return (
     <>
       {!success ? (
-        <div className={styles.layout}>
+        <Paper elevation={2} className={styles.layout}>
           <div className={styles.cardDetailsMsg}>
             Please enter card details to process payment of{" "}
             {HTML_SPECIAL_CHARS.RUPEE} {amount}
@@ -137,7 +137,7 @@ export const PaymentForm = ({amount, products}) => {
             </div>
           </form>
           <img src={payment} className={styles.image} />
-        </div>
+        </Paper>
       ) : (
         <GenericDialog
           open={open}

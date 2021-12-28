@@ -3,7 +3,8 @@ import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
 import {useContext, useEffect, useReducer, useState} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Carousel from "react-material-ui-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import {Carousel} from "react-responsive-carousel";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
@@ -107,7 +108,7 @@ export const Dashboard = () => {
     >
       <Grid container className={styles.booksGrid} spacing={2}>
         {dashboardFilteredBooks.map((book) => (
-          <Grid item key={book._id.toString()} xs={3}>
+          <Grid item key={book._id.toString()}>
             <BookCard book={book} />
           </Grid>
         ))}
@@ -124,9 +125,9 @@ export const Dashboard = () => {
         </>
       ) : (
         <>
-          <Carousel stopAutoPlayOnHover={true}>
+          <Carousel showThumbs={false} showStatus={false} autoPlay={true} infiniteLoop={true}>
             {CAROUSEL_IMAGES.map((item, i) => (
-              <img src={item} className={styles.banner} alt="banner" key={i} />
+              <img key={i} src={item} className={styles.banner} alt="banner" />
             ))}
           </Carousel>
           <div className={styles.toolbar}>

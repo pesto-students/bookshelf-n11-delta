@@ -2,7 +2,7 @@ import Backdrop from "@mui/material/Backdrop";
 import CircularProgress from "@mui/material/CircularProgress";
 import styles from "./Overlay.module.scss";
 
-export function Overlay({ showBackdrop }) {
+export function Overlay({ showBackdrop = false }) {
   if (!!showBackdrop) {
     return (
       <Backdrop

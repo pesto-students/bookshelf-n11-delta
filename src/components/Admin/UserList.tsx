@@ -1,5 +1,4 @@
 import {
-  Container,
   Grid,
   Paper,
   Stack,
@@ -14,10 +13,11 @@ import {
   Typography,
 } from "@mui/material";
 import SearchBar from "material-ui-search-bar";
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 
-import styles from "./Admin.module.scss";
 import environment from "../../Environment/environment";
+import {Overlay} from "../../shared/components";
+import styles from "./Admin.module.scss";
 
 export const UserList = () => {
   // State for saving User records to display
@@ -66,102 +66,110 @@ export const UserList = () => {
 
   // return the view
   return (
-    <Container style={{ padding: "40px 0 40px 0" }}>
-      <Grid container rowSpacing={5}>
-        <Grid item xs={12}>
-          <div
-            style={{
-              border: "2px solid #e5e5e5",
-              padding: "25px",
-              borderRadius: "5px",
-            }}
-          >
-            <Stack direction="column" spacing={2}>
-              <Stack
-                direction="row"
-                spacing={4}
-                justifyContent="space-between"
-                alignItems="center"
+    <>
+      {!!userRecords.length ? (
+        <Paper className={styles.layout} elevation={2}>
+          <Grid container rowSpacing={5}>
+            <Grid item xs={12}>
+              <div
+                style={{
+                  border: "2px solid #e5e5e5",
+                  padding: "25px",
+                  borderRadius: "5px",
+                }}
               >
-                <Typography variant="h5">Users</Typography>
-                <SearchBar
-                  onChange={(searchVal) => requestSearch(searchVal)}
-                  onCancelSearch={() => cancelSearch()}
-                  className={styles.searchBarUsers}
-                />
-              </Stack>
-              <Paper elevation={0}>
-                <TableContainer>
-                  <Table
-                    size="small"
-                    aria-label="a dense table"
-                    sx={{
-                      [`& .${tableCellClasses.root}`]: {
-                        borderBottom: "none",
-                      },
-                    }}
+                <Stack direction="column" spacing={2}>
+                  <Stack
+                    direction="row"
+                    spacing={4}
+                    justifyContent="space-between"
+                    alignItems="center"
                   >
-                    <TableHead style={{ backgroundColor: "#8e99d7" }}>
-                      <TableRow>
-                        <TableCell>#</TableCell>
-                        <TableCell align="right">Username</TableCell>
-                        <TableCell align="right">Email</TableCell>
-                        <TableCell align="right">Address Line 1</TableCell>
-                        <TableCell align="right">City</TableCell>
-                        <TableCell align="right">State</TableCell>
-                        <TableCell align="right">Pincode</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {rows
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage
-                        )
-                        .map((row, index) => (
-                          <TableRow
-                            key={row._id}
-                            style={
-                              index % 2
-                                ? { background: "#EDEDEF" }
-                                : { background: "white" }
-                            }
-                          >
-                            <TableCell component="th" scope="row">
-                              {index + 1}
-                            </TableCell>
-                            <TableCell align="right">{row.username}</TableCell>
-                            <TableCell align="right">{row.email}</TableCell>
-                            <TableCell align="right">
-                              {row.addresses?.[0]?.addressLine1}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.addresses?.[0]?.city}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.addresses?.[0]?.state}
-                            </TableCell>
-                            <TableCell align="right">
-                              {row.addresses?.[0]?.pincode}
-                            </TableCell>
+                    <Typography variant="h5">Users</Typography>
+                    <SearchBar
+                      onChange={(searchVal) => requestSearch(searchVal)}
+                      onCancelSearch={() => cancelSearch()}
+                      className={styles.searchBarUsers}
+                    />
+                  </Stack>
+                  <Paper elevation={0}>
+                    <TableContainer>
+                      <Table
+                        size="small"
+                        aria-label="a dense table"
+                        sx={{
+                          [`& .${tableCellClasses.root}`]: {
+                            borderBottom: "none",
+                          },
+                        }}
+                      >
+                        <TableHead style={{backgroundColor: "#8e99d7"}}>
+                          <TableRow>
+                            <TableCell>#</TableCell>
+                            <TableCell align="right">Username</TableCell>
+                            <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Address Line 1</TableCell>
+                            <TableCell align="right">City</TableCell>
+                            <TableCell align="right">State</TableCell>
+                            <TableCell align="right">Pincode</TableCell>
                           </TableRow>
-                        ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination
-                  rowsPerPageOptions={[]}
-                  component="div"
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onPageChange={handleChangePage}
-                />
-              </Paper>
-            </Stack>
-          </div>
-        </Grid>
-      </Grid>
-    </Container>
+                        </TableHead>
+                        <TableBody>
+                          {rows
+                            .slice(
+                              page * rowsPerPage,
+                              page * rowsPerPage + rowsPerPage
+                            )
+                            .map((row, index) => (
+                              <TableRow
+                                key={row._id}
+                                style={
+                                  index % 2
+                                    ? {background: "#EDEDEF"}
+                                    : {background: "white"}
+                                }
+                              >
+                                <TableCell component="th" scope="row">
+                                  {index + 1}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.username}
+                                </TableCell>
+                                <TableCell align="right">{row.email}</TableCell>
+                                <TableCell align="right">
+                                  {row.addresses?.[0]?.addressLine1}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.addresses?.[0]?.city}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.addresses?.[0]?.state}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {row.addresses?.[0]?.pincode}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                    <TablePagination
+                      rowsPerPageOptions={[]}
+                      component="div"
+                      count={rows.length}
+                      rowsPerPage={rowsPerPage}
+                      page={page}
+                      onPageChange={handleChangePage}
+                    />
+                  </Paper>
+                </Stack>
+              </div>
+            </Grid>
+          </Grid>
+        </Paper>
+      ) : (
+        <Overlay showBackdrop={true} />
+      )}
+    </>
   );
 };

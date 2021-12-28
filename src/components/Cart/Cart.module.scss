@@ -5,31 +5,39 @@
   margin: 16px 64px 16px 64px;
 }
 
-.layout {
+.paper {
   display: flex;
-
-  .leftLayout {
-    flex: 3;
-  }
-
-  .rightLayout {
-    flex: 2;
+  flex-direction: column;
+  margin: 16px;
+  padding: 16px;
+  
+  .layout {
     display: flex;
-    flex-direction: column;
-    @include mixins.fxLayoutGap();
-  }
-
-  .borderLayoutBox {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border: 1px solid $divider;
-    border-radius: 4px;
-    margin: 16px;
-    padding: 16px;
-
-    .boldText {
-      font-weight: bold;
+  
+    .leftLayout {
+      flex: 3;
+    }
+  
+    .rightLayout {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      @include mixins.fxLayoutGap();
+    }
+  
+    .borderLayoutBox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid $divider;
+      border-radius: 4px;
+      margin: 16px;
+      padding: 16px;
+  
+      .boldText {
+        font-weight: bold;
+      }
     }
   }
+  
 }

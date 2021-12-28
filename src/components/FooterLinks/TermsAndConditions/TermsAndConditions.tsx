@@ -1,12 +1,13 @@
-import React, {Fragment} from "react";
+import {Paper} from '@mui/material';
+import React, {Fragment} from 'react';
 
-import tAndC from "../../../assets/terms-and-condition.svg";
-import styles from "./TermsAndConditions.module.scss";
-import {TERMS_AND_CONDITIONS} from "./TermsContent";
+import tAndC from '../../../assets/terms-and-condition.svg';
+import styles from './TermsAndConditions.module.scss';
+import {TERMS_AND_CONDITIONS} from './TermsContent';
 
 const TermsAndCond = () => {
   return (
-    <div className={styles.layout}>
+    <Paper className={styles.layout} elevation={2}>
       <div className={styles.headerInfo}>
         <div className={styles.leftLayout}>
           <div className={styles.heading}>Terms & Conditions</div>
@@ -64,7 +65,7 @@ const TermsAndCond = () => {
           </Fragment>
         ))}
       </div>
-    </div>
+    </Paper>
   );
 };
 

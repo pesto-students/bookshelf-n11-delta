@@ -6,6 +6,7 @@ import {
   ButtonProps,
   Divider,
   Grid,
+  Paper,
   Stack,
   styled,
   Typography,
@@ -224,7 +225,7 @@ export const BookDetail = () => {
   return (
     <div className={styles.layout}>
       {!!book ? (
-        <>
+        <Paper className={styles.paper}>
           <div className={styles.imageLayout}>
             <div className={styles.imageBox}>
               <img src={book.imageUri} alt={book.title} />
@@ -293,22 +294,24 @@ export const BookDetail = () => {
               )}
             </div>
             <Divider />
-            {!showLoader ? (
-              !!reviews.length ? (
-                <>
+            {showLoader ? (
+              <div className={styles.loadingReviewContainer}>
+                <Overlay />
+              </div>
+            ) : !!reviews.length ? (
+              <>
+                <div style={{height: "200px"}}>
                   <RatingChart rating={chartRating} height="200px" />
-                  {reviews.map((rating) => (
-                    <ReviewDetails key={rating._id} review={rating} />
-                  ))}
-                </>
-              ) : (
-                <div className={styles.noReviews}>
-                  <img src={noReviews} className={styles.image} alt="" />
-                  <div className={styles.noRatingMsg}>No reviews available</div>
                 </div>
-              )
+                {reviews.map((rating) => (
+                  <ReviewDetails key={rating._id} review={rating} />
+                ))}
+              </>
             ) : (
-              <Overlay showBackdrop={false} />
+              <div className={styles.noReviews}>
+                <img src={noReviews} className={styles.image} alt="" />
+                <div className={styles.noRatingMsg}>No reviews available</div>
+              </div>
             )}
           </Stack>
           <RatingPopup
@@ -316,9 +319,9 @@ export const BookDetail = () => {
             handleDialogClose={handleDialogClose}
             bookId={id}
           />
-        </>
+        </Paper>
       ) : (
-        <Overlay showBackdrop={false} />
+        <Overlay />
       )}
     </div>
   );

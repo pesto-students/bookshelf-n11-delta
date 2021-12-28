@@ -2,12 +2,10 @@
 @import "../../variables";
 
 .layout {
-  border: 2px solid $divider;
-  border-radius: 4px;
-  margin: 40px 0 40px 0;
+  margin: 16px;
   display: flex;
   flex-direction: row;
-  padding: 32px;
+  padding: 16px;
   @include mixin.fxLayoutGap(32px);
 
   .image {

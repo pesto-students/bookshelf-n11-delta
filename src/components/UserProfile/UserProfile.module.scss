@@ -7,6 +7,8 @@ $avatarContainer: 150px;
   display: flex;
   height: 100%;
   margin: 16px;
+  padding: 16px;
+  background-color: $white;
 
   .imageLayout {
     flex: 1;
@@ -14,10 +16,6 @@ $avatarContainer: 150px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    // background-image: url("../../assets/profile-removebg-preview.png");
-    // background-position: center;
-    // background-size: cover;
-
 
     .avatarContainer {
       height: $avatarContainer;

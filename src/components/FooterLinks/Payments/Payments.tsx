@@ -1,6 +1,7 @@
-import React, {Fragment} from "react";
+import {Paper} from '@mui/material';
+import React, {Fragment} from 'react';
 
-import styles from "./Payments.module.scss";
+import styles from './Payments.module.scss';
 
 const PAYMENT_FAQ = [
   {
@@ -31,7 +32,7 @@ const PAYMENT_FAQ = [
 ];
 const PaymentInfo = () => {
   return (
-    <div className={styles.layout}>
+    <Paper className={styles.layout} elevation={2}>
       <div className={styles.heading}>Payments</div>
       <div className={styles.content}>
         {PAYMENT_FAQ.map((faq) => (
@@ -41,7 +42,7 @@ const PaymentInfo = () => {
           </Fragment>
         ))}
       </div>
-    </div>
+    </Paper>
   );
 };
 

@@ -55,8 +55,7 @@ export const CartList = () => {
   };
 
   return (
-    <div className={styles.layout}>
-      <Paper elevation={2}>
+      <Paper className={styles.layout} elevation={2}>
         <div className={styles.header}>
           <div className={styles.title}>My Cart ({cartItems.length})</div>
           <Button
@@ -93,6 +92,5 @@ export const CartList = () => {
           </div>
         )}
       </Paper>
-    </div>
   );
 };

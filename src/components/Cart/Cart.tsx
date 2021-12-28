@@ -1,7 +1,4 @@
-import {Box, Button} from "@mui/material";
-import Step from "@mui/material/Step";
-import StepLabel from "@mui/material/StepLabel";
-import Stepper from "@mui/material/Stepper";
+import {Box, Button, Paper, Step, StepLabel, Stepper} from "@mui/material";
 import {
   createContext,
   useContext,
@@ -75,7 +72,7 @@ export const Cart = () => {
   };
 
   return (
-    <>
+    <Paper className={styles.paper} elevation={2}>
       <Box className={styles.stepper}>
         <Stepper activeStep={activeStep}>
           {steps.map((label) => {
@@ -130,6 +127,6 @@ export const Cart = () => {
           </div>
         </CartContext.Provider>
       </div>
-    </>
+    </Paper>
   );
 };
