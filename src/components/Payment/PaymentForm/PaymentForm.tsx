@@ -1,3 +1,4 @@
+import {LoadingButton} from "@mui/lab";
 import {Button, Paper} from "@mui/material";
 import {CardElement, useElements, useStripe} from "@stripe/react-stripe-js";
 import {StripeCardElementOptions} from "@stripe/stripe-js";
@@ -11,7 +12,7 @@ import orderSuccess from "../../../assets/success.jpg";
 import axios from "../../../core/axios";
 import environment from "../../../Environment/environment";
 import {GenericDialog} from "../../../shared/components";
-import {HTML_SPECIAL_CHARS} from "../../../shared/immutables";
+import {APP_ACTIONS, HTML_SPECIAL_CHARS} from "../../../shared/immutables";
 import {CartItem} from "../../../shared/models";
 import styles from "./PaymentForm.module.scss";
 
@@ -39,8 +40,9 @@ toast.configure();
 export const PaymentForm = ({amount, products}) => {
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
+  const [processingPayment, setProcessingPayment] = useState(false);
 
-  const {appState} = useContext(AppContext);
+  const {appState, dispatchAppAction} = useContext(AppContext);
   const stripe = useStripe();
   const elements = useElements();
 
@@ -48,6 +50,7 @@ export const PaymentForm = ({amount, products}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setProcessingPayment(true);
     const {error, paymentMethod} = await stripe.createPaymentMethod({
       type: "card",
       card: elements.getElement(CardElement),
@@ -78,15 +81,24 @@ export const PaymentForm = ({amount, products}) => {
           };
           axios
             .post(`${environment.API_URL}/orders/new`, data)
-            .catch((err) =>
-              console.log("Error occurred while placing order", err)
-            );
+            .then(() => {
+              axios.get(`${environment.API_URL}/cart`).then(({data}) => {
+                dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
+              });
+            })
+            .catch(() => {
+              toast.error("Error occurred while placing order");
+            });
         }
       } catch (error) {
-        toast.error(error?.message);
+        const message = error?.message ?? "Failure while doing payment!!";
+        toast.error(message);
+      } finally {
+        setProcessingPayment(false);
       }
     } else {
       toast.error(error.message);
+      setProcessingPayment(false);
     }
   };
 
@@ -118,14 +130,15 @@ export const PaymentForm = ({amount, products}) => {
               </div>
             </fieldset>
             <div className={styles.buttons}>
-              <Button
+              <LoadingButton
                 style={{minWidth: "100px"}}
                 type="submit"
                 variant="contained"
                 size="small"
+                loading={processingPayment}
               >
                 Pay
-              </Button>
+              </LoadingButton>
               <Button
                 style={{minWidth: "100px"}}
                 variant="outlined"

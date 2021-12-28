@@ -7,7 +7,10 @@ import {toast} from "react-toastify";
 
 import App from "./App/App";
 
-toast.configure();
+toast.configure({
+  pauseOnHover: false,
+  theme: 'colored'
+});
 ReactDOM.render(
   <React.StrictMode>
     <App />

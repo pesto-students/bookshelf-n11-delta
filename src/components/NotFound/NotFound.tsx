@@ -8,7 +8,7 @@ export const NotFound = () => {
     <div className={styles.layout}>
       <img src={notFound} alt="notFound" className={styles.banner} />
       <div className={styles.msg}>
-        Unfortunately the page you are looking for has either been moved (or deleted) or might not exits
+        Unfortunately the page you are looking for has either been moved (or deleted) or does not exist
       </div>
       <Button className={styles.btn} component={Link} to="/" variant="contained">
         GO TO HOMEPAGE

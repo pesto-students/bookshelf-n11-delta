@@ -54,7 +54,7 @@ function App() {
       axios
         .post(`${environment.API_URL}/refresh`, {refreshToken})
         .then(({data}) => dispatchAppAction({type: APP_ACTIONS.LOGIN, data}))
-        .catch((err) => console.log(err));
+        .catch(() => dispatchAppAction({type: APP_ACTIONS.LOGOUT}));
     }
   }, []);
 
@@ -70,18 +70,8 @@ function App() {
       axios
         .get(`${environment.API_URL}/cart`)
         .then(({data}) => {
-          const items = [];
-          data?.orderDetails.forEach((order) => {
-            const cartItem: Partial<CartItem> = {
-              ...order.bookId,
-              id: order._id,
-              qtyOrdered: order.quantity,
-            };
-            items.push(cartItem);
-          });
-          dispatchAppAction({type: APP_ACTIONS.SET_CART, data: items});
+          dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
         })
-        .catch((err) => console.log(err));
     }
   }, [appState.isUserLoggedIn]);
 

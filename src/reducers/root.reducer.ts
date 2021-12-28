@@ -59,7 +59,16 @@ export const RootReducer = (
       }
       break;
     case APP_ACTIONS.SET_CART:
-      newState.cartItems = [...data];
+      const items = [];
+      data?.orderDetails.forEach((order) => {
+        const cartItem: Partial<CartItem> = {
+          ...order.bookId,
+          id: order._id,
+          qtyOrdered: order.quantity,
+        };
+        items.push(cartItem);
+      });
+      newState.cartItems = [...items];
       break;
     case APP_ACTIONS.UPDATE_CART:
       if (data.action === ADD_ITEM_TO_CART) {
