@@ -27,7 +27,9 @@ export const Cart = () => {
   const initialState: ICartContext = {
     products: location.state.cartItems,
     totalPrice: 0,
+    orderType: location.state.orderType
   };
+
   const [cartState, dispatchCartActions] = useReducer(
     CartReducer,
     initialState
@@ -48,6 +50,7 @@ export const Cart = () => {
       state: {
         amount: total,
         products: cartState.products,
+        orderType: cartState.orderType,
       },
     });
   };

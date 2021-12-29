@@ -7,6 +7,7 @@ import emptyCart from "../../assets/empty-cart.jpeg";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
 import {BookCartTile} from "../../shared/components";
+import {OrderTypes} from "../../shared/enums";
 import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
 import styles from "./CartList.module.scss";
 
@@ -50,47 +51,48 @@ export const CartList = () => {
     navigate("/buy", {
       state: {
         cartItems,
+        orderType: OrderTypes.CART,
       },
     });
   };
 
   return (
-      <Paper className={styles.layout} elevation={2}>
-        <div className={styles.header}>
-          <div className={styles.title}>My Cart ({cartItems.length})</div>
+    <Paper className={styles.layout} elevation={2}>
+      <div className={styles.header}>
+        <div className={styles.title}>My Cart ({cartItems.length})</div>
+        <Button
+          variant="contained"
+          onClick={checkout}
+          disabled={!cartItems.length}
+        >
+          Proceed to Checkout
+        </Button>
+      </div>
+      <Divider />
+      {cartItems.length ? (
+        cartItems.map((item) => (
+          <div key={item.id}>
+            <BookCartTile
+              item={item}
+              qtyUpdate={(id, value) => qtyUpdate(id, value)}
+              showDelete={true}
+            />
+          </div>
+        ))
+      ) : (
+        <div className={styles.emptyCart}>
+          <img src={emptyCart} alt="empty-cart" className={styles.banner} />
+          <div className={styles.msg}>Your cart is currently empty</div>
           <Button
+            className={styles.btn}
+            component={Link}
+            to="/"
             variant="contained"
-            onClick={checkout}
-            disabled={!cartItems.length}
           >
-            Proceed to Checkout
+            CONTINUE SHOPPING
           </Button>
         </div>
-        <Divider />
-        {cartItems.length ? (
-          cartItems.map((item) => (
-            <div key={item.id}>
-              <BookCartTile
-                item={item}
-                qtyUpdate={(id, value) => qtyUpdate(id, value)}
-                showDelete={true}
-              />
-            </div>
-          ))
-        ) : (
-          <div className={styles.emptyCart}>
-            <img src={emptyCart} alt="empty-cart" className={styles.banner} />
-            <div className={styles.msg}>Your cart is currently empty</div>
-            <Button
-              className={styles.btn}
-              component={Link}
-              to="/"
-              variant="contained"
-            >
-              CONTINUE SHOPPING
-            </Button>
-          </div>
-        )}
-      </Paper>
+      )}
+    </Paper>
   );
 };

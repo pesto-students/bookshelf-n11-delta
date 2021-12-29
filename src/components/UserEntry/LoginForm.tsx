@@ -183,6 +183,7 @@ function LoginForm({userAction}) {
                 clientId={environment.GOOGLE_CLIENT_ID}
                 buttonText="SIGN IN WITH GOOGLE"
                 onSuccess={handleLogin}
+                disabled={checked}
                 onFailure={handleFailure}
                 cookiePolicy={"single_host_origin"}
               ></GoogleLogin>

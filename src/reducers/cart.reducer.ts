@@ -1,9 +1,11 @@
+import {OrderTypes} from "../shared/enums";
 import {CART_ACTIONS} from "../shared/immutables";
 import {CartItem} from "../shared/models";
 
 export interface ICartContext {
   products: Partial<CartItem>[];
   totalPrice: number;
+  orderType: OrderTypes;
 }
 
 export const CartReducer = (

@@ -1,8 +1,10 @@
-import {loadStripe} from "@stripe/stripe-js";
-import environment from "../../../Environment/environment";
 import {Elements} from "@stripe/react-stripe-js";
-import {PaymentForm} from "../PaymentForm/PaymentForm";
+import {loadStripe} from "@stripe/stripe-js";
 import {useLocation} from "react-router-dom";
+
+import environment from "../../../Environment/environment";
+import {OrderTypes} from "../../../shared/enums";
+import {PaymentForm} from "../PaymentForm/PaymentForm";
 
 const stripeTestPromise = loadStripe(environment.STRIPE_API_KEY);
 
@@ -11,9 +13,10 @@ export const StripeContainer = () => {
 
   const amount = location.state?.amount ?? 0;
   const products = location.state?.products ?? [];
+  const orderType = location.state?.orderType ?? OrderTypes.BUY_NOW;
   return (
     <Elements stripe={stripeTestPromise}>
-      <PaymentForm amount={amount} products={products}/>
+      <PaymentForm amount={amount} products={products} orderType={orderType} />
     </Elements>
   );
 };

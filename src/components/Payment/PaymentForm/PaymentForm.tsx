@@ -36,7 +36,7 @@ const CARD_OPTIONS: StripeCardElementOptions = {
   },
 };
 
-export const PaymentForm = ({amount, products}) => {
+export const PaymentForm = ({amount, products, orderType}) => {
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
   const [processingPayment, setProcessingPayment] = useState(false);
@@ -79,7 +79,10 @@ export const PaymentForm = ({amount, products}) => {
             orderDetails,
           };
           axios
-            .post(`${environment.API_URL}/orders/new`, data)
+            .post(
+              `${environment.API_URL}/orders/new?orderType=${orderType}`,
+              data
+            )
             .then(() => {
               axios.get(`${environment.API_URL}/cart`).then(({data}) => {
                 dispatchAppAction({type: APP_ACTIONS.SET_CART, data});

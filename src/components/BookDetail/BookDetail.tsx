@@ -25,6 +25,7 @@ import {
   ReadMore,
   ReviewDetails,
 } from "../../shared/components";
+import {OrderTypes} from "../../shared/enums";
 import {
   ADD_ITEM_TO_CART,
   APP_ACTIONS,
@@ -161,6 +162,7 @@ export const BookDetail = () => {
     navigate(`/buy`, {
       state: {
         cartItems: [cartItem],
+        orderType: OrderTypes.BUY_NOW,
       },
     });
   };
