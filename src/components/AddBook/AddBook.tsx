@@ -11,7 +11,6 @@ import environment from "../../Environment/environment";
 import {Book} from "../../shared/models";
 import styles from "./AddBook.module.scss";
 
-toast.configure();
 export const AddBook = () => {
   const [iconFile, setIconFile] = useState({
     file: "",

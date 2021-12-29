@@ -36,7 +36,6 @@ const CARD_OPTIONS: StripeCardElementOptions = {
   },
 };
 
-toast.configure();
 export const PaymentForm = ({amount, products}) => {
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);

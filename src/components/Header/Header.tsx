@@ -17,7 +17,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-toast.configure();
 export const Header = () => {
   const classes = useStyles();
   const {appState, dispatchAppAction} = useContext(AppContext);

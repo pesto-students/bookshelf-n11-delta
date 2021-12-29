@@ -1,21 +1,23 @@
 import RegisterIcon from "@material-ui/icons/AccountCircle";
+import MailIcon from "@mui/icons-material/Mail";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {Button, Stack, TextField} from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormGroup from "@mui/material/FormGroup";
+import IconButton from "@mui/material/IconButton";
+import InputAdornment from "@mui/material/InputAdornment";
 import {Formik} from "formik";
 import {useContext, useEffect, useState} from "react";
+import GoogleLogin from "react-google-login";
 import {object, string} from "yup";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import MailIcon from "@mui/icons-material/Mail";
-import InputAdornment from "@mui/material/InputAdornment";
+
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
+import {Overlay} from "../../shared/components";
 import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
-import IconButton from "@mui/material/IconButton";
-
 import {
   MIN_PASSWORD_LENGTH,
   PASSWORD_MIN_LENGTH_MSG,
@@ -27,6 +29,7 @@ function LoginForm({userAction}) {
   const loginInitialValues = {email: "", password: ""};
 
   const [checked, setChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -48,6 +51,26 @@ function LoginForm({userAction}) {
     }
     setChecked(!checked);
     resetForm({values});
+  };
+
+  const handleFailure = () => {
+    if (isLoading) {
+      setIsLoading(false);
+    }
+  };
+
+  const handleLogin = async (googleData) => {
+    setIsLoading(true);
+    axios
+      .post(`${environment.API_URL}/google-login`, {
+        token: googleData.tokenId,
+      })
+      .then((success) => {
+        console.log(success);
+        dispatchAppAction({type: APP_ACTIONS.LOGIN, data: success.data});
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -88,7 +111,7 @@ function LoginForm({userAction}) {
                 size="small"
                 variant="outlined"
                 value={values.email}
-                disabled={checked}
+                disabled={isLoading || checked}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.email && !!errors.email}
@@ -116,7 +139,7 @@ function LoginForm({userAction}) {
                 type={showPassword ? "text" : "password"}
                 variant="outlined"
                 value={values.password}
-                disabled={checked}
+                disabled={isLoading || checked}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.password && !!errors?.password}
@@ -146,16 +169,23 @@ function LoginForm({userAction}) {
                 />
               </FormGroup>
               <Button
-                style={{alignSelf: "center", width: "300px"}}
+                style={{width: "300px"}}
                 type="submit"
                 color="primary"
                 size="medium"
                 variant="contained"
-                endIcon={<RegisterIcon />}
-                disabled={isSubmitting}
+                startIcon={<RegisterIcon />}
+                disabled={isLoading || isSubmitting}
               >
                 Login
               </Button>
+              <GoogleLogin
+                clientId={environment.GOOGLE_CLIENT_ID}
+                buttonText="SIGN IN WITH GOOGLE"
+                onSuccess={handleLogin}
+                onFailure={handleFailure}
+                cookiePolicy={"single_host_origin"}
+              ></GoogleLogin>
             </Stack>
           </form>
         )}
@@ -172,6 +202,7 @@ function LoginForm({userAction}) {
         <span>Not a member yet?</span>
         <span className={styles.registerText}>Register!</span>
       </div>
+      {isLoading && <Overlay showBackdrop={true} />}
     </>
   );
 }
