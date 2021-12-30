@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Bookshelf is an online bookstore system via which users do not need to blindly go to various places to find required books, they just simply go to Bookshelf and find it. The online bookstore system can not only reduce costs, save time, space, to bring convenience to everyone, but also promote the development of the logistics industry, serving three purposes, mutual benefit. Users can view its details, place an order and then the book is delivered to their address. Users can see their orders placed, their status (delivered or not), and rate/review their ordered products
+Bookshelf is an online bookstore system via which users do not need to blindly go to various places to find required books, they just simply go to Bookshelf and find it. The online bookstore system can not only reduce costs, save time, space, to bring convenience to everyone, but also promote the development of the logistics industry, serving three purposes, mutual benefit. Users can view its details, place an order and then the book is delivered to their address. Users can see their orders placed, their status (delivered date, order placed date), and rate/review their ordered products
 
-Live demo [_here_]()
+Live demo [_here_](https://n11-bookshelf.herokuapp.com/)
 
 ## Features
 
@@ -12,68 +12,52 @@ Live demo [_here_]()
 - Books can be added to cart for later purchase
 - Review and rate purchased book
 - Order history
+- User profile section to view/edit info like name and address
 
 ## Code Features
 
-- Material-UI used for components
-- Fully responsive
-- Secured using local jwt auth and Google auth
-- Unit test coverage
-- Frontend and backend are hosted on Heroku.
+- Material-UI styled components and animations using Framer-Motion
+- Infinite scrolling dashboard showing books list
+- React functional components used with hooks
+- Secured using email & password based auth and Google auth
+- Frontend and backend are hosted on Heroku
+- Payment gateway integration (stripe)
+- AWS S3 integration for image storage
 
 ## Technologies used to build this project
 
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)\
 ![Mongo](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)\
 ![React JS](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)\
-![Redux](https://img.shields.io/badge/Redux-593D88?style=for-the-badge&logo=redux&logoColor=white)\
 ![Heroku](https://img.shields.io/badge/Heroku-430098?style=for-the-badge&logo=heroku&logoColor=white)
 
 ## Other Libraries Used
 
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)
+![AWS S3](https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 ## Setup
 
-Project frontend was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Project frontend is built in React and bootstrapped using [Create React App](https://github.com/facebook/create-react-app).\
+Project backend is built in NodeJS - Express JS + Mongo.
 
 Project uses commitizen for commit rules and guidelines
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-
-## Code setup
-
-In the project directory, you can run:
-
-#### `yarn start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-#### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
 ## Screenshots
 
 ## Resources
 
-<a href="">High Level Design</a>\
-<a href="https://alishamahajan.atlassian.net/wiki/spaces/BOOKSHELF/pages/edit-v2/196609?draftShareId=cce335d9-f7d0-499f-9023-2f60537b4d32"> PRD </a>\
-<a href=""> Wireframes</a>
+<a href="https://drive.google.com/file/d/1ptZ6xdF6dliTyXPCT2w5qyZVbsc8RTw1/view?usp=sharing">High Level Design</a>\
+<a href="https://drive.google.com/file/d/10yNUbAoiQGwUImQUXr2eTdWp6P7oXAP4/view?usp=sharing"> PRD </a>\
+<a href="https://www.figma.com/file/nRETa8aUznrjIq0keEzYoX/Bookshelf?node-id=0%3A1"> Wireframes</a>
 
 ## Contributors ✨
 
-<a href="https://github.com/Alisha-Mahajan"><img src="" width="100px;" alt=""/>Alisha Mahajan</a>
+- <a href="https://github.com/Alisha-Mahajan">Alisha Mahajan</a>
+- <a href="https://github.com/SVB-knowmywork">Shubham Bansal</a>
 
 ## Community
 
-Thanks to the people who directly and indirectly supported us to accomplish this project.
+Many thanks to our mentor Chiranjib Nandy whose guidance help us to achieve our target and get chance to nurture our skills.\
+Thanks to all the people who directly and indirectly supported us to accomplish this project.
