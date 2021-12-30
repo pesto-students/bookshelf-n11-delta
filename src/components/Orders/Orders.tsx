@@ -89,7 +89,7 @@ export const Orders = () => {
                             tableLayout: "fixed",
                           }}
                         >
-                          <TableHead style={{backgroundColor: "#3f51b5"}}>
+                          <TableHead style={{backgroundColor: "#8e99d7"}}>
                             <TableRow>
                               <TableCell>#</TableCell>
                               <TableCell align="right">Book Name</TableCell>

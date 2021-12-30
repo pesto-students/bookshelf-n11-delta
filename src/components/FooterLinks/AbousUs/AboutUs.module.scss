@@ -1,0 +1,30 @@
+@use "../../../mixins" as mixins;
+@import "../../../variables";
+
+.layout {
+  display: flex;
+  padding: 16px;
+  margin: 16px;
+  flex-direction: column;
+
+  .heading {
+    font-weight: bold;
+    color: $primary;
+    font-size: 24px;
+  }
+
+  .content {
+    color: $footerLinkText;
+    font-size: 12px;
+    margin-top: 8px;
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fxLayoutGap(8px);
+
+    .subheading {
+      font-size: 15px;
+      font-weight: 500;
+    }
+  }
+}

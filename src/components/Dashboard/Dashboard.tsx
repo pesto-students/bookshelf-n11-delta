@@ -1,4 +1,4 @@
-import {Button, MenuItem, Select} from "@material-ui/core";
+import {Button, MenuItem, Paper, Select} from "@mui/material";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import {Grid} from "@mui/material";
 import {useContext, useEffect, useReducer, useState} from "react";
@@ -8,7 +8,7 @@ import {Carousel} from "react-responsive-carousel";
 
 import {AppContext} from "../../App/App";
 import banner from "../../assets/banner.svg";
-import info from "../../assets/info.png";
+import searching from "../../assets/search.svg";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
 import {DashboardReducer, IDashboardState} from "../../reducers";
@@ -125,7 +125,12 @@ export const Dashboard = () => {
         </>
       ) : (
         <>
-          <Carousel showThumbs={false} showStatus={false} autoPlay={true} infiniteLoop={true}>
+          <Carousel
+            showThumbs={false}
+            showStatus={false}
+            autoPlay={true}
+            infiniteLoop={true}
+          >
             {CAROUSEL_IMAGES.map((item, i) => (
               <img key={i} src={item} className={styles.banner} alt="banner" />
             ))}
@@ -137,11 +142,10 @@ export const Dashboard = () => {
               startIcon={<FilterAltOutlinedIcon />}
             />
             <Select
-              variant="standard"
-              labelId="sort-by-select-label"
-              id="sort-by"
+              variant="outlined"
+              displayEmpty
               value={sortFilter}
-              label="Sort by"
+              size="small"
               onChange={handleChange}
             >
               <MenuItem value={SortTypes.RELEVANCE}>Relevance</MenuItem>
@@ -161,13 +165,13 @@ export const Dashboard = () => {
           {searchFilteredBooks.length ? (
             booksGrid
           ) : (
-            <div className={styles.notFound}>
-              <img src={info} alt="Info" />
+            <Paper className={styles.notFound} elevation={2}>
+              <img src={searching} alt="no search results" />
               <div className={styles.msg}>
-                "Sorry! No results found. Please check the spelling or try
-                searching for something else"
+                "Sorry! No results found. Please check the spelling/filter or
+                try searching for something else"
               </div>
-            </div>
+            </Paper>
           )}
         </>
       )}

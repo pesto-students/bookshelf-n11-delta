@@ -1,5 +1,5 @@
 import {Paper} from '@mui/material';
-import React, {Fragment} from 'react';
+import {Fragment, memo} from 'react';
 
 import styles from './Payments.module.scss';
 
@@ -46,4 +46,4 @@ const PaymentInfo = () => {
   );
 };
 
-export const Payments = React.memo(PaymentInfo);
+export const Payments = memo(PaymentInfo);

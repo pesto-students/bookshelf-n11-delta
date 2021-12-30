@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 
 import {AppContext} from "../../../App/App";
-import payment from "../../../assets/payment.png";
+import payment from "../../../assets/card-payment.svg";
 import orderSuccess from "../../../assets/success.jpg";
 import axios from "../../../core/axios";
 import environment from "../../../Environment/environment";
@@ -47,6 +47,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
 
   const navigate = useNavigate();
 
+  console.log("Alisha", products);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessingPayment(true);
@@ -116,8 +117,29 @@ export const PaymentForm = ({amount, products, orderType}) => {
 
   return (
     <>
-      {!success ? (
-        <Paper elevation={2} className={styles.layout}>
+      <Paper elevation={2} className={styles.layout}>
+        <div className={styles.leftLayout}>
+          <div className={styles.title}>Order Summary</div>
+          <div className={styles.content}>
+            {products.map((product) => (
+              <div className={styles.pdtDescription} key={product._id}>
+                <div>
+                  <span>Title: </span>
+                  <span>{product.title}</span>
+                </div>
+                <div>
+                  <span>Price: {HTML_SPECIAL_CHARS.RUPEE}</span>
+                  <span>{product.price}</span>
+                </div>
+                <div>
+                  <span>Quantity: </span>
+                  <span>{product.qtyOrdered}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className={styles.rightLayout}>
           <div className={styles.cardDetailsMsg}>
             Please enter card details to process payment of{" "}
             {HTML_SPECIAL_CHARS.RUPEE} {amount}
@@ -137,6 +159,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
                 type="submit"
                 variant="contained"
                 size="small"
+                disabled={success}
                 loading={processingPayment}
               >
                 Pay
@@ -145,6 +168,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
                 style={{minWidth: "100px"}}
                 variant="outlined"
                 size="small"
+                disabled={success}
                 onClick={handleCancel}
               >
                 Cancel
@@ -152,8 +176,9 @@ export const PaymentForm = ({amount, products, orderType}) => {
             </div>
           </form>
           <img src={payment} className={styles.image} />
-        </Paper>
-      ) : (
+        </div>
+      </Paper>
+      {success && (
         <GenericDialog
           open={open}
           onDialogClose={handleClose}

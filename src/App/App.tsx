@@ -1,7 +1,9 @@
+import axios from "axios";
 import {createContext, useEffect, useReducer, useState} from "react";
 import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 
 import {
+  AboutUs,
   AddBook,
   AdminHome,
   BookDetail,
@@ -18,13 +20,12 @@ import {
   TermsAndConditions,
   UserEntry,
   UserList,
+  UserProfile,
 } from "../components";
-import {UserProfile} from "../components/UserProfile/UserProfile";
-import axios from "../core/axios";
+import appAxios from "../core/axios";
 import environment from "../Environment/environment";
 import {IAppContext, RootReducer} from "../reducers";
 import {APP_ACTIONS, REFRESH_TOKEN} from "../shared/immutables";
-import {CartItem} from "../shared/models";
 import styles from "./App.module.scss";
 
 const initialAppState: IAppContext = {
@@ -60,18 +61,16 @@ function App() {
 
   useEffect(() => {
     if (appState.isUserLoggedIn) {
-      axios
+      appAxios
         .get(`${environment.API_URL}/me`)
         .then(({data}) => {
           dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data});
         })
         .catch((err) => console.log(err));
 
-      axios
-        .get(`${environment.API_URL}/cart`)
-        .then(({data}) => {
-          dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
-        })
+      appAxios.get(`${environment.API_URL}/cart`).then(({data}) => {
+        dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
+      });
     }
   }, [appState.isUserLoggedIn]);
 
@@ -106,6 +105,7 @@ function App() {
                 </>
               )}
               <Route path="/orders" element={<Orders />} />
+              <Route path="/about-us" element={<AboutUs />} />
               <Route path="/terms" element={<TermsAndConditions />} />
               <Route path="/payments" element={<Payments />} />
               <Route path="*" element={<NotFound />} />

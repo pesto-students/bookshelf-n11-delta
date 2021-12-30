@@ -27,14 +27,15 @@ export const UserAccount = () => {
     dispatchAppAction
   );
 
+  const username = appState.user?.username;
   return (
     <>
       <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
-        <Tooltip title="Account settings">
           <IconButton onClick={handleClick} size="small" sx={{ml: 2}}>
-            <Avatar sx={{width: 28, height: 28}} />
+            <Avatar sx={{width: 28, height: 28}}>
+              {appState.isUserLoggedIn && username ? username.slice(0, 1) : null}
+            </Avatar>
           </IconButton>
-        </Tooltip>
       </Box>
       <Menu
         anchorEl={anchorEl}

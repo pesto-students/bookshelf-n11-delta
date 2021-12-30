@@ -11,12 +11,45 @@ $primaryHover: #27399c;
 .layout {
   margin: 16px;
   display: flex;
-  flex-direction: column;
+  padding: 16px;
 
-  .cardDetailsMsg {
-    margin: 0px 16px 16px;
-    color: $primary;
-    font-weight: 200;
+  .leftLayout {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    @include mixins.fxLayoutGap(16px);
+
+    .title {
+      color: $primary;
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .content {
+      font-size: 14px;
+      @include mixins.fxLayoutGap(16px);
+
+      .pdtDescription {
+        color: #9c9c9c;
+        font-weight: 500;
+      }
+    }
+
+  }
+
+  .rightLayout {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+
+    .cardDetailsMsg {
+      margin: 0px 16px 16px;
+      color: $primary;
+      font-weight: 500;
+    }
   }
 
   .paymentForm {

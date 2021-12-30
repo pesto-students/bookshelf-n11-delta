@@ -1,5 +1,5 @@
 import {Paper} from '@mui/material';
-import React, {Fragment} from 'react';
+import {Fragment, memo} from 'react';
 
 import tAndC from '../../../assets/terms-and-condition.svg';
 import styles from './TermsAndConditions.module.scss';
@@ -69,4 +69,4 @@ const TermsAndCond = () => {
   );
 };
 
-export const TermsAndConditions = React.memo(TermsAndCond);
+export const TermsAndConditions = memo(TermsAndCond);
