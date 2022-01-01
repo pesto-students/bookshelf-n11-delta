@@ -98,6 +98,9 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
   };
 
   const clearFilterAction = () => {
+    setPriceCheckbox(false);
+    setLangCheckedState(new Array(lang.length).fill(false));
+    setCategoryCheckedState(new Array(lang.length).fill(false));
     dispatchFilterAction({
       type: DASHBOARD_ACTIONS.CLEAR_FILTER,
     });
