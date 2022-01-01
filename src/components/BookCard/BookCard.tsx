@@ -14,8 +14,9 @@ import styles from "./BookCard.module.scss";
 
 const useStyles = makeStyles(() => ({
   media: {
-    width: "50%",
-    objectFit: "cover",
+    margin: "auto",
+    objectFit: "contain !important" as "contain",
+    maxHeight: "350px",
   },
 }));
 
@@ -39,11 +40,10 @@ export const BookCard = (props) => {
           });
         }}
       >
-        <Card sx={{width: 336, height: 300}}>
+        <Card sx={{width: 336}}>
           <CardMedia
             className={classes.media}
             component="img"
-            height="140"
             image={imageUri}
             alt={title}
           />

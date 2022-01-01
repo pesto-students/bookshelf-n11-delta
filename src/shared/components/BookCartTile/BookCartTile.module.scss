@@ -20,9 +20,6 @@
       cursor: pointer;
       color: $primary;
     }
-
-    .info {
-    }
   }
 
   .image {
@@ -34,10 +31,10 @@
     @include mixins.fxLayoutGap();
 
     .photo {
-      max-width: 75%;
-      max-height: 75%;
-    }
-    .quantity {
+      max-height: 80%;
+      padding: 8px;
+      border: 2px solid #e5e5e5;
+      border-radius: 4px;
     }
   }
 }
