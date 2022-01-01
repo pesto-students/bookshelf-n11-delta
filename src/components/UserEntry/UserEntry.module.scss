@@ -16,6 +16,15 @@
   .inputIcon {
     margin-right: 8px;
   }
+  .googleLoginBtn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  // consistent drop shadow with google btn
+  .btn {
+    box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px 0px, rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
 }
 
 .dialog {

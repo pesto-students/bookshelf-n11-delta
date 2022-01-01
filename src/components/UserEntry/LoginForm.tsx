@@ -169,7 +169,7 @@ function LoginForm({userAction}) {
                 />
               </FormGroup>
               <Button
-                style={{width: "300px"}}
+                className={styles.btn}
                 type="submit"
                 color="primary"
                 size="medium"
@@ -181,6 +181,7 @@ function LoginForm({userAction}) {
               </Button>
               <GoogleLogin
                 clientId={environment.GOOGLE_CLIENT_ID}
+                className={styles.googleLoginBtn}
                 buttonText="SIGN IN WITH GOOGLE"
                 onSuccess={handleLogin}
                 disabled={checked}
