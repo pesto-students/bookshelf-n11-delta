@@ -28,6 +28,9 @@ function RatingPopup({open, handleDialogClose, bookId}) {
     if (reason === "clickaway") {
       return;
     }
+    setValue(null);
+    setMsg("");
+    setTitle("");
     setSnackBarOpen(false);
     handleDialogClose(true);
   };
@@ -63,9 +66,6 @@ function RatingPopup({open, handleDialogClose, bookId}) {
         comment: msg,
       })
       .then(() => {
-        setValue(null);
-        setMsg(null);
-        setTitle(null);
         setSnackBarOpen(true);
       })
       .catch((err) => {
@@ -137,7 +137,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
       <Snackbar
         anchorOrigin={{vertical: "bottom", horizontal: "center"}}
         open={snackBarOpen}
-        autoHideDuration={2000}
+        autoHideDuration={1000}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity="success" sx={{width: "100%"}}>

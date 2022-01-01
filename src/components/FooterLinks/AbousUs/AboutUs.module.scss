@@ -1,30 +1,48 @@
-@use "../../../mixins" as mixins;
+@use "../../../mixins" as mixin;
 @import "../../../variables";
 
 .layout {
   display: flex;
-  padding: 16px;
   margin: 16px;
   flex-direction: column;
 
-  .heading {
-    font-weight: bold;
-    color: $primary;
-    font-size: 24px;
+  .imgContainer {
+    position: relative;
+    height: 500px;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: darken;
+    background-color: #00000070;
+    background-image: url(https://images.unsplash.com/photo-1507842217343-583bb7270b66?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1590&q=80);
   }
 
-  .content {
-    color: $footerLinkText;
-    font-size: 12px;
-    margin-top: 8px;
-    text-align: justify;
-    display: flex;
-    flex-direction: column;
-    @include mixins.fxLayoutGap(8px);
+  .branding {
+    position: absolute;
+    bottom: 100px;
+    left: 100px;
+    color: white;
+    width: 375px;
 
-    .subheading {
-      font-size: 15px;
-      font-weight: 500;
-    }
+    @include mixin.fxLayout(column);
+    @include mixin.fxLayoutGap(8px);
+    @include mixin.fxLayoutAlign(center, start);
+  }
+
+  .bookshelfLogo {
+    align-self: end;
+    height: 75px;
+    margin-bottom: -28px;
+  }
+
+  .brandingMotto {
+    padding: 48px;
+    width: calc(100% - 96px); // don't know why this works?
+    position: relative;
+  }
+
+  .whoWeAre {
+    width: calc(100% - 96px); // don't know why this works?
+    padding: 48px;
   }
 }

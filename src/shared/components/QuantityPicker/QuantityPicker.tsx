@@ -1,20 +1,11 @@
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import {IconButton, TextField} from "@mui/material";
-import {useState} from "react";
-
-import styles from "./QuantityPicker.module.scss";
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import {useState} from 'react';
 
 const MIN_QTY = 1;
 
 export const QuantityPicker = ({qty, max, setQty}) => {
   const [value, setValue] = useState(qty);
-
-  const handleInputChange = (newValue) => {
-    if (newValue >= MIN_QTY && newValue <= max) {
-      _setQtyValue(newValue);
-    }
-  };
 
   const _setQtyValue = (newValue) => {
     setValue(newValue);
@@ -22,35 +13,22 @@ export const QuantityPicker = ({qty, max, setQty}) => {
   };
 
   return (
-    <div className={styles.quantityInput}>
-      <IconButton
-        color="primary"
-        size="large"
+    <ButtonGroup disableElevation variant="outlined" color="primary">
+      <Button
+        variant="contained"
         onClick={() => _setQtyValue(Math.max(MIN_QTY, value - 1))}
         disabled={value === MIN_QTY}
       >
-        <RemoveCircleOutlineIcon />
-      </IconButton>
-      <TextField
-        type="number"
-        variant="outlined"
-        size="small"
-        value={value}
-        InputProps={{
-          inputProps: {min: MIN_QTY, max},
-        }}
-        onChange={(event) => {
-          handleInputChange(event.target.value);
-        }}
-      />
-      <IconButton
-        color="primary"
-        disabled={value === max}
-        size="large"
+        -
+      </Button>
+      <Button>{value}</Button>
+      <Button
         onClick={() => _setQtyValue(Math.min(max, value + 1))}
+        disabled={value === max}
+        variant="contained"
       >
-        <AddCircleOutlineIcon />
-      </IconButton>
-    </div>
+        +
+      </Button>
+    </ButtonGroup>
   );
 };
