@@ -66,7 +66,6 @@ function LoginForm({userAction}) {
         token: googleData.tokenId,
       })
       .then((success) => {
-        console.log(success);
         dispatchAppAction({type: APP_ACTIONS.LOGIN, data: success.data});
       })
       .catch((error) => console.log(error))

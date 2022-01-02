@@ -47,7 +47,6 @@ export const PaymentForm = ({amount, products, orderType}) => {
 
   const navigate = useNavigate();
 
-  console.log("Alisha", products);
   const handleSubmit = async (e) => {
     e.preventDefault();
     setProcessingPayment(true);
