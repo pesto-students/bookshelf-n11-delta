@@ -21,7 +21,6 @@ export const AddBook = () => {
 
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    console.log(selectedFile);
     setIconFile({file: selectedFile, url: URL.createObjectURL(selectedFile)});
   };
   const initialBookValues = new Book();

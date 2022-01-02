@@ -4,12 +4,13 @@ import {Formik} from "formik";
 import {motion} from "framer-motion";
 import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 import {object, string} from "yup";
 
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import environment from "../../Environment/environment";
-import {DASHBOARD_ROUTE} from "../../shared/immutables";
+import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
 import styles from "./UserProfile.module.scss";
 
 export const UserProfile = () => {
@@ -33,7 +34,7 @@ export const UserProfile = () => {
     display: "none",
   });
 
-  const {appState} = useContext(AppContext);
+  const {appState, dispatchAppAction} = useContext(AppContext);
 
   useEffect(() => {
     getUserInfo();
@@ -64,16 +65,19 @@ export const UserProfile = () => {
 
   function handleSubmit(values, actions) {
     actions.setSubmitting(true);
+    const data = {
+      username: values.name,
+      addressLine1: values.address,
+      city: values.city,
+      state: values.state,
+      pincode: values.pin,
+    };
     axios
-      .post(`${environment.API_URL}/me`, {
-        username: values.name,
-        addressLine1: values.address,
-        city: values.city,
-        state: values.state,
-        pincode: values.pin,
-      })
+      .post(`${environment.API_URL}/me`, data)
       .then(() => {
+        toast.success("Profile data updated successfully");
         setFormDisabled(true);
+        dispatchAppAction({type: APP_ACTIONS.UPDATE_USER_INFO, data});
       })
       .catch((error) => console.log(error))
       .finally(() => actions.setSubmitting(false));
@@ -85,7 +89,6 @@ export const UserProfile = () => {
   });
   const onFileChange = (event) => {
     const selectedFile = event.target.files[0];
-    console.log(selectedFile);
     setIconFile({file: selectedFile, url: URL.createObjectURL(selectedFile)});
   };
 

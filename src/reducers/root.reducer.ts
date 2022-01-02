@@ -1,5 +1,10 @@
 import {UserEntryState} from "../components/UserEntry";
-import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN, ADD_ITEM_TO_CART} from "../shared/immutables";
+import {
+  APP_ACTIONS,
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  ADD_ITEM_TO_CART,
+} from "../shared/immutables";
 import {Book, CartItem} from "../shared/models";
 
 export interface IAppContext {
@@ -48,6 +53,9 @@ export const RootReducer = (
       newState.isUserLoggedIn = true;
       newState.user = data;
       newState.isSuperAdmin = data.isSuperAdmin;
+      break;
+    case APP_ACTIONS.UPDATE_USER_INFO:
+      newState.user = {...newState.user, ...data};
       break;
     case APP_ACTIONS.SET_BOOKS:
       newState.books = [...data];
