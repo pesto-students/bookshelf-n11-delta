@@ -30,7 +30,7 @@ import styles from "./App.module.scss";
 
 const initialAppState: IAppContext = {
   searchText: "",
-  isUserLoggedIn: false,
+  isUserLoggedIn: true,
   isSuperAdmin: false,
   userEntry: null,
   open: false,
@@ -56,6 +56,8 @@ function App() {
         .post(`${environment.API_URL}/refresh`, {refreshToken})
         .then(({data}) => dispatchAppAction({type: APP_ACTIONS.LOGIN, data}))
         .catch(() => dispatchAppAction({type: APP_ACTIONS.LOGOUT}));
+    } else {
+      dispatchAppAction({type: APP_ACTIONS.LOGOUT});
     }
   }, []);
 

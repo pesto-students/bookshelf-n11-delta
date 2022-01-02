@@ -1,5 +1,5 @@
-@use "../../mixins" as mixins;
-@import "../../variables";
+@use "../../scss/mixins" as mixins;
+@import "../../scss/variables";
 
 .layout {
   min-height: 300px;
