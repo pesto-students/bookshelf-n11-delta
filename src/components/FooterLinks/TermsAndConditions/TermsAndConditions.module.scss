@@ -9,7 +9,7 @@
 
   .headerInfo {
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
 
     .leftLayout {
       flex: 4;

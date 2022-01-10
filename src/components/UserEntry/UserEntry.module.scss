@@ -4,10 +4,8 @@
   display: flex;
   flex-direction: column;
   padding-top: 16px;
+  min-width: 60%;
 
-  .textField {
-    width: 300px;
-  }
   .guestLogin {
     align-self: flex-end;
     margin-right: -16px;

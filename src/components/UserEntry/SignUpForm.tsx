@@ -5,7 +5,6 @@ import {object, ref, string} from "yup";
 import environment from "../../Environment/environment";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 
-
 import {AppContext} from "../../App/App";
 import axios from "../../core/axios";
 import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
@@ -71,7 +70,6 @@ function SignUpForm({userAction}) {
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
-                className={styles.textField}
                 name="name"
                 label="Name"
                 size="small"
@@ -82,9 +80,7 @@ function SignUpForm({userAction}) {
                 error={touched.name && !!errors.name}
                 helperText={touched.name && errors.name}
               />
-
               <TextField
-                className={styles.textField}
                 name="email"
                 label="Email"
                 size="small"
@@ -96,7 +92,6 @@ function SignUpForm({userAction}) {
                 helperText={touched.email && errors.email}
               />
               <TextField
-                className={styles.textField}
                 label="Password"
                 name="password"
                 size="small"
@@ -109,7 +104,6 @@ function SignUpForm({userAction}) {
                 helperText={touched.password && errors.password}
               />
               <TextField
-                className={styles.textField}
                 label="Confirm Password"
                 name="confirmPassword"
                 size="small"

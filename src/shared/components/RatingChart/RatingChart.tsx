@@ -37,10 +37,8 @@ const options: ChartWrapperOptions["options"] = {
 
 export const RatingChart = ({
   rating,
-  height,
 }: {
   rating: ChartRating;
-  height: string;
 }) => {
   function setRatingData() {
     const clonedData = [...data];
@@ -60,7 +58,6 @@ export const RatingChart = ({
   return (
     <div className={styles.charts}>
       <Chart
-        height={height}
         chartType="PieChart"
         loader={<Overlay showBackdrop={true} />}
         data={data}
@@ -68,7 +65,6 @@ export const RatingChart = ({
       />
       <Chart
         chartType="BarChart"
-        height={height}
         data={data}
         options={options}
       />

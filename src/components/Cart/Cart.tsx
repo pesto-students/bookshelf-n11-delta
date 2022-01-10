@@ -97,13 +97,12 @@ export const Cart = () => {
             ) : (
               <>
                 {cartState.products.map((item) => (
-                  <div key={item.id}>
                     <BookCartTile
                       item={item}
+                      key={item.id}
                       qtyUpdate={(id, value) => qtyUpdate(id, value)}
                       showDelete={false}
                     />
-                  </div>
                 ))}
               </>
             )}

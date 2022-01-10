@@ -65,7 +65,7 @@ export const BookCartTile = ({
             variant="outlined"
             startIcon={<DeleteIcon />}
             onClick={() => qtyUpdate(item._id, 0)}
-            style={{width: "150px"}}
+            className={styles.deleteBtn}
           >
             Delete
           </Button>

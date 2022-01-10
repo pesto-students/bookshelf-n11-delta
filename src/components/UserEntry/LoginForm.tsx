@@ -11,6 +11,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import {Formik} from "formik";
 import {useContext, useEffect, useState} from "react";
 import GoogleLogin from "react-google-login";
+import { toast } from "react-toastify";
 import {object, string} from "yup";
 
 import {AppContext} from "../../App/App";
@@ -66,6 +67,7 @@ function LoginForm({userAction}) {
         token: googleData.tokenId,
       })
       .then((success) => {
+        toast.success(`${success.data.username} logged-in successfully`)
         dispatchAppAction({type: APP_ACTIONS.LOGIN, data: success.data});
       })
       .catch((error) => console.log(error))
@@ -104,7 +106,6 @@ function LoginForm({userAction}) {
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
-                className={styles.textField}
                 name="email"
                 label="Email"
                 size="small"
@@ -131,7 +132,6 @@ function LoginForm({userAction}) {
                 }}
               />
               <TextField
-                className={styles.textField}
                 label="Password"
                 name="password"
                 size="small"

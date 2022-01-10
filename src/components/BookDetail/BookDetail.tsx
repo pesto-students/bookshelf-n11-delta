@@ -144,9 +144,7 @@ export const BookDetail = () => {
         <Grid item xs={4}>
           <span className={styles.key}>{key}</span>
         </Grid>
-        <Grid item xs={8}>
-          {value}
-        </Grid>
+        <Grid item xs={8}>{value}</Grid>
       </Grid>
     );
   };
@@ -302,9 +300,7 @@ export const BookDetail = () => {
               </div>
             ) : !!reviews.length ? (
               <>
-                <div style={{height: "200px"}}>
-                  <RatingChart rating={chartRating} height="200px" />
-                </div>
+                <RatingChart rating={chartRating} />
                 {reviews.map((rating) => (
                   <ReviewDetails key={rating._id} review={rating} />
                 ))}

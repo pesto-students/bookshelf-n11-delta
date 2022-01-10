@@ -154,7 +154,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
             </fieldset>
             <div className={styles.buttons}>
               <LoadingButton
-                style={{minWidth: "100px"}}
+                className={styles.btn}
                 type="submit"
                 variant="contained"
                 size="small"
@@ -164,7 +164,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
                 Pay
               </LoadingButton>
               <Button
-                style={{minWidth: "100px"}}
+                className={styles.btn}
                 variant="outlined"
                 size="small"
                 disabled={success}
@@ -174,7 +174,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
               </Button>
             </div>
           </form>
-          <img src={payment} className={styles.image} />
+          <img src={payment} className={styles.image} alt="Payment"/>
         </div>
       </Paper>
       {success && (

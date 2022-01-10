@@ -5,7 +5,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 import {Formik} from "formik";
-import {useContext, useEffect, useState} from "react";
+import {Fragment, useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {object, string} from "yup";
 
@@ -63,7 +63,7 @@ function AddressConfirmation({handleDelivery}) {
     };
     axios
       .post(`${environment.API_URL}/cart/address`, {address: addressData})
-      .then(({data}) => {
+      .then((_) => {
         dispatchAppAction({
           type: APP_ACTIONS.UPDATE_ADDRESS,
           data: addressData,
@@ -105,7 +105,7 @@ function AddressConfirmation({handleDelivery}) {
   };
 
   return (
-    <div>
+    <Fragment>
       {hasAddress ? (
         <>
           <div className={styles.address}>
@@ -210,7 +210,7 @@ function AddressConfirmation({handleDelivery}) {
           </Accordion>
         </div>
       )}
-    </div>
+    </Fragment>
   );
 }
 

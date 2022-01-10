@@ -11,7 +11,9 @@ $primaryHover: #27399c;
 .layout {
   margin: 16px;
   display: flex;
+  flex-wrap: wrap;
   padding: 16px;
+  @include mixins.fxLayoutGap();
 
   .leftLayout {
     flex: 1;
@@ -53,7 +55,6 @@ $primaryHover: #27399c;
   }
 
   .paymentForm {
-    width: 60%;
 
     .formGroup {
       margin: 0 16px 20px;
@@ -78,13 +79,18 @@ $primaryHover: #27399c;
     .buttons {
       margin: 0px 16px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+      @include mixins.fxLayoutGap();
       @include mixins.fxLayoutHorzGap();
+
+      .btn {
+        min-width: 100px;
+      }
     }
   }
-
   .image {
-    width: 400px;
+    max-width: 400px;
   }
 }
 

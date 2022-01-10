@@ -81,7 +81,7 @@ export const CartList = () => {
         ))
       ) : (
         <div className={styles.emptyCart}>
-          <img src={emptyCart} alt="empty-cart" className={styles.banner} />
+          <img src={emptyCart} alt="empty-cart" className={styles.image} />
           <div className={styles.msg}>Your cart is currently empty</div>
           <Button
             className={styles.btn}

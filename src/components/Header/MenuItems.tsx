@@ -4,9 +4,10 @@ import Logout from "@mui/icons-material/Logout";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import ShoppingBag from "@mui/icons-material/ShoppingBag";
 import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+
 import {APP_ACTIONS} from "../../shared/immutables";
 import {UserEntryState} from "../UserEntry";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
       show: isUserLoggedIn && !isSuperAdmin,
       icon: <AccountCircleIcon fontSize="small" />,
       onClick: () => {
-        navigate('/profile');
+        navigate("/profile");
       },
     },
     {
@@ -26,7 +27,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
       show: isUserLoggedIn,
       icon: <ShoppingBag fontSize="small" />,
       onClick: () => {
-        navigate('/orders');
+        navigate("/orders");
       },
     },
     {
@@ -48,6 +49,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
       icon: <Logout fontSize="small" />,
       onClick: () => {
         dispatchAction({type: APP_ACTIONS.LOGOUT});
+        toast.success("You logged out successfully!");
       },
     },
     {
