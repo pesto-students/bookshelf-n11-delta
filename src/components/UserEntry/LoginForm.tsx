@@ -19,7 +19,11 @@ import axios from '../../core/axios';
 import environment from '../../Environment/environment';
 import {Overlay} from '../../shared/components';
 import {APP_ACTIONS, USER_ENTRY_ACTIONS} from '../../shared/immutables';
-import {MIN_PASSWORD_LENGTH, PASSWORD_MIN_LENGTH_MSG, UserEntryState} from './UserEntry.constant';
+import {
+  MIN_PASSWORD_LENGTH,
+  PASSWORD_MIN_LENGTH_MSG,
+  UserEntryState,
+} from './UserEntry.constant';
 import styles from './UserEntry.module.scss';
 
 function LoginForm({userAction}) {
@@ -116,7 +120,10 @@ function LoginForm({userAction}) {
                   endAdornment: (
                     <InputAdornment position="end">
                       {checked ? (
-                        <MailIcon color="disabled" className={styles.inputIcon} />
+                        <MailIcon
+                          color="disabled"
+                          className={styles.inputIcon}
+                        />
                       ) : (
                         <MailIcon className={styles.inputIcon} />
                       )}
@@ -139,7 +146,10 @@ function LoginForm({userAction}) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton onClick={handleClickShowPassword} disabled={checked}>
+                      <IconButton
+                        onClick={handleClickShowPassword}
+                        disabled={checked}
+                      >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -149,7 +159,10 @@ function LoginForm({userAction}) {
               <FormGroup className={styles.guestLogin}>
                 <FormControlLabel
                   control={
-                    <Checkbox checked={checked} onChange={() => handleGuestLogin(resetForm)} />
+                    <Checkbox
+                      checked={checked}
+                      onChange={() => handleGuestLogin(resetForm)}
+                    />
                   }
                   label="Sign in as Guest"
                 />

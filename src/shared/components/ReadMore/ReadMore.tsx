@@ -13,7 +13,10 @@ export const ReadMore = props => {
       {needsReadMoreOption ? (
         <>
           {isReadMore ? text.slice(0, limit) : text}
-          <span onClick={() => setIsReadMore(!isReadMore)} className={styles.readOrHide}>
+          <span
+            onClick={() => setIsReadMore(!isReadMore)}
+            className={styles.readOrHide}
+          >
             {isReadMore ? '  ...Read more' : '  Show less'}
           </span>
         </>

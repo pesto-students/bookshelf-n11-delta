@@ -77,7 +77,11 @@ export const Orders = () => {
       ) : (
         <Paper elevation={2} className={styles.layout}>
           <Stack direction="column">
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Typography style={{fontWeight: 'bold'}} variant="h5">
                 Orders
               </Typography>
@@ -99,9 +103,16 @@ export const Orders = () => {
             </Stack>
             {!!orders.length ? (
               orders
-                .slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                .slice(
+                  (page - 1) * rowsPerPage,
+                  (page - 1) * rowsPerPage + rowsPerPage,
+                )
                 .map(order => (
-                  <Grid container rowSpacing={0} className={styles.orderOuterBox}>
+                  <Grid
+                    container
+                    rowSpacing={0}
+                    className={styles.orderOuterBox}
+                  >
                     <Grid item xs={8}>
                       <Paper elevation={2}>
                         <TableContainer>
@@ -124,19 +135,29 @@ export const Orders = () => {
                                 <TableRow
                                   key={orderDetail?.bookId?._id}
                                   style={
-                                    index % 2 ? {background: '#EDEDEF'} : {background: 'white'}
+                                    index % 2
+                                      ? {background: '#EDEDEF'}
+                                      : {background: 'white'}
                                   }
                                 >
                                   <TableCell>{index + 1}</TableCell>
                                   <TableCell
                                     align="right"
                                     style={{cursor: 'pointer'}}
-                                    onClick={() => redirectToBooksPage(orderDetail?.bookId?._id)}
+                                    onClick={() =>
+                                      redirectToBooksPage(
+                                        orderDetail?.bookId?._id,
+                                      )
+                                    }
                                   >
                                     {orderDetail?.bookId?.title}
                                   </TableCell>
-                                  <TableCell align="right">{orderDetail.price}</TableCell>
-                                  <TableCell align="right">{orderDetail.quantity}</TableCell>
+                                  <TableCell align="right">
+                                    {orderDetail.price}
+                                  </TableCell>
+                                  <TableCell align="right">
+                                    {orderDetail.quantity}
+                                  </TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>
@@ -167,7 +188,9 @@ export const Orders = () => {
                               <TableRow>
                                 <TableCell>Delivery Date</TableCell>
                                 <TableCell>
-                                  {moment(order.deliveredOn).format('DD-MM-YYYY')}
+                                  {moment(order.deliveredOn).format(
+                                    'DD-MM-YYYY',
+                                  )}
                                 </TableCell>
                               </TableRow>
                               <TableRow>

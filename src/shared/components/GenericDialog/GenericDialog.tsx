@@ -14,7 +14,9 @@ const Transition = forwardRef(function Transition(
   },
   ref: React.Ref<unknown>,
 ) {
-  return <Slide direction="down" mountOnEnter unmountOnExit ref={ref} {...props} />;
+  return (
+    <Slide direction="down" mountOnEnter unmountOnExit ref={ref} {...props} />
+  );
 });
 
 const StyledDialog = styled(Dialog)(({theme}) => ({
@@ -74,12 +76,18 @@ export const GenericDialog = (props: GenericDialogProps) => {
     >
       <div
         className={styles.dialog}
-        style={props.image ? {backgroundImage: `url(${props.image})`, height: '500px'} : {}}
+        style={
+          props.image
+            ? {backgroundImage: `url(${props.image})`, height: '500px'}
+            : {}
+        }
       >
         <DialogHeader id="title" className={styles.title} onClose={handleClose}>
           {props.title}
         </DialogHeader>
-        <DialogContent className={styles.content}>{props.children}</DialogContent>
+        <DialogContent className={styles.content}>
+          {props.children}
+        </DialogContent>
       </div>
     </StyledDialog>
   );
