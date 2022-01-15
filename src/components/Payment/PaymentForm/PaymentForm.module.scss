@@ -1,5 +1,5 @@
-@use "../../../mixins" as mixins;
-@import "../../../variables";
+@use '../../../scss/mixins' as mixins;
+@import '../../../scss/variables';
 
 $primaryHover: #27399c;
 
@@ -11,7 +11,9 @@ $primaryHover: #27399c;
 .layout {
   margin: 16px;
   display: flex;
+  flex-wrap: wrap;
   padding: 16px;
+  @include mixins.fxLayoutGap();
 
   .leftLayout {
     flex: 1;
@@ -37,7 +39,6 @@ $primaryHover: #27399c;
         font-weight: 500;
       }
     }
-
   }
 
   .rightLayout {
@@ -53,16 +54,14 @@ $primaryHover: #27399c;
   }
 
   .paymentForm {
-    width: 60%;
-
     .formGroup {
       margin: 0 16px 20px;
       padding: 0;
       border-style: none;
       background-color: #7795f8;
       will-change: opacity, transform;
-      box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06),
-        0 2px 5px rgba(0, 0, 0, 0.08), inset 0 1px 0 #829fff;
+      box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 #829fff;
       border-radius: 4px;
 
       .formRow {
@@ -78,13 +77,18 @@ $primaryHover: #27399c;
     .buttons {
       margin: 0px 16px;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
+      @include mixins.fxLayoutGap();
       @include mixins.fxLayoutHorzGap();
+
+      .btn {
+        min-width: 100px;
+      }
     }
   }
-
   .image {
-    width: 400px;
+    max-width: 400px;
   }
 }
 

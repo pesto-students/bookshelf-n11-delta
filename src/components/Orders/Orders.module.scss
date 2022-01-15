@@ -1,11 +1,11 @@
-@import "../../variables";
+@import '../../scss/variables';
 
 .layout {
   display: flex;
   margin: 16px;
   padding: 16px;
   flex-direction: column;
-  
+
   .orderOuterBox {
     margin: 10px 0 10px 0;
     border: 2px solid #e5e5e5;

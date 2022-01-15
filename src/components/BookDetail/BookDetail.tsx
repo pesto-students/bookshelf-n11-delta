@@ -1,39 +1,26 @@
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import ShoppingBasketOutlinedIcon from "@mui/icons-material/ShoppingBasketOutlined";
-import LoadingButton from "@mui/lab/LoadingButton";
-import {
-  Button,
-  ButtonProps,
-  Divider,
-  Grid,
-  Paper,
-  Stack,
-  styled,
-  Typography,
-} from "@mui/material";
-import {Fragment, useContext, useEffect, useState} from "react";
-import {useLocation, useNavigate, useParams} from "react-router-dom";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
+import LoadingButton from '@mui/lab/LoadingButton';
+import {Button, ButtonProps, Divider, Grid, Paper, Stack, styled, Typography} from '@mui/material';
+import {Fragment, useContext, useEffect, useState} from 'react';
+import {useLocation, useNavigate, useParams} from 'react-router-dom';
 
-import {AppContext} from "../../App/App";
-import noReviews from "../../assets/no-reviews.svg";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
+import {AppContext} from '../../App/App';
+import noReviews from '../../assets/no-reviews.svg';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
 import {
   MemoizedRatingBox,
   Overlay,
   RatingChart,
   ReadMore,
   ReviewDetails,
-} from "../../shared/components";
-import {OrderTypes} from "../../shared/enums";
-import {
-  ADD_ITEM_TO_CART,
-  APP_ACTIONS,
-  HTML_SPECIAL_CHARS,
-} from "../../shared/immutables";
-import {Book, CartItem, ChartRating, Review} from "../../shared/models";
-import RatingPopup from "../RatingPopup/RatingPopup";
-import styles from "./BookDetail.module.scss";
+} from '../../shared/components';
+import {OrderTypes} from '../../shared/enums';
+import {ADD_ITEM_TO_CART, APP_ACTIONS, HTML_SPECIAL_CHARS} from '../../shared/immutables';
+import {Book, CartItem, ChartRating, Review} from '../../shared/models';
+import RatingPopup from '../RatingPopup/RatingPopup';
+import styles from './BookDetail.module.scss';
 
 export const BookDetail = () => {
   const {id} = useParams();
@@ -53,10 +40,10 @@ export const BookDetail = () => {
   const [chartRating, setChartRating] = useState(initialChartRating);
 
   const AddToCartButton = styled(LoadingButton)<ButtonProps>(() => ({
-    backgroundColor: "#f44336",
-    marginRight: "16px",
-    "&:hover": {
-      backgroundColor: "#d2190b",
+    backgroundColor: '#f44336',
+    marginRight: '16px',
+    '&:hover': {
+      backgroundColor: '#d2190b',
     },
   }));
 
@@ -72,7 +59,7 @@ export const BookDetail = () => {
   }, [reviews]);
 
   useEffect(() => {
-    const isPresent = appState.cartItems.some((item) => item._id === book._id);
+    const isPresent = appState.cartItems.some(item => item._id === book._id);
     setInCart(isPresent);
   }, [appState.cartItems]);
 
@@ -84,9 +71,9 @@ export const BookDetail = () => {
           book = data;
           createBookDetails();
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
-          navigate("/");
+          navigate('/');
         });
     } else {
       createBookDetails();
@@ -99,12 +86,12 @@ export const BookDetail = () => {
       .get(`${environment.API_URL}/reviews?bookId=${id}`)
       .then(({data}) => {
         const bookReviews = [];
-        data.reviews.forEach((review) => {
+        data.reviews.forEach(review => {
           bookReviews.push(new Review(review));
         });
         setReviews(bookReviews);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       })
       .finally(() => setShowLoader(false));
@@ -112,10 +99,8 @@ export const BookDetail = () => {
 
   function createChartRating() {
     const data = {...chartRating};
-    [1, 2, 3, 4, 5].forEach((element) => {
-      const length = reviews.filter(
-        (review) => review.rating === element
-      ).length;
+    [1, 2, 3, 4, 5].forEach(element => {
+      const length = reviews.filter(review => review.rating === element).length;
       data[`star${element}`] = length;
     });
     setChartRating(data);
@@ -124,15 +109,15 @@ export const BookDetail = () => {
   function createBookDetails() {
     setDetails([
       {
-        key: "language",
+        key: 'language',
         value: book.language,
       },
       {
-        key: "author",
+        key: 'author',
         value: book.author,
       },
       {
-        key: "category",
+        key: 'category',
         value: book.category,
       },
     ]);
@@ -175,7 +160,7 @@ export const BookDetail = () => {
   };
 
   const navigateToCart = () => {
-    navigate("/cart");
+    navigate('/cart');
   };
 
   const addToCartHandler = () => {
@@ -192,7 +177,7 @@ export const BookDetail = () => {
       price: book.price,
       quantity: 1,
     });
-    appState.cartItems.forEach((item) => {
+    appState.cartItems.forEach(item => {
       if (item._id !== id) {
         orderDetails.push({
           bookId: item._id,
@@ -214,7 +199,7 @@ export const BookDetail = () => {
         });
         navigateToCart();
       })
-      .catch((err) => console.log(err))
+      .catch(err => console.log(err))
       .finally(() => setCartLoading(false));
   };
 
@@ -241,7 +226,7 @@ export const BookDetail = () => {
                 loadingPosition="start"
                 onClick={addToCartHandler}
               >
-                {inCart ? "GO TO CART" : "ADD TO CART"}
+                {inCart ? 'GO TO CART' : 'ADD TO CART'}
               </AddToCartButton>
               <Button
                 disabled={!appState.isUserLoggedIn || !book.quantity}
@@ -256,18 +241,16 @@ export const BookDetail = () => {
           <Stack spacing={1} className={styles.description}>
             <div className={styles.title}>{book.title}</div>
             <MemoizedRatingBox rating={book.avgRating} />
-            <Typography sx={{fontWeight: "bold", fontSize: "24px"}}>
+            <Typography sx={{fontWeight: 'bold', fontSize: '24px'}}>
               {HTML_SPECIAL_CHARS.RUPEE} {book.price}
             </Typography>
             <div className={styles.tabularDetails}>
               {details.map((detail, index) => (
-                <Fragment key={index}>
-                  {gridRow(detail.key, <span>{detail.value}</span>)}
-                </Fragment>
+                <Fragment key={index}>{gridRow(detail.key, <span>{detail.value}</span>)}</Fragment>
               ))}
               {book.highlights &&
                 gridRow(
-                  "highlights",
+                  'highlights',
                   !!book.highlights.length ? (
                     <ul className={styles.bookHighlights}>
                       {book.highlights.map((highlight, index) => (
@@ -276,19 +259,15 @@ export const BookDetail = () => {
                     </ul>
                   ) : (
                     <span>-</span>
-                  )
+                  ),
                 )}
-              {gridRow("description", <ReadMore>{book.description}</ReadMore>)}
+              {gridRow('description', <ReadMore>{book.description}</ReadMore>)}
             </div>
             {!book.quantity && (
-              <div className={styles.notAvailableMsg}>
-                Sorry, currently item is out of stock
-              </div>
+              <div className={styles.notAvailableMsg}>Sorry, currently item is out of stock</div>
             )}
             <div className={styles.ratingHeading}>
-              <div className={styles.title}>
-                Rating {HTML_SPECIAL_CHARS.AND} Reviews
-              </div>
+              <div className={styles.title}>Rating {HTML_SPECIAL_CHARS.AND} Reviews</div>
               {!showLoader && (
                 <div className={styles.rateBtn} onClick={openRatingDialog}>
                   +
@@ -302,10 +281,8 @@ export const BookDetail = () => {
               </div>
             ) : !!reviews.length ? (
               <>
-                <div style={{height: "200px"}}>
-                  <RatingChart rating={chartRating} height="200px" />
-                </div>
-                {reviews.map((rating) => (
+                <RatingChart rating={chartRating} />
+                {reviews.map(rating => (
                   <ReviewDetails key={rating._id} review={rating} />
                 ))}
               </>
@@ -316,11 +293,7 @@ export const BookDetail = () => {
               </div>
             )}
           </Stack>
-          <RatingPopup
-            open={open}
-            handleDialogClose={handleDialogClose}
-            bookId={id}
-          />
+          <RatingPopup open={open} handleDialogClose={handleDialogClose} bookId={id} />
         </Paper>
       ) : (
         <Overlay />

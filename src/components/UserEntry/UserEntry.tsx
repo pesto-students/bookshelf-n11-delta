@@ -1,20 +1,20 @@
-import {AnimatePresence} from "framer-motion";
-import {useContext, useReducer} from "react";
+import {AnimatePresence} from 'framer-motion';
+import {useContext, useReducer} from 'react';
 
-import {AppContext} from "../../App/App";
-import loginImage from "../../assets/signup.png";
-import {userEntryReducer} from "../../reducers";
-import {GenericDialog} from "../../shared/components";
-import {APP_ACTIONS} from "../../shared/immutables";
-import LoginForm from "./LoginForm";
-import SignUpForm from "./SignUpForm";
-import {UserEntryState} from "./UserEntry.constant";
-import styles from "./UserEntry.module.scss";
+import {AppContext} from '../../App/App';
+import loginImage from '../../assets/signup.png';
+import {userEntryReducer} from '../../reducers';
+import {GenericDialog} from '../../shared/components';
+import {APP_ACTIONS} from '../../shared/immutables';
+import LoginForm from './LoginForm';
+import SignUpForm from './SignUpForm';
+import {UserEntryState} from './UserEntry.constant';
+import styles from './UserEntry.module.scss';
 
 export const UserEntry = ({showForm}) => {
   const [state, dispatchUserEntryAction] = useReducer(userEntryReducer, {
     userEntryState: showForm,
-    title: "",
+    title: '',
   });
   const handleDialogClose = () => {
     dispatchAppAction({

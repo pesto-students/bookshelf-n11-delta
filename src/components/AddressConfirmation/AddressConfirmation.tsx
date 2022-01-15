@@ -1,26 +1,26 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {Button, Grid, TextField} from "@mui/material";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import Typography from "@mui/material/Typography";
-import {Formik} from "formik";
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {object, string} from "yup";
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import {Button, Grid, TextField} from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import {Formik} from 'formik';
+import {Fragment, useContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {object, string} from 'yup';
 
-import {AppContext} from "../../App/App";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import {APP_ACTIONS} from "../../shared/immutables";
-import styles from "./AddressConfirmation.module.scss";
+import {AppContext} from '../../App/App';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {APP_ACTIONS} from '../../shared/immutables';
+import styles from './AddressConfirmation.module.scss';
 
 function AddressConfirmation({handleDelivery}) {
   const initialAddressData = {
-    addressLine1: "",
-    city: "",
-    state: "",
-    pincode: "",
+    addressLine1: '',
+    city: '',
+    state: '',
+    pincode: '',
   };
 
   const [addressInfo, setAddressInfo] = useState(initialAddressData);
@@ -36,8 +36,7 @@ function AddressConfirmation({handleDelivery}) {
   function getUserAddress() {
     const user = appState.user ?? {};
     const addresses = user.addresses ?? [];
-    const primaryAdd =
-      addresses.find((address) => !!address?.default) ?? addresses[0];
+    const primaryAdd = addresses.find(address => !!address?.default) ?? addresses[0];
     setHasAddress(!!primaryAdd);
     const profile = {
       addressLine1: primaryAdd?.addressLine1,
@@ -63,7 +62,7 @@ function AddressConfirmation({handleDelivery}) {
     };
     axios
       .post(`${environment.API_URL}/cart/address`, {address: addressData})
-      .then(({data}) => {
+      .then(_ => {
         dispatchAppAction({
           type: APP_ACTIONS.UPDATE_ADDRESS,
           data: addressData,
@@ -72,7 +71,7 @@ function AddressConfirmation({handleDelivery}) {
         setHasAddress(true);
         setAddressInfo({...addressInfo, ...addressData});
       })
-      .catch((error) => console.log(error))
+      .catch(error => console.log(error))
       .finally(() => actions.setSubmitting(false));
   };
 
@@ -84,7 +83,7 @@ function AddressConfirmation({handleDelivery}) {
     onChangeHandler,
     onBlurHandler,
     touched,
-    errors
+    errors,
   ) => {
     return (
       <Grid item xs={width}>
@@ -105,20 +104,24 @@ function AddressConfirmation({handleDelivery}) {
   };
 
   return (
-    <div>
+    <Fragment>
       {hasAddress ? (
         <>
           <div className={styles.address}>
             <div className={styles.title}>Address: </div>
-              <div>{addressInfo.addressLine1}, {addressInfo.city}</div>
-              <div>{addressInfo.state}, PIN: {addressInfo.pincode}</div>
+            <div>
+              {addressInfo.addressLine1}, {addressInfo.city}
+            </div>
+            <div>
+              {addressInfo.state}, PIN: {addressInfo.pincode}
+            </div>
           </div>
           <div className={styles.buttons}>
             <Button variant="contained" size="small" onClick={handleDelivery}>
               Deliver to this Address
             </Button>
             <Button
-              style={{minWidth: "100px"}}
+              style={{minWidth: '100px'}}
               variant="outlined"
               size="small"
               onClick={handleCancel}
@@ -152,47 +155,47 @@ function AddressConfirmation({handleDelivery}) {
                     <Grid container spacing={2}>
                       {TextWrappedInGrid(
                         12,
-                        "addressLine1",
-                        "Address",
+                        'addressLine1',
+                        'Address',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
                       )}
                       {TextWrappedInGrid(
                         4,
-                        "city",
-                        "City",
+                        'city',
+                        'City',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
                       )}
                       {TextWrappedInGrid(
                         4,
-                        "state",
-                        "State",
+                        'state',
+                        'State',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
                       )}
                       {TextWrappedInGrid(
                         4,
-                        "pincode",
-                        "Pin code",
+                        'pincode',
+                        'Pin code',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
                       )}
                       <Grid item xs={8}>
                         <Button
-                          style={{minWidth: "150px"}}
+                          style={{minWidth: '150px'}}
                           type="submit"
                           color="primary"
                           size="medium"
@@ -210,15 +213,15 @@ function AddressConfirmation({handleDelivery}) {
           </Accordion>
         </div>
       )}
-    </div>
+    </Fragment>
   );
 }
 
 const addValidationSchema = object().shape({
-  addressLine1: string().required("Required field"),
-  city: string().required("Required field"),
-  state: string().required("Required field"),
-  pincode: string().required("Required field"),
+  addressLine1: string().required('Required field'),
+  city: string().required('Required field'),
+  state: string().required('Required field'),
+  pincode: string().required('Required field'),
 });
 
 export default AddressConfirmation;

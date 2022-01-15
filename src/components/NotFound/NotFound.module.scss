@@ -1,4 +1,4 @@
-@import "../../variables";
+@import '../../scss/variables';
 
 .layout {
   display: flex;
@@ -16,6 +16,6 @@
   }
 
   .btn {
-      margin: 16px 0px;
+    margin: 16px 0px;
   }
 }

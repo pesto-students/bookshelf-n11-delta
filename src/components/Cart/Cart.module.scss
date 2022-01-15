@@ -1,43 +1,44 @@
-@use "../../mixins" as mixins;
-@import "../../variables";
+@use '../../scss/mixins' as mixins;
+@import '../../scss/variables';
 
 .stepper {
-  margin: 16px 64px 16px 64px;
+  margin: 0px 16px;
 }
-
 .paper {
   display: flex;
   flex-direction: column;
   margin: 16px;
   padding: 16px;
-  
+
   .layout {
     display: flex;
-  
+    flex-wrap: wrap;
+
     .leftLayout {
       flex: 3;
     }
-  
+
     .rightLayout {
       flex: 2;
       display: flex;
       flex-direction: column;
       @include mixins.fxLayoutGap();
     }
-  
+
     .borderLayoutBox {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       border: 1px solid $divider;
       border-radius: 4px;
       margin: 16px;
       padding: 16px;
-  
+      @include mixins.fxLayoutGap();
+
       .boldText {
         font-weight: bold;
       }
     }
   }
-  
 }

@@ -1,6 +1,6 @@
-export class Book{
+export class Book {
   _id: string;
-  title: string
+  title: string;
   description: string;
   language: string;
   category: string;
@@ -14,14 +14,14 @@ export class Book{
 
   constructor(data: Partial<Book> = {}) {
     this._id = data._id;
-    this.title = data.title ?? "";
-    this.description = data.description ?? "";
-    this.language = data.language ?? "";
-    this.category = data.category ?? "";
-    this.author = data.author ?? "";
+    this.title = data.title ?? '';
+    this.description = data.description ?? '';
+    this.language = data.language ?? '';
+    this.category = data.category ?? '';
+    this.author = data.author ?? '';
     this.quantity = data.quantity ?? 1;
     this.price = data.price ?? 0;
-    this.imageUri = data.imageUri ?? "";
+    this.imageUri = data.imageUri ?? '';
     this.highlights = data.highlights ?? [];
     this.pages = data.pages ?? 0;
     this.avgRating = data.avgRating;

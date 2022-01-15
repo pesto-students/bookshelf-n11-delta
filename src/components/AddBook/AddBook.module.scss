@@ -1,5 +1,5 @@
-@use "../../mixins" as mixin;
-@import "../../variables";
+@use '../../scss/mixins' as mixin;
+@import '../../scss/variables';
 
 .layout {
   margin: 16px;
@@ -12,7 +12,7 @@
     flex: 1;
     background-color: $divider;
     height: 300px;
-    
+
     .imageUpload {
       @include mixin.fxFill();
 
@@ -33,7 +33,7 @@
     margin-left: 32px;
 
     .textField {
-        width: 100%;
+      width: 100%;
     }
 
     .buttons {

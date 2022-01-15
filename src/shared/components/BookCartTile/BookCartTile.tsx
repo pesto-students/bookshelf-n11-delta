@@ -1,11 +1,11 @@
-import {useNavigate} from "react-router-dom";
+import {useNavigate} from 'react-router-dom';
 
-import {HTML_SPECIAL_CHARS} from "../../immutables";
-import {CartItem} from "../../models";
-import {QuantityPicker} from "../QuantityPicker/QuantityPicker";
-import styles from "./BookCartTile.module.scss";
-import Button from "@mui/material/Button";
-import DeleteIcon from "@mui/icons-material/Delete";
+import {HTML_SPECIAL_CHARS} from '../../immutables';
+import {CartItem} from '../../models';
+import {QuantityPicker} from '../QuantityPicker/QuantityPicker';
+import styles from './BookCartTile.module.scss';
+import Button from '@mui/material/Button';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export const BookCartTile = ({
   item,
@@ -18,7 +18,7 @@ export const BookCartTile = ({
 }) => {
   const navigate = useNavigate();
 
-  const getBookDetails = (item) => {
+  const getBookDetails = item => {
     const bookItem = {...item};
     delete bookItem.id;
     delete bookItem.qtyOrdered;
@@ -44,7 +44,7 @@ export const BookCartTile = ({
           <QuantityPicker
             qty={item.qtyOrdered}
             max={item.quantity}
-            setQty={(value) => {
+            setQty={value => {
               qtyUpdate(item._id, value);
             }}
           />
@@ -65,7 +65,7 @@ export const BookCartTile = ({
             variant="outlined"
             startIcon={<DeleteIcon />}
             onClick={() => qtyUpdate(item._id, 0)}
-            style={{width: "150px"}}
+            className={styles.deleteBtn}
           >
             Delete
           </Button>

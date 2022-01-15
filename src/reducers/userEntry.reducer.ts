@@ -1,4 +1,4 @@
-import {USER_ENTRY_ACTIONS} from "../shared/immutables";
+import {USER_ENTRY_ACTIONS} from '../shared/immutables';
 
 export const userEntryReducer = (state, action) => {
   const newState = {...state};

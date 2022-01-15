@@ -1,6 +1,6 @@
-import {SortTypes} from "../shared/enums";
-import {DASHBOARD_ACTIONS} from "../shared/immutables";
-import {Book, Filter} from "../shared/models";
+import {SortTypes} from '../shared/enums';
+import {DASHBOARD_ACTIONS} from '../shared/immutables';
+import {Book, Filter} from '../shared/models';
 
 export interface IDashboardState {
   books: Book[];
@@ -39,8 +39,8 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       break;
     case DASHBOARD_ACTIONS.SEARCH_BOOKS:
       if (!!action.searchOn) {
-        newState.searchFilteredBooks = newState.filteredBooks.filter((book) =>
-          book.title.toLowerCase().includes(action.searchOn.toLowerCase())
+        newState.searchFilteredBooks = newState.filteredBooks.filter(book =>
+          book.title.toLowerCase().includes(action.searchOn.toLowerCase()),
         );
       } else {
         newState.searchFilteredBooks = newState.filteredBooks;
@@ -76,20 +76,20 @@ const applyFilter = (state: IDashboardState) => {
 
   if (filter.price) {
     state.filteredBooks = state.books.filter(
-      (book) => book.price >= filter.price.min && book.price <= filter.price.max
+      book => book.price >= filter.price.min && book.price <= filter.price.max,
     );
   } else {
     state.filteredBooks = [...state.books];
   }
 
   if (filter.language?.length) {
-    state.filteredBooks = state.filteredBooks.filter((book) =>
-      filter.language.includes(book.language)
+    state.filteredBooks = state.filteredBooks.filter(book =>
+      filter.language.includes(book.language),
     );
   }
   if (filter.category?.length) {
-    state.filteredBooks = state.filteredBooks.filter((book) =>
-      filter.category.includes(book.category)
+    state.filteredBooks = state.filteredBooks.filter(book =>
+      filter.category.includes(book.category),
     );
   }
   state.searchFilteredBooks = [...state.filteredBooks];
@@ -117,14 +117,11 @@ const updateDashboardFilteredBooks = (state: IDashboardState) => {
   state.dashboardFilteredBooks = state.searchFilteredBooks.slice(0, length);
 };
 
-const handleDashboardScroll = (state) => {
+const handleDashboardScroll = state => {
   if (state.dashboardFilteredBooks.length >= state.searchFilteredBooks.length) {
     state.hasMore = false;
     return;
   }
   const length = state.dashboardFilteredBooks.length;
-  state.dashboardFilteredBooks = state.searchFilteredBooks.slice(
-    0,
-    length + SCROLL_LIMIT
-  );
+  state.dashboardFilteredBooks = state.searchFilteredBooks.slice(0, length + SCROLL_LIMIT);
 };

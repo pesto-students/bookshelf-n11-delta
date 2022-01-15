@@ -11,17 +11,17 @@ import {
   TableRow,
   Typography,
   Pagination,
-} from "@mui/material";
-import moment from "moment";
-import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+} from '@mui/material';
+import moment from 'moment';
+import {useContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
 
-import { AppContext } from "../../App/App";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import { Overlay } from "../../shared/components";
-import { DASHBOARD_ROUTE } from "../../shared/immutables";
-import styles from "./Orders.module.scss";
+import {AppContext} from '../../App/App';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {Overlay} from '../../shared/components';
+import {DASHBOARD_ROUTE} from '../../shared/immutables';
+import styles from './Orders.module.scss';
 
 export const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -31,7 +31,7 @@ export const Orders = () => {
 
   const navigate = useNavigate();
   const {
-    appState: { books, isUserLoggedIn },
+    appState: {books, isUserLoggedIn},
   } = useContext(AppContext);
 
   useEffect(() => {
@@ -44,8 +44,8 @@ export const Orders = () => {
     }
   }, [isUserLoggedIn]);
 
-  const redirectToBooksPage = (id) => {
-    const book = books.find((book) => book._id === id);
+  const redirectToBooksPage = id => {
+    const book = books.find(book => book._id === id);
     if (!!book) {
       // redirect to books detail page
       navigate(`/books/${id}`, {
@@ -60,10 +60,10 @@ export const Orders = () => {
     setLoading(true);
     axios
       .get(`${environment.API_URL}/orders`)
-      .then(({ data }) => {
+      .then(({data}) => {
         setOrders(data.orders);
       })
-      .catch((error) => {
+      .catch(error => {
         console.log(error);
       })
       .finally(() => setLoading(false));
@@ -77,12 +77,8 @@ export const Orders = () => {
       ) : (
         <Paper elevation={2} className={styles.layout}>
           <Stack direction="column">
-            <Stack
-              direction="row"
-              justifyContent="space-between"
-              alignItems="center"
-            >
-              <Typography style={{ fontWeight: "bold" }} variant="h5">
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Typography style={{fontWeight: 'bold'}} variant="h5">
                 Orders
               </Typography>
               {!!orders.length ? (
@@ -103,26 +99,19 @@ export const Orders = () => {
             </Stack>
             {!!orders.length ? (
               orders
-                .slice(
-                  (page - 1) * rowsPerPage,
-                  (page - 1) * rowsPerPage + rowsPerPage
-                )
-                .map((order) => (
-                  <Grid
-                    container
-                    rowSpacing={0}
-                    className={styles.orderOuterBox}
-                  >
+                .slice((page - 1) * rowsPerPage, (page - 1) * rowsPerPage + rowsPerPage)
+                .map(order => (
+                  <Grid container rowSpacing={0} className={styles.orderOuterBox}>
                     <Grid item xs={8}>
                       <Paper elevation={2}>
                         <TableContainer>
                           <Table
                             size="small"
                             sx={{
-                              tableLayout: "fixed",
+                              tableLayout: 'fixed',
                             }}
                           >
-                            <TableHead style={{ backgroundColor: "#8e99d7" }}>
+                            <TableHead style={{backgroundColor: '#8e99d7'}}>
                               <TableRow>
                                 <TableCell>#</TableCell>
                                 <TableCell align="right">Book Name</TableCell>
@@ -135,29 +124,19 @@ export const Orders = () => {
                                 <TableRow
                                   key={orderDetail?.bookId?._id}
                                   style={
-                                    index % 2
-                                      ? { background: "#EDEDEF" }
-                                      : { background: "white" }
+                                    index % 2 ? {background: '#EDEDEF'} : {background: 'white'}
                                   }
                                 >
                                   <TableCell>{index + 1}</TableCell>
                                   <TableCell
                                     align="right"
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() =>
-                                      redirectToBooksPage(
-                                        orderDetail?.bookId?._id
-                                      )
-                                    }
+                                    style={{cursor: 'pointer'}}
+                                    onClick={() => redirectToBooksPage(orderDetail?.bookId?._id)}
                                   >
                                     {orderDetail?.bookId?.title}
                                   </TableCell>
-                                  <TableCell align="right">
-                                    {orderDetail.price}
-                                  </TableCell>
-                                  <TableCell align="right">
-                                    {orderDetail.quantity}
-                                  </TableCell>
+                                  <TableCell align="right">{orderDetail.price}</TableCell>
+                                  <TableCell align="right">{orderDetail.quantity}</TableCell>
                                 </TableRow>
                               ))}
                             </TableBody>
@@ -171,7 +150,7 @@ export const Orders = () => {
                           <Table
                             size="small"
                             sx={{
-                              tableLayout: "fixed",
+                              tableLayout: 'fixed',
                             }}
                           >
                             <TableBody>
@@ -182,15 +161,13 @@ export const Orders = () => {
                               <TableRow>
                                 <TableCell>Order Date</TableCell>
                                 <TableCell>
-                                  {moment(order.createdOn).format("DD-MM-YYYY")}
+                                  {moment(order.createdOn).format('DD-MM-YYYY')}
                                 </TableCell>
                               </TableRow>
                               <TableRow>
                                 <TableCell>Delivery Date</TableCell>
                                 <TableCell>
-                                  {moment(order.deliveredOn).format(
-                                    "DD-MM-YYYY"
-                                  )}
+                                  {moment(order.deliveredOn).format('DD-MM-YYYY')}
                                 </TableCell>
                               </TableRow>
                               <TableRow>

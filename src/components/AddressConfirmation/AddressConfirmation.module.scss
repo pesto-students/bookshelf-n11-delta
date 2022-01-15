@@ -1,25 +1,25 @@
-@use "../../mixins" as mixins;
-@import "../../variables";
+@use '../../scss/mixins' as mixins;
+@import '../../scss/variables';
 
 .layout {
   min-height: 300px;
 }
 
 .address {
-    margin: 0px 16px 16px;
-    color: $primary;
-    display: flex;
-    flex-direction: column;
-    @include mixins.fxLayoutGap(4px);
+  margin: 0px 16px 16px;
+  color: $primary;
+  display: flex;
+  flex-direction: column;
+  @include mixins.fxLayoutGap(4px);
 
-    .title {
-      font-weight: bold;
-    }
+  .title {
+    font-weight: bold;
   }
-  
-  .buttons {
-    margin: 0px 16px;
-    display: flex;
-    justify-content: space-between;
-    @include mixins.fxLayoutHorzGap();
-  }
+}
+
+.buttons {
+  margin: 0px 16px;
+  display: flex;
+  justify-content: space-between;
+  @include mixins.fxLayoutHorzGap();
+}

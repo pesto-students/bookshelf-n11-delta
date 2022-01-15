@@ -1,7 +1,7 @@
-import {ReadMore} from "..";
-import {Review} from "../../models";
-import {MemoizedRatingBox} from "../RatingBox/RatingBox";
-import styles from "./ReviewDetails.module.scss";
+import {ReadMore} from '..';
+import {Review} from '../../models';
+import {MemoizedRatingBox} from '../RatingBox/RatingBox';
+import styles from './ReviewDetails.module.scss';
 
 export const ReviewDetails = ({review}: {review: Partial<Review>}) => {
   return (

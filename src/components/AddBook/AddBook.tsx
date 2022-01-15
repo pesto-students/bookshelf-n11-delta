@@ -1,47 +1,40 @@
-import {Button, Grid, Paper, styled, TextField} from "@mui/material";
-import {Formik} from "formik";
-import ChipInput from "material-ui-chip-input";
-import {useState} from "react";
-import {toast} from "react-toastify";
-import {number, object, string} from "yup";
-import DeleteIcon from "@mui/icons-material/Delete";
+import DeleteIcon from '@mui/icons-material/Delete';
+import {Button, Grid, Paper, styled, TextField} from '@mui/material';
+import {Formik} from 'formik';
+import ChipInput from 'material-ui-chip-input';
+import {useState} from 'react';
+import {toast} from 'react-toastify';
+import {number, object, string} from 'yup';
 
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import {Book} from "../../shared/models";
-import styles from "./AddBook.module.scss";
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {Book} from '../../shared/models';
+import styles from './AddBook.module.scss';
 
 export const AddBook = () => {
   const [iconFile, setIconFile] = useState({
-    file: "",
-    url: "",
+    file: '',
+    url: '',
   });
 
   const [chips, setChips] = useState([]);
 
-  const onFileChange = (event) => {
+  const onFileChange = event => {
     const selectedFile = event.target.files[0];
     setIconFile({file: selectedFile, url: URL.createObjectURL(selectedFile)});
   };
   const initialBookValues = new Book();
 
-  const Input = styled("input")({
-    display: "none",
+  const Input = styled('input')({
+    display: 'none',
   });
 
   return (
     <Paper elevation={2} className={styles.layout}>
       <div className={styles.image}>
         <label htmlFor="avatar">
-          <Input
-            accept="image/*"
-            id="avatar"
-            type="file"
-            onChange={onFileChange}
-          />
-          <div className={styles.imageUpload}>
-            {!!iconFile.url && <img src={iconFile.url} />}
-          </div>
+          <Input accept="image/*" id="avatar" type="file" onChange={onFileChange} />
+          <div className={styles.imageUpload}>{!!iconFile.url && <img src={iconFile.url} />}</div>
         </label>
       </div>
       <Formik
@@ -49,16 +42,16 @@ export const AddBook = () => {
         onSubmit={(values, {setSubmitting, resetForm}) => {
           setSubmitting(true);
           const data = new FormData();
-          data.append("bookImage", iconFile.file);
-          data.append("title", values.title);
-          data.append("author", values.author);
-          data.append("pages", `${values.pages}`);
-          data.append("description", values.description);
-          data.append("quantity", `${values.quantity}`);
-          data.append("category", values.category);
-          data.append("price", `${values.price}`);
-          data.append("language", values.language);
-          data.append("highlights", chips?.join(";"));
+          data.append('bookImage', iconFile.file);
+          data.append('title', values.title);
+          data.append('author', values.author);
+          data.append('pages', `${values.pages}`);
+          data.append('description', values.description);
+          data.append('quantity', `${values.quantity}`);
+          data.append('category', values.category);
+          data.append('price', `${values.price}`);
+          data.append('language', values.language);
+          data.append('highlights', chips?.join(';'));
 
           axios
             .post(`${environment.API_URL}/upload/book`, data)
@@ -66,10 +59,10 @@ export const AddBook = () => {
               toast.success(data.message);
               setSubmitting(false);
               resetForm();
-              setIconFile({file: "", url: ""});
+              setIconFile({file: '', url: ''});
               setChips([]);
             })
-            .catch((error) => console.log(error))
+            .catch(error => console.log(error))
             .finally(() => setSubmitting(false));
         }}
         validationSchema={validationSchema}
@@ -215,7 +208,7 @@ export const AddBook = () => {
                   label="Highlights"
                   variant="outlined"
                   defaultValue={chips}
-                  onChange={(value) => {
+                  onChange={value => {
                     setChips(value);
                   }}
                   helperText="Press Enter to add multiple tags"
@@ -230,7 +223,7 @@ export const AddBook = () => {
                   startIcon={<DeleteIcon />}
                   onClick={() => {
                     resetForm();
-                    setIconFile({file: "", url: ""});
+                    setIconFile({file: '', url: ''});
                     setChips([]);
                   }}
                 >
@@ -255,12 +248,12 @@ export const AddBook = () => {
 };
 
 const validationSchema = object().shape({
-  title: string().required("Required field"),
-  author: string().required("Required field"),
-  language: string().required("Required field"),
-  category: string().required("Required field"),
-  quantity: number().required("Required field").min(0),
-  price: number().required("Required field").min(0),
-  pages: number().required("Required field").min(0),
-  description: string().required("Required field"),
+  title: string().required('Required field'),
+  author: string().required('Required field'),
+  language: string().required('Required field'),
+  category: string().required('Required field'),
+  quantity: number().required('Required field').min(0),
+  price: number().required('Required field').min(0),
+  pages: number().required('Required field').min(0),
+  description: string().required('Required field'),
 });

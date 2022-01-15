@@ -1,6 +1,6 @@
-import axios from "axios";
-import {createContext, useEffect, useReducer, useState} from "react";
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import axios from 'axios';
+import {createContext, useEffect, useReducer, useState} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 import {
   AboutUs,
@@ -21,16 +21,16 @@ import {
   UserEntry,
   UserList,
   UserProfile,
-} from "../components";
-import appAxios from "../core/axios";
-import environment from "../Environment/environment";
-import {IAppContext, RootReducer} from "../reducers";
-import {APP_ACTIONS, REFRESH_TOKEN} from "../shared/immutables";
-import styles from "./App.module.scss";
+} from '../components';
+import appAxios from '../core/axios';
+import environment from '../Environment/environment';
+import {IAppContext, RootReducer} from '../reducers';
+import {APP_ACTIONS, REFRESH_TOKEN} from '../shared/immutables';
+import styles from './App.module.scss';
 
 const initialAppState: IAppContext = {
-  searchText: "",
-  isUserLoggedIn: false,
+  searchText: '',
+  isUserLoggedIn: true,
   isSuperAdmin: false,
   userEntry: null,
   open: false,
@@ -42,10 +42,7 @@ const initialAppState: IAppContext = {
 export const AppContext = createContext(null);
 
 function App() {
-  const [appState, dispatchAppAction] = useReducer(
-    RootReducer,
-    initialAppState
-  );
+  const [appState, dispatchAppAction] = useReducer(RootReducer, initialAppState);
 
   const [isAdmin, setIsAdmin] = useState(appState.isSuperAdmin);
 
@@ -56,6 +53,8 @@ function App() {
         .post(`${environment.API_URL}/refresh`, {refreshToken})
         .then(({data}) => dispatchAppAction({type: APP_ACTIONS.LOGIN, data}))
         .catch(() => dispatchAppAction({type: APP_ACTIONS.LOGOUT}));
+    } else {
+      dispatchAppAction({type: APP_ACTIONS.LOGOUT});
     }
   }, []);
 
@@ -66,7 +65,7 @@ function App() {
         .then(({data}) => {
           dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data});
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
 
       appAxios.get(`${environment.API_URL}/cart`).then(({data}) => {
         dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
@@ -85,10 +84,7 @@ function App() {
           <Header />
           <div className={styles.wrapper}>
             <Routes>
-              <Route
-                path="/"
-                element={isAdmin ? <AdminHome /> : <Dashboard />}
-              />
+              <Route path="/" element={isAdmin ? <AdminHome /> : <Dashboard />} />
               {isAdmin ? (
                 <>
                   <Route path="/users" element={<UserList />} />
@@ -110,9 +106,7 @@ function App() {
               <Route path="/payments" element={<Payments />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-            {!!appState.userEntry && (
-              <UserEntry showForm={appState.userEntry} />
-            )}
+            {!!appState.userEntry && <UserEntry showForm={appState.userEntry} />}
           </div>
         </AppContext.Provider>
         <Footer />

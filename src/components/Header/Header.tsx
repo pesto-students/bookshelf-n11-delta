@@ -1,19 +1,19 @@
-import {makeStyles} from "@material-ui/core";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import {Badge, Divider, Stack} from "@mui/material";
-import SearchBar from "material-ui-search-bar";
-import {useContext} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
-import logo from "../../assets/bookshelf.svg";
-import {AppContext} from "../../App/App";
-import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
-import styles from "./Header.module.scss";
-import {UserAccount} from "./UserAccount";
+import {makeStyles} from '@material-ui/core';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import {Badge, Divider, Stack} from '@mui/material';
+import SearchBar from 'material-ui-search-bar';
+import {useContext} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import logo from '../../assets/bookshelf.svg';
+import {AppContext} from '../../App/App';
+import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
+import styles from './Header.module.scss';
+import {UserAccount} from './UserAccount';
 
 const useStyles = makeStyles(() => ({
   badge: {
-    fontSize: "10px",
+    fontSize: '10px',
   },
 }));
 
@@ -23,7 +23,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const changeInputValue = (newValue) => {
+  const changeInputValue = newValue => {
     dispatchAppAction({type: APP_ACTIONS.UPDATE_SEARCH_TEXT, data: newValue});
     if (location.pathname != DASHBOARD_ROUTE) {
       navigate(DASHBOARD_ROUTE);
@@ -31,7 +31,7 @@ export const Header = () => {
   };
 
   const clearSearchBar = () => {
-    changeInputValue("");
+    changeInputValue('');
   };
 
   const cartProcessing = () => {
@@ -42,7 +42,7 @@ export const Header = () => {
         },
       });
     } else {
-      toast.error("Please login to view cart items");
+      toast.error('Please login to view cart items');
     }
   };
 
@@ -59,8 +59,8 @@ export const Header = () => {
         {!appState.isSuperAdmin && (
           <SearchBar
             style={{
-              width: "50%",
-              height: "36px",
+              width: '50%',
+              height: '36px',
             }}
             onChange={changeInputValue}
             onCancelSearch={clearSearchBar}
@@ -75,10 +75,7 @@ export const Header = () => {
                 badgeContent={appState.cartItems.length}
                 color="error"
               >
-                <ShoppingCartIcon
-                  style={{color: "white"}}
-                  onClick={cartProcessing}
-                />
+                <ShoppingCartIcon style={{color: 'white'}} onClick={cartProcessing} />
               </Badge>
             )}
           </Stack>

@@ -1,4 +1,4 @@
-import {AnyObject} from "yup/lib/object";
+import {AnyObject} from 'yup/lib/object';
 
 export class NameId {
   id: number;

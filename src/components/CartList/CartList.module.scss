@@ -1,4 +1,4 @@
-@import "../../variables";
+@import '../../scss/variables';
 
 .stepper {
   margin: 16px 64px 16px 64px;
@@ -39,7 +39,9 @@
     align-items: center;
 
     .image {
-      width: 100%;
+      object-fit: scale-down;
+      // layout has padding of 16px on all sides
+      max-width: calc(100vw - 32px);
     }
 
     .msg {

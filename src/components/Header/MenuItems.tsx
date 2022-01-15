@@ -1,19 +1,20 @@
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import Login from "@mui/icons-material/Login";
-import Logout from "@mui/icons-material/Logout";
-import PersonAdd from "@mui/icons-material/PersonAdd";
-import ShoppingBag from "@mui/icons-material/ShoppingBag";
-import {useNavigate} from "react-router-dom";
-import {APP_ACTIONS} from "../../shared/immutables";
-import {UserEntryState} from "../UserEntry";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import Login from '@mui/icons-material/Login';
+import Logout from '@mui/icons-material/Logout';
+import PersonAdd from '@mui/icons-material/PersonAdd';
+import ShoppingBag from '@mui/icons-material/ShoppingBag';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+
+import {APP_ACTIONS} from '../../shared/immutables';
+import {UserEntryState} from '../UserEntry';
 
 export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
   const navigate = useNavigate();
   return [
     {
       id: 0,
-      title: "My Profile",
+      title: 'My Profile',
       show: isUserLoggedIn && !isSuperAdmin,
       icon: <AccountCircleIcon fontSize="small" />,
       onClick: () => {
@@ -22,7 +23,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
     },
     {
       id: 1,
-      title: "Orders",
+      title: 'Orders',
       show: isUserLoggedIn,
       icon: <ShoppingBag fontSize="small" />,
       onClick: () => {
@@ -31,7 +32,7 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
     },
     {
       id: 2,
-      title: "Login",
+      title: 'Login',
       show: !isUserLoggedIn,
       icon: <Login fontSize="small" />,
       onClick: () => {
@@ -43,16 +44,17 @@ export const MenuItems = (isUserLoggedIn, isSuperAdmin, dispatchAction) => {
     },
     {
       id: 3,
-      title: "Logout",
+      title: 'Logout',
       show: isUserLoggedIn,
       icon: <Logout fontSize="small" />,
       onClick: () => {
         dispatchAction({type: APP_ACTIONS.LOGOUT});
+        toast.success('You logged out successfully!');
       },
     },
     {
       id: 4,
-      title: "Sign Up",
+      title: 'Sign Up',
       show: !isUserLoggedIn,
       icon: <PersonAdd fontSize="small" />,
       onClick: () => {
