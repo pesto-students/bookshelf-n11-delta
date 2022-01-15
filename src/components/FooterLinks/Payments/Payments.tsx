@@ -13,7 +13,8 @@ const PAYMENT_FAQ = [
     to keep your transaction details confidential at all times.",
   },
   {
-    question: 'Are there any hidden charges when I make a purchase on Bookshelf?',
+    question:
+      'Are there any hidden charges when I make a purchase on Bookshelf?',
     answer:
       'There are NO hidden charges when you make a purchase on Bookshelf. \
     The prices listed for all the items are final and all-inclusive. The price \
