@@ -21,11 +21,7 @@ export const UserAccount = () => {
   };
 
   const {appState, dispatchAppAction} = useContext(AppContext);
-  const menuItems = MenuItems(
-    appState.isUserLoggedIn,
-    appState.isSuperAdmin,
-    dispatchAppAction,
-  );
+  const menuItems = MenuItems(appState.isUserLoggedIn, appState.isSuperAdmin, dispatchAppAction);
 
   const username = appState.user?.username;
   return (

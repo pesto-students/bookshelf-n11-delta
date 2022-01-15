@@ -38,9 +38,7 @@ export const UserList = () => {
     const filteredRows = userRecords.filter(row => {
       return (
         row.email.toLowerCase().includes(searchedVal.toLowerCase()) ||
-        (row.username
-          ? row.username.toLowerCase().includes(searchedVal.toLowerCase())
-          : false)
+        (row.username ? row.username.toLowerCase().includes(searchedVal.toLowerCase()) : false)
       );
     });
     setRows(filteredRows);
@@ -116,38 +114,23 @@ export const UserList = () => {
                         </TableHead>
                         <TableBody>
                           {rows
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage,
-                            )
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                               <TableRow
                                 key={row._id}
-                                style={
-                                  index % 2
-                                    ? {background: '#EDEDEF'}
-                                    : {background: 'white'}
-                                }
+                                style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                               >
                                 <TableCell component="th" scope="row">
                                   {index + 1}
                                 </TableCell>
-                                <TableCell align="right">
-                                  {row.username}
-                                </TableCell>
+                                <TableCell align="right">{row.username}</TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
                                 <TableCell align="right">
                                   {row.addresses?.[0]?.addressLine1}
                                 </TableCell>
-                                <TableCell align="right">
-                                  {row.addresses?.[0]?.city}
-                                </TableCell>
-                                <TableCell align="right">
-                                  {row.addresses?.[0]?.state}
-                                </TableCell>
-                                <TableCell align="right">
-                                  {row.addresses?.[0]?.pincode}
-                                </TableCell>
+                                <TableCell align="right">{row.addresses?.[0]?.city}</TableCell>
+                                <TableCell align="right">{row.addresses?.[0]?.state}</TableCell>
+                                <TableCell align="right">{row.addresses?.[0]?.pincode}</TableCell>
                               </TableRow>
                             ))}
                         </TableBody>

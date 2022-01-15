@@ -1,11 +1,5 @@
 import {Box, Button, Paper, Step, StepLabel, Stepper} from '@mui/material';
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react';
+import {createContext, useContext, useEffect, useReducer, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 
 import {AppContext} from '../../App/App';
@@ -30,10 +24,7 @@ export const Cart = () => {
     orderType: location.state.orderType,
   };
 
-  const [cartState, dispatchCartActions] = useReducer(
-    CartReducer,
-    initialState,
-  );
+  const [cartState, dispatchCartActions] = useReducer(CartReducer, initialState);
 
   const [activeStep, setActiveStep] = useState(0);
 
@@ -59,8 +50,7 @@ export const Cart = () => {
 
   useEffect(() => {
     const addresses = appState.user?.addresses ?? [];
-    const primaryAdd =
-      addresses.find(address => !!address?.default) ?? addresses[0];
+    const primaryAdd = addresses.find(address => !!address?.default) ?? addresses[0];
     if (!!primaryAdd) {
       const locationAdd = `${primaryAdd.addressLine1}, ${primaryAdd.city}, ${primaryAdd.state}, PIN: ${primaryAdd.pincode}`;
       setAddress(locationAdd);
@@ -113,15 +103,9 @@ export const Cart = () => {
               <div className={styles.borderLayoutBox}>
                 <div>
                   Order confirmation will be sent to:{' '}
-                  <span className={styles.boldText}>
-                    {appState.user?.email}
-                  </span>
+                  <span className={styles.boldText}>{appState.user?.email}</span>
                 </div>
-                <Button
-                  variant="contained"
-                  size="small"
-                  onClick={processPayment}
-                >
+                <Button variant="contained" size="small" onClick={processPayment}>
                   PLACE ORDER
                 </Button>
               </div>

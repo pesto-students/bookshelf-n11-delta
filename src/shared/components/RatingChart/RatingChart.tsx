@@ -1,9 +1,11 @@
 import {useEffect, useState} from 'react';
 import {Chart} from 'react-google-charts';
 import {ChartWrapperOptions} from 'react-google-charts/dist/types';
-
 import {RATING_MAP} from '../../immutables';
+
+import {ChartRating} from '../../models';
 import {Overlay} from '../Overlay/Overlay';
+import styles from './RatingChart.module.scss';
 
 // data for BAR CHART
 const headerData = [['Stars', 'Number of reviews', {role: 'style'}]];
@@ -33,7 +35,7 @@ const options: ChartWrapperOptions['options'] = {
   },
 };
 
-export const RatingChart = ({rating, showPieChart = true}) => {
+export const RatingChart = ({rating}: {rating: ChartRating}) => {
   function setRatingData() {
     const clonedData = [...data];
     clonedData.forEach((ratingData, index) => {
@@ -50,23 +52,14 @@ export const RatingChart = ({rating, showPieChart = true}) => {
   }, [rating]);
 
   return (
-    <>
-      {showPieChart ? (
-        <Chart
-          chartType="PieChart"
-          loader={<Overlay showBackdrop={true} />}
-          data={data}
-          width="100%"
-          options={{is3D: true, slices}}
-        />
-      ) : (
-        <Chart
-          chartType="BarChart"
-          width="100%"
-          data={data}
-          options={options}
-        />
-      )}
-    </>
+    <div className={styles.charts}>
+      <Chart
+        chartType="PieChart"
+        loader={<Overlay showBackdrop={true} />}
+        data={data}
+        options={{is3D: true, slices}}
+      />
+      <Chart chartType="BarChart" data={data} options={options} />
+    </div>
   );
 };

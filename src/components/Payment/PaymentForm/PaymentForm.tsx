@@ -79,10 +79,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
             orderDetails,
           };
           axios
-            .post(
-              `${environment.API_URL}/orders/new?orderType=${orderType}`,
-              data,
-            )
+            .post(`${environment.API_URL}/orders/new?orderType=${orderType}`, data)
             .then(() => {
               axios.get(`${environment.API_URL}/cart`).then(({data}) => {
                 dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
@@ -140,16 +137,12 @@ export const PaymentForm = ({amount, products, orderType}) => {
         </div>
         <div className={styles.rightLayout}>
           <div className={styles.cardDetailsMsg}>
-            Please enter card details to process payment of{' '}
-            {HTML_SPECIAL_CHARS.RUPEE} {amount}
+            Please enter card details to process payment of {HTML_SPECIAL_CHARS.RUPEE} {amount}
           </div>
           <form className={styles.paymentForm} onSubmit={handleSubmit}>
             <fieldset className={styles.formGroup}>
               <div className={styles.formRow}>
-                <CardElement
-                  options={CARD_OPTIONS}
-                  className={styles.stripeCard}
-                />
+                <CardElement options={CARD_OPTIONS} className={styles.stripeCard} />
               </div>
             </fieldset>
             <div className={styles.buttons}>
@@ -178,24 +171,15 @@ export const PaymentForm = ({amount, products, orderType}) => {
         </div>
       </Paper>
       {success && (
-        <GenericDialog
-          open={open}
-          onDialogClose={handleClose}
-          title="Payment Successful"
-        >
+        <GenericDialog open={open} onDialogClose={handleClose} title="Payment Successful">
           <div className={styles.confirmationMsg}>
-            <img
-              className={styles.successImg}
-              src={orderSuccess}
-              alt="Payment successful"
-            />
+            <img className={styles.successImg} src={orderSuccess} alt="Payment successful" />
             <div className={styles.infoMessage}>
               Your payment of amount:{' '}
               <span className={styles.impText}>
                 {HTML_SPECIAL_CHARS.RUPEE} {amount}
               </span>{' '}
-              is successful. You will shortly receive delivery details on your
-              email-id:{' '}
+              is successful. You will shortly receive delivery details on your email-id:{' '}
               <span className={styles.impText}>{appState.user.email}</span>
             </div>
           </div>

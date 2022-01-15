@@ -22,14 +22,7 @@ const phrases = [
   {
     label: 'We Are Not',
     logo: 'https://unfold.co/wp-content/uploads/we-are-not.png',
-    words: [
-      'Robots',
-      'Corporate',
-      'Dinosaurs',
-      'Freelancers',
-      'Cookie Cutters',
-      'Your Mama',
-    ],
+    words: ['Robots', 'Corporate', 'Dinosaurs', 'Freelancers', 'Cookie Cutters', 'Your Mama'],
   },
   {
     label: 'What We Do',
@@ -51,14 +44,8 @@ const AboutUsComp = () => {
       <Grid container flex={1} flexDirection="column">
         <div className={styles.imgContainer} style={{}}>
           <div className={styles.branding}>
-            <img
-              src={logo}
-              alt="bookshelf-logo"
-              className={styles.bookshelfLogo}
-            />
-            <Typography variant="subtitle1">
-              One place solution for all your book needs
-            </Typography>
+            <img src={logo} alt="bookshelf-logo" className={styles.bookshelfLogo} />
+            <Typography variant="subtitle1">One place solution for all your book needs</Typography>
           </div>
         </div>
         <div className={styles.brandingMotto}>
@@ -71,11 +58,7 @@ const AboutUsComp = () => {
             marginLeft="40%"
           >
             <Grid item>
-              <Typography
-                variant="h4"
-                fontWeight="bold"
-                color="rgb(68, 68, 68)"
-              >
+              <Typography variant="h4" fontWeight="bold" color="rgb(68, 68, 68)">
                 In search of a book,
                 <br />
                 just explore our site
@@ -83,9 +66,8 @@ const AboutUsComp = () => {
             </Grid>
             <Grid item>
               <Typography variant="body1" color="rgb(103, 103, 103)">
-                We provide one stop solution to all your book needs in
-                affordable price. Creating a place that cuts doun user hassle to
-                visit various places in search of books.
+                We provide one stop solution to all your book needs in affordable price. Creating a
+                place that cuts doun user hassle to visit various places in search of books.
               </Typography>
             </Grid>
           </Grid>
@@ -103,18 +85,12 @@ const AboutUsComp = () => {
                   rowSpacing={2}
                   padding="6%"
                   style={{
-                    backgroundColor:
-                      index % 2 === 0 ? 'rgba(202, 209, 217, 0.2)' : '#fff',
+                    backgroundColor: index % 2 === 0 ? 'rgba(202, 209, 217, 0.2)' : '#fff',
                   }}
                 >
                   <Grid item container columnSpacing={1} alignItems="center">
                     <Grid item>
-                      <img
-                        src={item.logo}
-                        alt="logo"
-                        height="24px"
-                        width="auto"
-                      />
+                      <img src={item.logo} alt="logo" height="24px" width="auto" />
                     </Grid>
                     <Grid item>
                       <Typography variant="h6" color="rgb(68, 68, 68)">

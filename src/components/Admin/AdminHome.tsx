@@ -93,9 +93,7 @@ export const AdminHome = () => {
                           },
                         }}
                       >
-                        <TableHead
-                          style={{backgroundColor: '#8e99d7', color: ''}}
-                        >
+                        <TableHead style={{backgroundColor: '#8e99d7', color: ''}}>
                           <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="right">Username</TableCell>
@@ -110,31 +108,19 @@ export const AdminHome = () => {
                           {userRecords.map((row, index) => (
                             <TableRow
                               key={row._id}
-                              style={
-                                index % 2
-                                  ? {background: '#EDEDEF'}
-                                  : {background: 'white'}
-                              }
+                              style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                             >
                               <TableCell component="th" scope="row">
                                 {index + 1}
                               </TableCell>
-                              <TableCell align="right">
-                                {row.username}
-                              </TableCell>
+                              <TableCell align="right">{row.username}</TableCell>
                               <TableCell align="right">{row.email}</TableCell>
                               <TableCell align="right">
                                 {row.addresses?.[0]?.addressLine1}
                               </TableCell>
-                              <TableCell align="right">
-                                {row.addresses?.[0]?.city}
-                              </TableCell>
-                              <TableCell align="right">
-                                {row.addresses?.[0]?.state}
-                              </TableCell>
-                              <TableCell align="right">
-                                {row.addresses?.[0]?.pincode}
-                              </TableCell>
+                              <TableCell align="right">{row.addresses?.[0]?.city}</TableCell>
+                              <TableCell align="right">{row.addresses?.[0]?.state}</TableCell>
+                              <TableCell align="right">{row.addresses?.[0]?.pincode}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -198,20 +184,14 @@ export const AdminHome = () => {
                           {bookRecords.map((row, index) => (
                             <TableRow
                               key={row._id}
-                              style={
-                                index % 2
-                                  ? {background: '#EDEDEF'}
-                                  : {background: 'white'}
-                              }
+                              style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                             >
                               <TableCell component="th" scope="row">
                                 {index + 1}
                               </TableCell>
                               <TableCell align="right">{row.title}</TableCell>
                               <TableCell align="right">{row.author}</TableCell>
-                              <TableCell align="right">
-                                {row.quantity}
-                              </TableCell>
+                              <TableCell align="right">{row.quantity}</TableCell>
                               <TableCell align="right">{row.price}</TableCell>
                             </TableRow>
                           ))}

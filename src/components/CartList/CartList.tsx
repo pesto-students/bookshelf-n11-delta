@@ -63,11 +63,7 @@ export const CartList = () => {
     <Paper className={styles.layout} elevation={2}>
       <div className={styles.header}>
         <div className={styles.title}>My Cart ({cartItems.length})</div>
-        <Button
-          variant="contained"
-          onClick={checkout}
-          disabled={!cartItems.length}
-        >
+        <Button variant="contained" onClick={checkout} disabled={!cartItems.length}>
           Proceed to Checkout
         </Button>
       </div>
@@ -86,12 +82,7 @@ export const CartList = () => {
         <div className={styles.emptyCart}>
           <img src={emptyCart} alt="empty-cart" className={styles.image} />
           <div className={styles.msg}>Your cart is currently empty</div>
-          <Button
-            className={styles.btn}
-            component={Link}
-            to="/"
-            variant="contained"
-          >
+          <Button className={styles.btn} component={Link} to="/" variant="contained">
             CONTINUE SHOPPING
           </Button>
         </div>

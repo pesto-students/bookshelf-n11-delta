@@ -21,10 +21,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
 
   const [snackBarOpen, setSnackBarOpen] = useState(false);
 
-  const handleClose = (
-    _event?: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
+  const handleClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
@@ -37,10 +34,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
 
   const {appState} = useContext(AppContext);
   const {isUserLoggedIn} = appState;
-  const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(
-    props,
-    ref,
-  ) {
+  const Alert = forwardRef<HTMLDivElement, AlertProps>(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
   });
 
@@ -77,11 +71,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
   };
 
   return (
-    <GenericDialog
-      open={open}
-      onDialogClose={handleDialogClose}
-      title="Add Review"
-    >
+    <GenericDialog open={open} onDialogClose={handleDialogClose} title="Add Review">
       {canReview ? (
         <div className={styles.ratingDialog}>
           <Rating
@@ -126,7 +116,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
         </div>
       ) : (
         <div className={styles.ratingDialog}>
-          <img className={styles.noReview} src={info} alt="Info" />
+          <img src={info} alt="Info" />
           <div className={styles.msg}>
             {isUserLoggedIn
               ? "Sorry! You are not allowed to review this product since you haven't bought it on Bookshelf"

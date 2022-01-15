@@ -89,13 +89,7 @@ export const Dashboard = () => {
     });
   }, [searchText]);
 
-  const {
-    isLoading,
-    sortFilter,
-    searchFilteredBooks,
-    hasMore,
-    dashboardFilteredBooks,
-  } = state;
+  const {isLoading, sortFilter, searchFilteredBooks, hasMore, dashboardFilteredBooks} = state;
 
   const gridLoader = <div className={styles.booksGridLoader}>Loading...</div>;
 
@@ -125,12 +119,7 @@ export const Dashboard = () => {
         </>
       ) : (
         <>
-          <Carousel
-            showThumbs={false}
-            showStatus={false}
-            autoPlay={true}
-            infiniteLoop={true}
-          >
+          <Carousel showThumbs={false} showStatus={false} autoPlay={true} infiniteLoop={true}>
             {CAROUSEL_IMAGES.map((item, i) => (
               <img key={i} src={item} className={styles.banner} alt="banner" />
             ))}
@@ -149,12 +138,8 @@ export const Dashboard = () => {
               onChange={handleChange}
             >
               <MenuItem value={SortTypes.RELEVANCE}>Relevance</MenuItem>
-              <MenuItem value={SortTypes.PRICE_LOW_TO_HIGH}>
-                Price - Low to High
-              </MenuItem>
-              <MenuItem value={SortTypes.PRICE_HIGH_TO_LOW}>
-                Price - High to Low
-              </MenuItem>
+              <MenuItem value={SortTypes.PRICE_LOW_TO_HIGH}>Price - Low to High</MenuItem>
+              <MenuItem value={SortTypes.PRICE_HIGH_TO_LOW}>Price - High to Low</MenuItem>
             </Select>
           </div>
           <FilterDrawer
@@ -168,8 +153,8 @@ export const Dashboard = () => {
             <Paper className={styles.notFound} elevation={2}>
               <img src={searching} alt="no search results" />
               <div className={styles.msg}>
-                "Sorry! No results found. Please check the spelling/filter or
-                try searching for something else"
+                "Sorry! No results found. Please check the spelling/filter or try searching for
+                something else"
               </div>
             </Paper>
           )}

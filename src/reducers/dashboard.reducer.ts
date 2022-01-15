@@ -113,8 +113,7 @@ const updateDashboardFilteredBooks = (state: IDashboardState) => {
   if (!length) {
     length = Math.min(SCROLL_LIMIT, state.searchFilteredBooks.length);
   }
-  state.hasMore =
-    state.searchFilteredBooks.length > state.dashboardFilteredBooks.length;
+  state.hasMore = state.searchFilteredBooks.length > state.dashboardFilteredBooks.length;
   state.dashboardFilteredBooks = state.searchFilteredBooks.slice(0, length);
 };
 
@@ -124,8 +123,5 @@ const handleDashboardScroll = state => {
     return;
   }
   const length = state.dashboardFilteredBooks.length;
-  state.dashboardFilteredBooks = state.searchFilteredBooks.slice(
-    0,
-    length + SCROLL_LIMIT,
-  );
+  state.dashboardFilteredBooks = state.searchFilteredBooks.slice(0, length + SCROLL_LIMIT);
 };

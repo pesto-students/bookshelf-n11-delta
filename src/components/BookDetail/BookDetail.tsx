@@ -1,16 +1,7 @@
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import ShoppingBasketOutlinedIcon from '@mui/icons-material/ShoppingBasketOutlined';
 import LoadingButton from '@mui/lab/LoadingButton';
-import {
-  Button,
-  ButtonProps,
-  Divider,
-  Grid,
-  Paper,
-  Stack,
-  styled,
-  Typography,
-} from '@mui/material';
+import {Button, ButtonProps, Divider, Grid, Paper, Stack, styled, Typography} from '@mui/material';
 import {Fragment, useContext, useEffect, useState} from 'react';
 import {useLocation, useNavigate, useParams} from 'react-router-dom';
 
@@ -26,11 +17,7 @@ import {
   ReviewDetails,
 } from '../../shared/components';
 import {OrderTypes} from '../../shared/enums';
-import {
-  ADD_ITEM_TO_CART,
-  APP_ACTIONS,
-  HTML_SPECIAL_CHARS,
-} from '../../shared/immutables';
+import {ADD_ITEM_TO_CART, APP_ACTIONS, HTML_SPECIAL_CHARS} from '../../shared/immutables';
 import {Book, CartItem, ChartRating, Review} from '../../shared/models';
 import RatingPopup from '../RatingPopup/RatingPopup';
 import styles from './BookDetail.module.scss';
@@ -259,9 +246,7 @@ export const BookDetail = () => {
             </Typography>
             <div className={styles.tabularDetails}>
               {details.map((detail, index) => (
-                <Fragment key={index}>
-                  {gridRow(detail.key, <span>{detail.value}</span>)}
-                </Fragment>
+                <Fragment key={index}>{gridRow(detail.key, <span>{detail.value}</span>)}</Fragment>
               ))}
               {book.highlights &&
                 gridRow(
@@ -279,14 +264,10 @@ export const BookDetail = () => {
               {gridRow('description', <ReadMore>{book.description}</ReadMore>)}
             </div>
             {!book.quantity && (
-              <div className={styles.notAvailableMsg}>
-                Sorry, currently item is out of stock
-              </div>
+              <div className={styles.notAvailableMsg}>Sorry, currently item is out of stock</div>
             )}
             <div className={styles.ratingHeading}>
-              <div className={styles.title}>
-                Rating {HTML_SPECIAL_CHARS.AND} Reviews
-              </div>
+              <div className={styles.title}>Rating {HTML_SPECIAL_CHARS.AND} Reviews</div>
               {!showLoader && (
                 <div className={styles.rateBtn} onClick={openRatingDialog}>
                   +
@@ -312,11 +293,7 @@ export const BookDetail = () => {
               </div>
             )}
           </Stack>
-          <RatingPopup
-            open={open}
-            handleDialogClose={handleDialogClose}
-            bookId={id}
-          />
+          <RatingPopup open={open} handleDialogClose={handleDialogClose} bookId={id} />
         </Paper>
       ) : (
         <Overlay />

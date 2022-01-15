@@ -41,20 +41,10 @@ export const BookCard = props => {
         }}
       >
         <Card sx={{width: 336}}>
-          <CardMedia
-            className={classes.media}
-            component="img"
-            image={imageUri}
-            alt={title}
-          />
+          <CardMedia className={classes.media} component="img" image={imageUri} alt={title} />
           <CardContent>
             <Tooltip title={title}>
-              <Typography
-                gutterBottom
-                variant="h5"
-                component="div"
-                className={styles.truncate}
-              >
+              <Typography gutterBottom variant="h5" component="div" className={styles.truncate}>
                 {title}
               </Typography>
             </Tooltip>

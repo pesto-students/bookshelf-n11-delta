@@ -133,29 +133,18 @@ export const BookList = () => {
                         </TableHead>
                         <TableBody>
                           {rows
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage,
-                            )
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                               <TableRow
                                 key={row._id}
-                                style={
-                                  index % 2
-                                    ? {background: '#EDEDEF'}
-                                    : {background: 'white'}
-                                }
+                                style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                               >
                                 <TableCell component="th" scope="row">
                                   {index + 1}
                                 </TableCell>
                                 <TableCell align="right">{row.title}</TableCell>
-                                <TableCell align="right">
-                                  {row.author}
-                                </TableCell>
-                                <TableCell align="right">
-                                  {row.quantity}
-                                </TableCell>
+                                <TableCell align="right">{row.author}</TableCell>
+                                <TableCell align="right">{row.quantity}</TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
                               </TableRow>
                             ))}

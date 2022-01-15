@@ -5,10 +5,7 @@ import styles from './Overlay.module.scss';
 export function Overlay({showBackdrop = false}) {
   if (!!showBackdrop) {
     return (
-      <Backdrop
-        sx={{color: '#3f51b5', zIndex: theme => theme.zIndex.drawer + 1}}
-        open={true}
-      >
+      <Backdrop sx={{color: '#3f51b5', zIndex: theme => theme.zIndex.drawer + 1}} open={true}>
         <CircularProgress className={styles.overlay} color="inherit" />
       </Backdrop>
     );
