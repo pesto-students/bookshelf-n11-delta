@@ -1,25 +1,25 @@
-import {Button, MenuItem, Paper, Select} from "@mui/material";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import {Grid} from "@mui/material";
-import {useContext, useEffect, useReducer, useState} from "react";
-import InfiniteScroll from "react-infinite-scroll-component";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import {Carousel} from "react-responsive-carousel";
+import {Button, MenuItem, Paper, Select} from '@mui/material';
+import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
+import {Grid} from '@mui/material';
+import {useContext, useEffect, useReducer, useState} from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import 'react-responsive-carousel/lib/styles/carousel.min.css'; // requires a loader
+import {Carousel} from 'react-responsive-carousel';
 
-import {AppContext} from "../../App/App";
-import banner from "../../assets/banner.svg";
-import searching from "../../assets/search.svg";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import {DashboardReducer, IDashboardState} from "../../reducers";
-import {Overlay} from "../../shared/components";
-import {SortTypes} from "../../shared/enums";
-import {APP_ACTIONS, DASHBOARD_ACTIONS} from "../../shared/immutables";
-import {Book} from "../../shared/models";
-import {BookCard} from "../BookCard/BookCard";
-import FilterDrawer from "../FilterDrawer/FilterDrawer";
-import {CAROUSEL_IMAGES} from "./carousel-images";
-import styles from "./Dashboard.module.scss";
+import {AppContext} from '../../App/App';
+import banner from '../../assets/banner.svg';
+import searching from '../../assets/search.svg';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {DashboardReducer, IDashboardState} from '../../reducers';
+import {Overlay} from '../../shared/components';
+import {SortTypes} from '../../shared/enums';
+import {APP_ACTIONS, DASHBOARD_ACTIONS} from '../../shared/immutables';
+import {Book} from '../../shared/models';
+import {BookCard} from '../BookCard/BookCard';
+import FilterDrawer from '../FilterDrawer/FilterDrawer';
+import {CAROUSEL_IMAGES} from './carousel-images';
+import styles from './Dashboard.module.scss';
 
 const emptyBooksList: Book[] = [];
 
@@ -49,7 +49,7 @@ export const Dashboard = () => {
     }, environment.LOADING_DELAY);
   };
 
-  const handleChange = (event) => {
+  const handleChange = event => {
     dispatch({
       type: DASHBOARD_ACTIONS.SORT_ACTION,
       data: event.target.value,
@@ -69,13 +69,13 @@ export const Dashboard = () => {
           setBooks(data.books);
           dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     }
   }
 
-  const setBooks = (bookList) => {
+  const setBooks = bookList => {
     dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: bookList});
   };
 
@@ -89,13 +89,7 @@ export const Dashboard = () => {
     });
   }, [searchText]);
 
-  const {
-    isLoading,
-    sortFilter,
-    searchFilteredBooks,
-    hasMore,
-    dashboardFilteredBooks,
-  } = state;
+  const {isLoading, sortFilter, searchFilteredBooks, hasMore, dashboardFilteredBooks} = state;
 
   const gridLoader = <div className={styles.booksGridLoader}>Loading...</div>;
 
@@ -107,7 +101,7 @@ export const Dashboard = () => {
       loader={gridLoader}
     >
       <Grid container className={styles.booksGrid} spacing={2}>
-        {dashboardFilteredBooks.map((book) => (
+        {dashboardFilteredBooks.map(book => (
           <Grid item key={book._id.toString()}>
             <BookCard book={book} />
           </Grid>
@@ -125,12 +119,7 @@ export const Dashboard = () => {
         </>
       ) : (
         <>
-          <Carousel
-            showThumbs={false}
-            showStatus={false}
-            autoPlay={true}
-            infiniteLoop={true}
-          >
+          <Carousel showThumbs={false} showStatus={false} autoPlay={true} infiniteLoop={true}>
             {CAROUSEL_IMAGES.map((item, i) => (
               <img key={i} src={item} className={styles.banner} alt="banner" />
             ))}
@@ -149,12 +138,8 @@ export const Dashboard = () => {
               onChange={handleChange}
             >
               <MenuItem value={SortTypes.RELEVANCE}>Relevance</MenuItem>
-              <MenuItem value={SortTypes.PRICE_LOW_TO_HIGH}>
-                Price - Low to High
-              </MenuItem>
-              <MenuItem value={SortTypes.PRICE_HIGH_TO_LOW}>
-                Price - High to Low
-              </MenuItem>
+              <MenuItem value={SortTypes.PRICE_LOW_TO_HIGH}>Price - Low to High</MenuItem>
+              <MenuItem value={SortTypes.PRICE_HIGH_TO_LOW}>Price - High to Low</MenuItem>
             </Select>
           </div>
           <FilterDrawer
@@ -168,8 +153,8 @@ export const Dashboard = () => {
             <Paper className={styles.notFound} elevation={2}>
               <img src={searching} alt="no search results" />
               <div className={styles.msg}>
-                "Sorry! No results found. Please check the spelling/filter or
-                try searching for something else"
+                "Sorry! No results found. Please check the spelling/filter or try searching for
+                something else"
               </div>
             </Paper>
           )}

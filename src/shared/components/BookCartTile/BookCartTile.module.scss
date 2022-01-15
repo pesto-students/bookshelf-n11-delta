@@ -1,5 +1,5 @@
-@use "../../../scss/mixins" as mixins;
-@import "../../../scss/variables";
+@use '../../../scss/mixins' as mixins;
+@import '../../../scss/variables';
 
 .bookTile {
   border: 1px solid $divider;
@@ -20,7 +20,7 @@
       cursor: pointer;
       color: $primary;
     }
-    
+
     .deleteBtn {
       margin: 0px 16px 16px 0px;
     }

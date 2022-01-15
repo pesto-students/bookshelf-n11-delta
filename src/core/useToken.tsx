@@ -1,6 +1,6 @@
-import {useState} from "react";
+import {useState} from 'react';
 
-const ACCESS_TOKEN = "accessToken";
+const ACCESS_TOKEN = 'accessToken';
 
 export default function useToken() {
   const getToken = () => {
@@ -9,7 +9,7 @@ export default function useToken() {
 
   const [token, setToken] = useState(getToken());
 
-  const saveToken = (token) => {
+  const saveToken = token => {
     localStorage.setItem(ACCESS_TOKEN, token);
     setToken(token);
   };

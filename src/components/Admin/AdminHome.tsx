@@ -24,26 +24,26 @@ export const AdminHome = () => {
   // and to implement pagination in table
   const [userRecords, setUserRecords] = useState([]);
   const [bookRecords, setBookRecords] = useState([]);
-  const [searched, setSearched] = useState("");
+  const [searched, setSearched] = useState('');
 
   useEffect(() => {
     fetch(`${environment.API_URL}/users/bytimestamp?page=1&limit=5`, {
-      method: "GET",
+      method: 'GET',
     })
-      .then((res) => res.json())
-      .then((response) => {
+      .then(res => res.json())
+      .then(response => {
         setUserRecords(response.users);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
 
     fetch(`${environment.API_URL}/books/bytimestamp?page=1&limit=5`, {
-      method: "GET",
+      method: 'GET',
     })
-      .then((res) => res.json())
-      .then((response) => {
+      .then(res => res.json())
+      .then(response => {
         setBookRecords(response.books);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }, [searched]);
 
   // return the view
@@ -55,9 +55,9 @@ export const AdminHome = () => {
             <Grid item xs={12}>
               <div
                 style={{
-                  border: "2px solid #e5e5e5",
-                  padding: "25px",
-                  borderRadius: "5px",
+                  border: '2px solid #e5e5e5',
+                  padding: '25px',
+                  borderRadius: '5px',
                 }}
               >
                 <Stack direction="column" spacing={2}>
@@ -74,9 +74,9 @@ export const AdminHome = () => {
                       variant="contained"
                       size="small"
                       style={{
-                        paddingLeft: "25px",
-                        paddingRight: "25px",
-                        backgroundColor: "#3f51b5",
+                        paddingLeft: '25px',
+                        paddingRight: '25px',
+                        backgroundColor: '#3f51b5',
                       }}
                     >
                       View All
@@ -89,11 +89,11 @@ export const AdminHome = () => {
                         aria-label="a dense table"
                         sx={{
                           [`& .${tableCellClasses.root}`]: {
-                            borderBottom: "none",
+                            borderBottom: 'none',
                           },
                         }}
                       >
-                        <TableHead style={{backgroundColor: "#8e99d7", color: ""}}>
+                        <TableHead style={{backgroundColor: '#8e99d7', color: ''}}>
                           <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="right">Username</TableCell>
@@ -108,31 +108,19 @@ export const AdminHome = () => {
                           {userRecords.map((row, index) => (
                             <TableRow
                               key={row._id}
-                              style={
-                                index % 2
-                                  ? {background: "#EDEDEF"}
-                                  : {background: "white"}
-                              }
+                              style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                             >
                               <TableCell component="th" scope="row">
                                 {index + 1}
                               </TableCell>
-                              <TableCell align="right">
-                                {row.username}
-                              </TableCell>
+                              <TableCell align="right">{row.username}</TableCell>
                               <TableCell align="right">{row.email}</TableCell>
                               <TableCell align="right">
                                 {row.addresses?.[0]?.addressLine1}
                               </TableCell>
-                              <TableCell align="right">
-                                {row.addresses?.[0]?.city}
-                              </TableCell>
-                              <TableCell align="right">
-                                {row.addresses?.[0]?.state}
-                              </TableCell>
-                              <TableCell align="right">
-                                {row.addresses?.[0]?.pincode}
-                              </TableCell>
+                              <TableCell align="right">{row.addresses?.[0]?.city}</TableCell>
+                              <TableCell align="right">{row.addresses?.[0]?.state}</TableCell>
+                              <TableCell align="right">{row.addresses?.[0]?.pincode}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -145,9 +133,9 @@ export const AdminHome = () => {
             <Grid item xs={12}>
               <div
                 style={{
-                  border: "2px solid #e5e5e5",
-                  padding: "25px",
-                  borderRadius: "5px",
+                  border: '2px solid #e5e5e5',
+                  padding: '25px',
+                  borderRadius: '5px',
                 }}
               >
                 <Stack direction="column" spacing={2}>
@@ -164,9 +152,9 @@ export const AdminHome = () => {
                       variant="contained"
                       size="small"
                       style={{
-                        paddingLeft: "25px",
-                        paddingRight: "25px",
-                        backgroundColor: "#3f51b5",
+                        paddingLeft: '25px',
+                        paddingRight: '25px',
+                        backgroundColor: '#3f51b5',
                       }}
                     >
                       View All
@@ -179,11 +167,11 @@ export const AdminHome = () => {
                         aria-label="a dense table"
                         sx={{
                           [`& .${tableCellClasses.root}`]: {
-                            borderBottom: "none",
+                            borderBottom: 'none',
                           },
                         }}
                       >
-                        <TableHead style={{backgroundColor: "#8e99d7"}}>
+                        <TableHead style={{backgroundColor: '#8e99d7'}}>
                           <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="right">Title</TableCell>
@@ -196,20 +184,14 @@ export const AdminHome = () => {
                           {bookRecords.map((row, index) => (
                             <TableRow
                               key={row._id}
-                              style={
-                                index % 2
-                                  ? {background: "#EDEDEF"}
-                                  : {background: "white"}
-                              }
+                              style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                             >
                               <TableCell component="th" scope="row">
                                 {index + 1}
                               </TableCell>
                               <TableCell align="right">{row.title}</TableCell>
                               <TableCell align="right">{row.author}</TableCell>
-                              <TableCell align="right">
-                                {row.quantity}
-                              </TableCell>
+                              <TableCell align="right">{row.quantity}</TableCell>
                               <TableCell align="right">{row.price}</TableCell>
                             </TableRow>
                           ))}

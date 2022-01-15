@@ -1,31 +1,27 @@
-import {Button, Stack, TextField} from "@mui/material";
-import {Formik} from "formik";
-import {useContext, useEffect} from "react";
-import {object, ref, string} from "yup";
-import environment from "../../Environment/environment";
-import PersonAdd from "@mui/icons-material/PersonAdd";
+import {Button, Stack, TextField} from '@mui/material';
+import {Formik} from 'formik';
+import {useContext, useEffect} from 'react';
+import {object, ref, string} from 'yup';
+import environment from '../../Environment/environment';
+import PersonAdd from '@mui/icons-material/PersonAdd';
 
-import {AppContext} from "../../App/App";
-import axios from "../../core/axios";
-import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
-import {
-  MIN_PASSWORD_LENGTH,
-  PASSWORD_MIN_LENGTH_MSG,
-  UserEntryState,
-} from "./UserEntry.constant";
-import styles from "./UserEntry.module.scss";
+import {AppContext} from '../../App/App';
+import axios from '../../core/axios';
+import {APP_ACTIONS, USER_ENTRY_ACTIONS} from '../../shared/immutables';
+import {MIN_PASSWORD_LENGTH, PASSWORD_MIN_LENGTH_MSG, UserEntryState} from './UserEntry.constant';
+import styles from './UserEntry.module.scss';
 function SignUpForm({userAction}) {
   const signUpInitialValues = {
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    name: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   };
 
   const {dispatchAppAction} = useContext(AppContext);
 
   useEffect(() => {
-    userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: "Sign Up"});
+    userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: 'Sign Up'});
   }, []);
 
   return (
@@ -49,7 +45,7 @@ function SignUpForm({userAction}) {
                 .then(({data}) => {
                   dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
                 })
-                .catch((error) => console.log(error))
+                .catch(error => console.log(error))
                 .finally(() => setSubmitting(false));
             })
             .catch(() => {
@@ -58,15 +54,7 @@ function SignUpForm({userAction}) {
         }}
         validationSchema={signUpValidationSchema}
       >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          isSubmitting,
-        }) => (
+        {({values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting}) => (
           <form className={styles.loginForm} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
@@ -147,15 +135,15 @@ function SignUpForm({userAction}) {
 }
 
 const signUpValidationSchema = object().shape({
-  name: string().required("Name is required"),
-  email: string().email("Invalid email").required("Email is required"),
+  name: string().required('Name is required'),
+  email: string().email('Invalid email').required('Email is required'),
   password: string()
     .min(MIN_PASSWORD_LENGTH, PASSWORD_MIN_LENGTH_MSG)
-    .required("Password is required"),
+    .required('Password is required'),
   confirmPassword: string()
     .min(MIN_PASSWORD_LENGTH, PASSWORD_MIN_LENGTH_MSG)
-    .oneOf([ref("password"), null], "Passwords must match")
-    .required("Please re-enter your password"),
+    .oneOf([ref('password'), null], 'Passwords must match')
+    .required('Please re-enter your password'),
 });
 
 export default SignUpForm;

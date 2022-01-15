@@ -1,21 +1,21 @@
-import {Divider} from "@mui/material";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Checkbox from "@mui/material/Checkbox";
-import Drawer from "@mui/material/Drawer";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import Slider from "@mui/material/Slider";
-import {useContext, useEffect, useState} from "react";
+import {Divider} from '@mui/material';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Checkbox from '@mui/material/Checkbox';
+import Drawer from '@mui/material/Drawer';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import Slider from '@mui/material/Slider';
+import {useContext, useEffect, useState} from 'react';
 
-import {AppContext} from "../../App/App";
-import {DASHBOARD_ACTIONS} from "../../shared/immutables";
-import {Filter} from "../../shared/models";
-import styles from "./FilterDrawer.module.scss";
+import {AppContext} from '../../App/App';
+import {DASHBOARD_ACTIONS} from '../../shared/immutables';
+import {Filter} from '../../shared/models';
+import styles from './FilterDrawer.module.scss';
 
 const enum CheckBoxType {
-  LANG = "language",
-  CATEGORY = "category",
+  LANG = 'language',
+  CATEGORY = 'category',
 }
 
 function FilterDrawer({open, handleClose, dispatchFilterAction}) {
@@ -33,7 +33,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
     const langSet = new Set();
     const categorySet = new Set();
     let max = 0;
-    appState.books?.forEach((book) => {
+    appState.books?.forEach(book => {
       langSet.add(book.language);
       categorySet.add(book.category);
       max = Math.max(max, book.price);
@@ -58,9 +58,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
   const handleCheckboxChange = (position, type: CheckBoxType) => {
     const isLangChanged = type === CheckBoxType.LANG;
     const stateMap = isLangChanged ? langCheckedState : categoryCheckedState;
-    const updatedCheckedState = stateMap.map((item, index) =>
-      index === position ? !item : item
-    );
+    const updatedCheckedState = stateMap.map((item, index) => (index === position ? !item : item));
 
     isLangChanged
       ? setLangCheckedState(updatedCheckedState)
@@ -107,18 +105,17 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
     handleClose();
   };
 
-  const toggleDrawer =
-    (state: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-      if (
-        event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
-      ) {
-        return;
-      }
+  const toggleDrawer = (state: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    if (
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
 
-      handleClose(state);
-    };
+    handleClose(state);
+  };
 
   return (
     <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
@@ -132,9 +129,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
                 control={
                   <Checkbox
                     checked={langCheckedState[index]}
-                    onChange={() =>
-                      handleCheckboxChange(index, CheckBoxType.LANG)
-                    }
+                    onChange={() => handleCheckboxChange(index, CheckBoxType.LANG)}
                   />
                 }
                 label={language}
@@ -151,9 +146,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
                 control={
                   <Checkbox
                     checked={categoryCheckedState[index]}
-                    onChange={() =>
-                      handleCheckboxChange(index, CheckBoxType.CATEGORY)
-                    }
+                    onChange={() => handleCheckboxChange(index, CheckBoxType.CATEGORY)}
                   />
                 }
                 label={category}
@@ -163,10 +156,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
         <Divider />
         <FormControlLabel
           control={
-            <Checkbox
-              checked={priceCheckbox}
-              onChange={() => setPriceCheckbox(!priceCheckbox)}
-            />
+            <Checkbox checked={priceCheckbox} onChange={() => setPriceCheckbox(!priceCheckbox)} />
           }
           className={styles.heading}
           label="PRICE"

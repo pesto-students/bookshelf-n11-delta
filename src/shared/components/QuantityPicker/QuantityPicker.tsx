@@ -7,7 +7,7 @@ const MIN_QTY = 1;
 export const QuantityPicker = ({qty, max, setQty}) => {
   const [value, setValue] = useState(qty);
 
-  const _setQtyValue = (newValue) => {
+  const _setQtyValue = newValue => {
     setValue(newValue);
     setQty(newValue);
   };

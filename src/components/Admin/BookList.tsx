@@ -11,15 +11,15 @@ import {
   TableHead,
   TableRow,
   Typography,
-} from "@mui/material";
-import TablePagination from "@mui/material/TablePagination";
-import SearchBar from "material-ui-search-bar";
-import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+} from '@mui/material';
+import TablePagination from '@mui/material/TablePagination';
+import SearchBar from 'material-ui-search-bar';
+import {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 
-import environment from "../../Environment/environment";
-import {Overlay} from "../../shared/components";
-import styles from "./Admin.module.scss";
+import environment from '../../Environment/environment';
+import {Overlay} from '../../shared/components';
+import styles from './Admin.module.scss';
 
 export const BookList = () => {
   // State for saving Book records to display
@@ -28,7 +28,7 @@ export const BookList = () => {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [searched, setSearched] = useState("");
+  const [searched, setSearched] = useState('');
 
   // for table pagination
   const handleChangePage = (event, newPage) => {
@@ -36,8 +36,8 @@ export const BookList = () => {
   };
 
   // for user records filter
-  const requestSearch = (searchedVal) => {
-    const filteredRows = bookRecords.filter((row) => {
+  const requestSearch = searchedVal => {
+    const filteredRows = bookRecords.filter(row => {
       return (
         row.title.toLowerCase().includes(searchedVal.toLowerCase()) ||
         row.author.toLowerCase().includes(searchedVal.toLowerCase())
@@ -54,14 +54,14 @@ export const BookList = () => {
 
   useEffect(() => {
     fetch(`${environment.API_URL}/books/bytimestamp`, {
-      method: "GET",
+      method: 'GET',
     })
-      .then((res) => res.json())
-      .then((response) => {
+      .then(res => res.json())
+      .then(response => {
         setBookRecords(response.books);
         setRows(response.books);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }, [searched]);
 
   // return the view
@@ -73,9 +73,9 @@ export const BookList = () => {
             <Grid item xs={12}>
               <div
                 style={{
-                  border: "2px solid #e5e5e5",
-                  padding: "25px",
-                  borderRadius: "5px",
+                  border: '2px solid #e5e5e5',
+                  padding: '25px',
+                  borderRadius: '5px',
                 }}
               >
                 <Stack direction="column" spacing={2}>
@@ -93,7 +93,7 @@ export const BookList = () => {
                       spacing={1}
                     >
                       <SearchBar
-                        onChange={(searchVal) => requestSearch(searchVal)}
+                        onChange={searchVal => requestSearch(searchVal)}
                         onCancelSearch={() => cancelSearch()}
                         className={styles.searchBarBooks}
                       />
@@ -103,8 +103,8 @@ export const BookList = () => {
                         variant="contained"
                         size="small"
                         style={{
-                          paddingLeft: "25px",
-                          paddingRight: "25px",
+                          paddingLeft: '25px',
+                          paddingRight: '25px',
                         }}
                       >
                         Add Book to Catalogue
@@ -118,11 +118,11 @@ export const BookList = () => {
                         aria-label="a dense table"
                         sx={{
                           [`& .${tableCellClasses.root}`]: {
-                            borderBottom: "none",
+                            borderBottom: 'none',
                           },
                         }}
                       >
-                        <TableHead style={{backgroundColor: "#8e99d7"}}>
+                        <TableHead style={{backgroundColor: '#8e99d7'}}>
                           <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="right">Title</TableCell>
@@ -133,29 +133,18 @@ export const BookList = () => {
                         </TableHead>
                         <TableBody>
                           {rows
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                               <TableRow
                                 key={row._id}
-                                style={
-                                  index % 2
-                                    ? {background: "#EDEDEF"}
-                                    : {background: "white"}
-                                }
+                                style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                               >
                                 <TableCell component="th" scope="row">
                                   {index + 1}
                                 </TableCell>
                                 <TableCell align="right">{row.title}</TableCell>
-                                <TableCell align="right">
-                                  {row.author}
-                                </TableCell>
-                                <TableCell align="right">
-                                  {row.quantity}
-                                </TableCell>
+                                <TableCell align="right">{row.author}</TableCell>
+                                <TableCell align="right">{row.quantity}</TableCell>
                                 <TableCell align="right">{row.price}</TableCell>
                               </TableRow>
                             ))}

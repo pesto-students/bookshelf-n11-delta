@@ -1,10 +1,10 @@
-import {Elements} from "@stripe/react-stripe-js";
-import {loadStripe} from "@stripe/stripe-js";
-import {useLocation} from "react-router-dom";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
+import {useLocation} from 'react-router-dom';
 
-import environment from "../../../Environment/environment";
-import {OrderTypes} from "../../../shared/enums";
-import {PaymentForm} from "../PaymentForm/PaymentForm";
+import environment from '../../../Environment/environment';
+import {OrderTypes} from '../../../shared/enums';
+import {PaymentForm} from '../PaymentForm/PaymentForm';
 
 const stripeTestPromise = loadStripe(environment.STRIPE_API_KEY);
 

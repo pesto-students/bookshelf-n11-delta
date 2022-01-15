@@ -1,9 +1,9 @@
-import {Divider, Grid} from "@mui/material";
-import {useContext, useEffect, useState} from "react";
+import {Divider, Grid} from '@mui/material';
+import {useContext, useEffect, useState} from 'react';
 
-import {HTML_SPECIAL_CHARS} from "../../shared/immutables";
-import {CartContext} from "../Cart/Cart";
-import styles from "./Price.module.scss";
+import {HTML_SPECIAL_CHARS} from '../../shared/immutables';
+import {CartContext} from '../Cart/Cart';
+import styles from './Price.module.scss';
 
 export const Price = ({deliveryFee, address}) => {
   const [total, setTotal] = useState(0);
@@ -15,7 +15,7 @@ export const Price = ({deliveryFee, address}) => {
   useEffect(() => {
     let priceToPay = 0;
     let qty = 0;
-    cartState.products?.forEach((pdt) => {
+    cartState.products?.forEach(pdt => {
       priceToPay += pdt.price * pdt.qtyOrdered;
       qty += pdt.qtyOrdered;
     });
@@ -42,11 +42,11 @@ export const Price = ({deliveryFee, address}) => {
       <Divider />
       <div className={styles.tabularDetails}>
         {gridRow(
-          `PRICE (${quantity} ${quantity > 1 ? "ITEMS" : "ITEM"})`,
-          `${HTML_SPECIAL_CHARS.RUPEE} ${price}`
+          `PRICE (${quantity} ${quantity > 1 ? 'ITEMS' : 'ITEM'})`,
+          `${HTML_SPECIAL_CHARS.RUPEE} ${price}`,
         )}
-        {gridRow("DELIVERY FEE", `${HTML_SPECIAL_CHARS.RUPEE} ${deliveryFee}`)}
-        {gridRow("TOTAL", `${HTML_SPECIAL_CHARS.RUPEE} ${total}`)}
+        {gridRow('DELIVERY FEE', `${HTML_SPECIAL_CHARS.RUPEE} ${deliveryFee}`)}
+        {gridRow('TOTAL', `${HTML_SPECIAL_CHARS.RUPEE} ${total}`)}
       </div>
       {address && (
         <div className={styles.deliveryBlock}>

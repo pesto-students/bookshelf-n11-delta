@@ -1,8 +1,8 @@
 @use '../../../scss/mixins' as mixin;
 
 .charts {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    @include mixin.fxLayoutGap(16px);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  @include mixin.fxLayoutGap(16px);
 }
