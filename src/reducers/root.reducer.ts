@@ -1,11 +1,6 @@
-import {UserEntryState} from "../components/UserEntry";
-import {
-  APP_ACTIONS,
-  ACCESS_TOKEN,
-  REFRESH_TOKEN,
-  ADD_ITEM_TO_CART,
-} from "../shared/immutables";
-import {Book, CartItem} from "../shared/models";
+import {UserEntryState} from '../components/UserEntry';
+import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN, ADD_ITEM_TO_CART} from '../shared/immutables';
+import {Book, CartItem} from '../shared/models';
 
 export interface IAppContext {
   searchText: string;
@@ -18,10 +13,7 @@ export interface IAppContext {
   cartItems: Partial<CartItem>[];
 }
 
-export const RootReducer = (
-  state: IAppContext,
-  action: {type: string; data?: any}
-) => {
+export const RootReducer = (state: IAppContext, action: {type: string; data?: any}) => {
   const newState = {...state};
   const {type, data} = action;
   switch (type) {
@@ -68,7 +60,7 @@ export const RootReducer = (
       break;
     case APP_ACTIONS.SET_CART:
       const items = [];
-      data?.orderDetails.forEach((order) => {
+      data?.orderDetails.forEach(order => {
         const cartItem: Partial<CartItem> = {
           ...order.bookId,
           id: order._id,
@@ -84,12 +76,10 @@ export const RootReducer = (
       } else {
         // find appropriate book, _id depicts bookId
         if (data.value) {
-          const item = newState.cartItems.find((item) => item._id === data.id);
+          const item = newState.cartItems.find(item => item._id === data.id);
           item.qtyOrdered = data.value;
         } else {
-          newState.cartItems = newState.cartItems.filter(
-            (item) => item._id != data.id
-          );
+          newState.cartItems = newState.cartItems.filter(item => item._id != data.id);
         }
       }
       break;

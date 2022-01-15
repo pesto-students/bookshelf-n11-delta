@@ -11,13 +11,13 @@ import {
   TablePagination,
   TableRow,
   Typography,
-} from "@mui/material";
-import SearchBar from "material-ui-search-bar";
-import {useEffect, useState} from "react";
+} from '@mui/material';
+import SearchBar from 'material-ui-search-bar';
+import {useEffect, useState} from 'react';
 
-import environment from "../../Environment/environment";
-import {Overlay} from "../../shared/components";
-import styles from "./Admin.module.scss";
+import environment from '../../Environment/environment';
+import {Overlay} from '../../shared/components';
+import styles from './Admin.module.scss';
 
 export const UserList = () => {
   // State for saving User records to display
@@ -26,7 +26,7 @@ export const UserList = () => {
   const [rows, setRows] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(15);
-  const [searched, setSearched] = useState("");
+  const [searched, setSearched] = useState('');
 
   // for table pagination
   const handleChangePage = (event, newPage) => {
@@ -34,13 +34,11 @@ export const UserList = () => {
   };
 
   // for user records filter
-  const requestSearch = (searchedVal) => {
-    const filteredRows = userRecords.filter((row) => {
+  const requestSearch = searchedVal => {
+    const filteredRows = userRecords.filter(row => {
       return (
         row.email.toLowerCase().includes(searchedVal.toLowerCase()) ||
-        (row.username
-          ? row.username.toLowerCase().includes(searchedVal.toLowerCase())
-          : false)
+        (row.username ? row.username.toLowerCase().includes(searchedVal.toLowerCase()) : false)
       );
     });
     setRows(filteredRows);
@@ -54,14 +52,14 @@ export const UserList = () => {
 
   useEffect(() => {
     fetch(`${environment.API_URL}/users/bytimestamp`, {
-      method: "GET",
+      method: 'GET',
     })
-      .then((res) => res.json())
-      .then((response) => {
+      .then(res => res.json())
+      .then(response => {
         setUserRecords(response.users);
         setRows(response.users);
       })
-      .catch((error) => console.log(error));
+      .catch(error => console.log(error));
   }, [searched]);
 
   // return the view
@@ -73,9 +71,9 @@ export const UserList = () => {
             <Grid item xs={12}>
               <div
                 style={{
-                  border: "2px solid #e5e5e5",
-                  padding: "25px",
-                  borderRadius: "5px",
+                  border: '2px solid #e5e5e5',
+                  padding: '25px',
+                  borderRadius: '5px',
                 }}
               >
                 <Stack direction="column" spacing={2}>
@@ -87,7 +85,7 @@ export const UserList = () => {
                   >
                     <Typography variant="h5">Users</Typography>
                     <SearchBar
-                      onChange={(searchVal) => requestSearch(searchVal)}
+                      onChange={searchVal => requestSearch(searchVal)}
                       onCancelSearch={() => cancelSearch()}
                       className={styles.searchBarUsers}
                     />
@@ -99,11 +97,11 @@ export const UserList = () => {
                         aria-label="a dense table"
                         sx={{
                           [`& .${tableCellClasses.root}`]: {
-                            borderBottom: "none",
+                            borderBottom: 'none',
                           },
                         }}
                       >
-                        <TableHead style={{backgroundColor: "#8e99d7"}}>
+                        <TableHead style={{backgroundColor: '#8e99d7'}}>
                           <TableRow>
                             <TableCell>#</TableCell>
                             <TableCell align="right">Username</TableCell>
@@ -116,38 +114,23 @@ export const UserList = () => {
                         </TableHead>
                         <TableBody>
                           {rows
-                            .slice(
-                              page * rowsPerPage,
-                              page * rowsPerPage + rowsPerPage
-                            )
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((row, index) => (
                               <TableRow
                                 key={row._id}
-                                style={
-                                  index % 2
-                                    ? {background: "#EDEDEF"}
-                                    : {background: "white"}
-                                }
+                                style={index % 2 ? {background: '#EDEDEF'} : {background: 'white'}}
                               >
                                 <TableCell component="th" scope="row">
                                   {index + 1}
                                 </TableCell>
-                                <TableCell align="right">
-                                  {row.username}
-                                </TableCell>
+                                <TableCell align="right">{row.username}</TableCell>
                                 <TableCell align="right">{row.email}</TableCell>
                                 <TableCell align="right">
                                   {row.addresses?.[0]?.addressLine1}
                                 </TableCell>
-                                <TableCell align="right">
-                                  {row.addresses?.[0]?.city}
-                                </TableCell>
-                                <TableCell align="right">
-                                  {row.addresses?.[0]?.state}
-                                </TableCell>
-                                <TableCell align="right">
-                                  {row.addresses?.[0]?.pincode}
-                                </TableCell>
+                                <TableCell align="right">{row.addresses?.[0]?.city}</TableCell>
+                                <TableCell align="right">{row.addresses?.[0]?.state}</TableCell>
+                                <TableCell align="right">{row.addresses?.[0]?.pincode}</TableCell>
                               </TableRow>
                             ))}
                         </TableBody>

@@ -1,5 +1,5 @@
-@use "../../scss/mixins" as mixin;
-@import "../../scss/variables";
+@use '../../scss/mixins' as mixin;
+@import '../../scss/variables';
 
 $avatarContainer: 150px;
 
@@ -21,7 +21,7 @@ $avatarContainer: 150px;
       height: $avatarContainer;
       width: $avatarContainer;
       border-radius: 50%;
-      background-image: url("../../assets/generic-user.png");
+      background-image: url('../../assets/generic-user.png');
       background-position: center;
       background-size: cover;
       border: 1px solid $divider;

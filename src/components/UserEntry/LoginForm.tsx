@@ -1,40 +1,36 @@
-import RegisterIcon from "@material-ui/icons/AccountCircle";
-import MailIcon from "@mui/icons-material/Mail";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import {Button, Stack, TextField} from "@mui/material";
-import Checkbox from "@mui/material/Checkbox";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormGroup from "@mui/material/FormGroup";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import {Formik} from "formik";
-import {useContext, useEffect, useState} from "react";
-import GoogleLogin from "react-google-login";
-import { toast } from "react-toastify";
-import {object, string} from "yup";
+import RegisterIcon from '@material-ui/icons/AccountCircle';
+import MailIcon from '@mui/icons-material/Mail';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import {Button, Stack, TextField} from '@mui/material';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormGroup from '@mui/material/FormGroup';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import {Formik} from 'formik';
+import {useContext, useEffect, useState} from 'react';
+import GoogleLogin from 'react-google-login';
+import {toast} from 'react-toastify';
+import {object, string} from 'yup';
 
-import {AppContext} from "../../App/App";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import {Overlay} from "../../shared/components";
-import {APP_ACTIONS, USER_ENTRY_ACTIONS} from "../../shared/immutables";
-import {
-  MIN_PASSWORD_LENGTH,
-  PASSWORD_MIN_LENGTH_MSG,
-  UserEntryState,
-} from "./UserEntry.constant";
-import styles from "./UserEntry.module.scss";
+import {AppContext} from '../../App/App';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {Overlay} from '../../shared/components';
+import {APP_ACTIONS, USER_ENTRY_ACTIONS} from '../../shared/immutables';
+import {MIN_PASSWORD_LENGTH, PASSWORD_MIN_LENGTH_MSG, UserEntryState} from './UserEntry.constant';
+import styles from './UserEntry.module.scss';
 
 function LoginForm({userAction}) {
-  const loginInitialValues = {email: "", password: ""};
+  const loginInitialValues = {email: '', password: ''};
 
   const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
-    userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: "Login"});
+    userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: 'Login'});
   }, []);
 
   const {dispatchAppAction} = useContext(AppContext);
@@ -43,7 +39,7 @@ function LoginForm({userAction}) {
     setShowPassword(!showPassword);
   };
 
-  const handleGuestLogin = (resetForm) => {
+  const handleGuestLogin = resetForm => {
     const values = {...loginInitialValues};
     if (!checked) {
       values.email = environment.GUEST_EMAIL;
@@ -60,17 +56,17 @@ function LoginForm({userAction}) {
     }
   };
 
-  const handleLogin = async (googleData) => {
+  const handleLogin = async googleData => {
     setIsLoading(true);
     axios
       .post(`${environment.API_URL}/google-login`, {
         token: googleData.tokenId,
       })
-      .then((success) => {
-        toast.success(`${success.data.username} logged-in successfully`)
+      .then(success => {
+        toast.success(`${success.data.username} logged-in successfully`);
         dispatchAppAction({type: APP_ACTIONS.LOGIN, data: success.data});
       })
-      .catch((error) => console.log(error))
+      .catch(error => console.log(error))
       .finally(() => setIsLoading(false));
   };
 
@@ -88,7 +84,7 @@ function LoginForm({userAction}) {
             .then(({data}) => {
               dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
             })
-            .catch((error) => console.log(error))
+            .catch(error => console.log(error))
             .finally(() => setSubmitting(false));
         }}
         validationSchema={loginValidationSchema}
@@ -120,10 +116,7 @@ function LoginForm({userAction}) {
                   endAdornment: (
                     <InputAdornment position="end">
                       {checked ? (
-                        <MailIcon
-                          color="disabled"
-                          className={styles.inputIcon}
-                        />
+                        <MailIcon color="disabled" className={styles.inputIcon} />
                       ) : (
                         <MailIcon className={styles.inputIcon} />
                       )}
@@ -135,7 +128,7 @@ function LoginForm({userAction}) {
                 label="Password"
                 name="password"
                 size="small"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 variant="outlined"
                 value={values.password}
                 disabled={isLoading || checked}
@@ -146,10 +139,7 @@ function LoginForm({userAction}) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleClickShowPassword}
-                        disabled={checked}
-                      >
+                      <IconButton onClick={handleClickShowPassword} disabled={checked}>
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
@@ -159,10 +149,7 @@ function LoginForm({userAction}) {
               <FormGroup className={styles.guestLogin}>
                 <FormControlLabel
                   control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={() => handleGuestLogin(resetForm)}
-                    />
+                    <Checkbox checked={checked} onChange={() => handleGuestLogin(resetForm)} />
                   }
                   label="Sign in as Guest"
                 />
@@ -185,7 +172,7 @@ function LoginForm({userAction}) {
                 onSuccess={handleLogin}
                 disabled={checked}
                 onFailure={handleFailure}
-                cookiePolicy={"single_host_origin"}
+                cookiePolicy={'single_host_origin'}
               ></GoogleLogin>
             </Stack>
           </form>
@@ -209,10 +196,10 @@ function LoginForm({userAction}) {
 }
 
 const loginValidationSchema = object().shape({
-  email: string().email("Invalid email").required("Email is required"),
+  email: string().email('Invalid email').required('Email is required'),
   password: string()
     .min(MIN_PASSWORD_LENGTH, PASSWORD_MIN_LENGTH_MSG)
-    .required("Password is required"),
+    .required('Password is required'),
 });
 
 export default LoginForm;

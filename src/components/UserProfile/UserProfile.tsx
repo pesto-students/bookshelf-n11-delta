@@ -1,27 +1,27 @@
-import EditIcon from "@mui/icons-material/Edit";
-import {Button, Grid, Paper, Stack, styled, TextField} from "@mui/material";
-import {Formik} from "formik";
-import {motion} from "framer-motion";
-import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
-import {toast} from "react-toastify";
-import {object, string} from "yup";
+import EditIcon from '@mui/icons-material/Edit';
+import {Button, Grid, Paper, Stack, styled, TextField} from '@mui/material';
+import {Formik} from 'formik';
+import {motion} from 'framer-motion';
+import {useContext, useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {toast} from 'react-toastify';
+import {object, string} from 'yup';
 
-import {AppContext} from "../../App/App";
-import axios from "../../core/axios";
-import environment from "../../Environment/environment";
-import {APP_ACTIONS, DASHBOARD_ROUTE} from "../../shared/immutables";
-import styles from "./UserProfile.module.scss";
+import {AppContext} from '../../App/App';
+import axios from '../../core/axios';
+import environment from '../../Environment/environment';
+import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
+import styles from './UserProfile.module.scss';
 
 export const UserProfile = () => {
   const initialProfileData = {
-    avatar: "",
-    name: "",
-    email: "",
-    address: "",
-    city: "",
-    state: "",
-    pin: "",
+    avatar: '',
+    name: '',
+    email: '',
+    address: '',
+    city: '',
+    state: '',
+    pin: '',
     display: false,
   };
 
@@ -30,8 +30,8 @@ export const UserProfile = () => {
   const [userInfo, setUserInfo] = useState(initialProfileData);
   const navigate = useNavigate();
 
-  const Input = styled("input")({
-    display: "none",
+  const Input = styled('input')({
+    display: 'none',
   });
 
   const {appState, dispatchAppAction} = useContext(AppContext);
@@ -49,8 +49,7 @@ export const UserProfile = () => {
   function getUserInfo() {
     const user = appState.user ?? {};
     const addresses = user.addresses ?? [];
-    const primaryAdd =
-      addresses.find((address) => !!address?.default) ?? addresses[0];
+    const primaryAdd = addresses.find(address => !!address?.default) ?? addresses[0];
     const profile = {
       email: user.email,
       name: user.username,
@@ -75,19 +74,19 @@ export const UserProfile = () => {
     axios
       .post(`${environment.API_URL}/me`, data)
       .then(() => {
-        toast.success("Profile data updated successfully");
+        toast.success('Profile data updated successfully');
         setFormDisabled(true);
         dispatchAppAction({type: APP_ACTIONS.UPDATE_USER_INFO, data});
       })
-      .catch((error) => console.log(error))
+      .catch(error => console.log(error))
       .finally(() => actions.setSubmitting(false));
   }
 
   const [iconFile, setIconFile] = useState({
-    file: "",
-    url: "",
+    file: '',
+    url: '',
   });
-  const onFileChange = (event) => {
+  const onFileChange = event => {
     const selectedFile = event.target.files[0];
     setIconFile({file: selectedFile, url: URL.createObjectURL(selectedFile)});
   };
@@ -101,7 +100,7 @@ export const UserProfile = () => {
     onBlurHandler,
     touched,
     errors,
-    disabled = false
+    disabled = false,
   ) => {
     return (
       <Grid item xs={width}>
@@ -129,7 +128,7 @@ export const UserProfile = () => {
           className={styles.imageLayout}
           initial={{opacity: 0}}
           animate={{scale: [1, 1.2, 1], opacity: [0.5, 0.5, 1]}}
-          transition={{ease: "easeOut", duration: 1}}
+          transition={{ease: 'easeOut', duration: 1}}
         >
           <label htmlFor="avatar">
             <Input
@@ -170,68 +169,68 @@ export const UserProfile = () => {
                     <Grid container spacing={2}>
                       {TextWrappedInGrid(
                         8,
-                        "name",
-                        "Name",
-                        values,
-                        handleChange,
-                        handleBlur,
-                        touched,
-                        errors
-                      )}
-                      {TextWrappedInGrid(
-                        8,
-                        "email",
-                        "Email",
+                        'name',
+                        'Name',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
                         errors,
-                        true
                       )}
                       {TextWrappedInGrid(
                         8,
-                        "address",
-                        "Address",
+                        'email',
+                        'Email',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
+                        true,
                       )}
                       {TextWrappedInGrid(
                         8,
-                        "city",
-                        "City",
+                        'address',
+                        'Address',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
                       )}
                       {TextWrappedInGrid(
                         8,
-                        "state",
-                        "State",
+                        'city',
+                        'City',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
                       )}
                       {TextWrappedInGrid(
                         8,
-                        "pin",
-                        "Pin code",
+                        'state',
+                        'State',
                         values,
                         handleChange,
                         handleBlur,
                         touched,
-                        errors
+                        errors,
+                      )}
+                      {TextWrappedInGrid(
+                        8,
+                        'pin',
+                        'Pin code',
+                        values,
+                        handleChange,
+                        handleBlur,
+                        touched,
+                        errors,
                       )}
                       <Grid item xs={8}>
                         <Button
-                          style={{minWidth: "150px"}}
+                          style={{minWidth: '150px'}}
                           type="submit"
                           color="primary"
                           size="medium"
@@ -254,8 +253,8 @@ export const UserProfile = () => {
 };
 
 const profileValidationSchema = object().shape({
-  name: string().required("Required field"),
-  address: string().required("Required field"),
+  name: string().required('Required field'),
+  address: string().required('Required field'),
   city: string(),
   state: string(),
   pin: string(),

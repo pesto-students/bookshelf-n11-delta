@@ -1,15 +1,15 @@
-import Box from "@mui/material/Box";
-import React from "react";
+import Box from '@mui/material/Box';
+import React from 'react';
 
-import {HTML_SPECIAL_CHARS, RATING_MAP} from "../../immutables";
-import styles from "./RatingBox.module.scss";
+import {HTML_SPECIAL_CHARS, RATING_MAP} from '../../immutables';
+import styles from './RatingBox.module.scss';
 
-const GREY_COLOR = "#808080";
+const GREY_COLOR = '#808080';
 
 function RatingBox(props) {
   const rating = props.rating;
   const roundOffDigit = props.roundOff ?? 1;
-  const ratingStr = rating ? ` ${rating.toFixed(roundOffDigit)}` : "-";
+  const ratingStr = rating ? ` ${rating.toFixed(roundOffDigit)}` : '-';
 
   const bgColor = getRatingColor(rating);
 

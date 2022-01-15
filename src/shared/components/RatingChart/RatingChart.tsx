@@ -1,14 +1,14 @@
-import {useEffect, useState} from "react";
-import {Chart} from "react-google-charts";
-import {ChartWrapperOptions} from "react-google-charts/dist/types";
-import {RATING_MAP} from "../../immutables";
+import {useEffect, useState} from 'react';
+import {Chart} from 'react-google-charts';
+import {ChartWrapperOptions} from 'react-google-charts/dist/types';
+import {RATING_MAP} from '../../immutables';
 
-import {ChartRating} from "../../models";
-import {Overlay} from "../Overlay/Overlay";
-import styles from "./RatingChart.module.scss";
+import {ChartRating} from '../../models';
+import {Overlay} from '../Overlay/Overlay';
+import styles from './RatingChart.module.scss';
 
 // data for BAR CHART
-const headerData = [["Stars", "Number of reviews", {role: "style"}]];
+const headerData = [['Stars', 'Number of reviews', {role: 'style'}]];
 
 const initialData = [1, 2, 3, 4, 5].reduce((acc, item) => {
   const rowData = [`${item} ★`, 0, `color: ${RATING_MAP[item - 1]}`];
@@ -22,24 +22,20 @@ const slices = RATING_MAP.reduce((acc, item, index) => {
   return {...acc, ...{[index]: {color}}};
 }, {});
 
-const options: ChartWrapperOptions["options"] = {
-  legend: "none",
-  bar: {groupWidth: "35%"},
+const options: ChartWrapperOptions['options'] = {
+  legend: 'none',
+  bar: {groupWidth: '35%'},
   hAxis: {
-    textPosition: "none",
+    textPosition: 'none',
     gridlines: {count: 0},
-    baselineColor: "none",
+    baselineColor: 'none',
   },
   vAxis: {
-    textPosition: "",
+    textPosition: '',
   },
 };
 
-export const RatingChart = ({
-  rating,
-}: {
-  rating: ChartRating;
-}) => {
+export const RatingChart = ({rating}: {rating: ChartRating}) => {
   function setRatingData() {
     const clonedData = [...data];
     clonedData.forEach((ratingData, index) => {
@@ -63,11 +59,7 @@ export const RatingChart = ({
         data={data}
         options={{is3D: true, slices}}
       />
-      <Chart
-        chartType="BarChart"
-        data={data}
-        options={options}
-      />
+      <Chart chartType="BarChart" data={data} options={options} />
     </div>
   );
 };
