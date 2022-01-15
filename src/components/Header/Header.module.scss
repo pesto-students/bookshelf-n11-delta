@@ -20,6 +20,18 @@
   color: $primary;
   justify-content: space-between;
   align-items: center;
+
+  .searchBar {
+    display: none;
+  }
+
+  @media (min-width: 500px) {
+    .searchBar {
+      display: block;
+      width: 50%;
+      height: 36px;
+    }
+  }
 }
 
 .headerGroup {

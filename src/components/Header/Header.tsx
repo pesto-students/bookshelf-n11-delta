@@ -1,12 +1,13 @@
 import {makeStyles} from '@material-ui/core';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {Badge, Divider, Stack} from '@mui/material';
+import {Badge, Box, Divider, Stack} from '@mui/material';
 import SearchBar from 'material-ui-search-bar';
 import {useContext} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
-import logo from '../../assets/bookshelf.svg';
+
 import {AppContext} from '../../App/App';
+import logo from '../../assets/bookshelf.svg';
 import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
 import styles from './Header.module.scss';
 import {UserAccount} from './UserAccount';
@@ -56,15 +57,20 @@ export const Header = () => {
             navigate(DASHBOARD_ROUTE);
           }}
         />
+
         {!appState.isSuperAdmin && (
-          <SearchBar
-            style={{
-              width: '50%',
-              height: '36px',
-            }}
-            onChange={changeInputValue}
-            onCancelSearch={clearSearchBar}
-          />
+          <Box
+            className={styles.searchBar}
+            // sx={{display: {xs: 'none', sm: 'block'}}}
+          >
+            <SearchBar
+              style={{
+                height: '100%',
+              }}
+              onChange={changeInputValue}
+              onCancelSearch={clearSearchBar}
+            />
+          </Box>
         )}
         <div className={styles.topRightBanner}>
           <Stack direction="row" alignItems="center" spacing={2}>
@@ -75,7 +81,10 @@ export const Header = () => {
                 badgeContent={appState.cartItems.length}
                 color="error"
               >
-                <ShoppingCartIcon style={{color: 'white'}} onClick={cartProcessing} />
+                <ShoppingCartIcon
+                  style={{color: 'white'}}
+                  onClick={cartProcessing}
+                />
               </Badge>
             )}
           </Stack>

@@ -1,5 +1,10 @@
 import {UserEntryState} from '../components/UserEntry';
-import {APP_ACTIONS, ACCESS_TOKEN, REFRESH_TOKEN, ADD_ITEM_TO_CART} from '../shared/immutables';
+import {
+  APP_ACTIONS,
+  ACCESS_TOKEN,
+  REFRESH_TOKEN,
+  ADD_ITEM_TO_CART,
+} from '../shared/immutables';
 import {Book, CartItem} from '../shared/models';
 
 export interface IAppContext {
@@ -13,7 +18,10 @@ export interface IAppContext {
   cartItems: Partial<CartItem>[];
 }
 
-export const RootReducer = (state: IAppContext, action: {type: string; data?: any}) => {
+export const RootReducer = (
+  state: IAppContext,
+  action: {type: string; data?: any},
+) => {
   const newState = {...state};
   const {type, data} = action;
   switch (type) {
@@ -79,7 +87,9 @@ export const RootReducer = (state: IAppContext, action: {type: string; data?: an
           const item = newState.cartItems.find(item => item._id === data.id);
           item.qtyOrdered = data.value;
         } else {
-          newState.cartItems = newState.cartItems.filter(item => item._id != data.id);
+          newState.cartItems = newState.cartItems.filter(
+            item => item._id != data.id,
+          );
         }
       }
       break;

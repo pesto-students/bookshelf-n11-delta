@@ -42,7 +42,10 @@ const initialAppState: IAppContext = {
 export const AppContext = createContext(null);
 
 function App() {
-  const [appState, dispatchAppAction] = useReducer(RootReducer, initialAppState);
+  const [appState, dispatchAppAction] = useReducer(
+    RootReducer,
+    initialAppState,
+  );
 
   const [isAdmin, setIsAdmin] = useState(appState.isSuperAdmin);
 
@@ -84,7 +87,10 @@ function App() {
           <Header />
           <div className={styles.wrapper}>
             <Routes>
-              <Route path="/" element={isAdmin ? <AdminHome /> : <Dashboard />} />
+              <Route
+                path="/"
+                element={isAdmin ? <AdminHome /> : <Dashboard />}
+              />
               {isAdmin ? (
                 <>
                   <Route path="/users" element={<UserList />} />
@@ -106,7 +112,9 @@ function App() {
               <Route path="/payments" element={<Payments />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
-            {!!appState.userEntry && <UserEntry showForm={appState.userEntry} />}
+            {!!appState.userEntry && (
+              <UserEntry showForm={appState.userEntry} />
+            )}
           </div>
         </AppContext.Provider>
         <Footer />

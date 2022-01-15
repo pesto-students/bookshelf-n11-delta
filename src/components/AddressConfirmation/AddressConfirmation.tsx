@@ -36,7 +36,8 @@ function AddressConfirmation({handleDelivery}) {
   function getUserAddress() {
     const user = appState.user ?? {};
     const addresses = user.addresses ?? [];
-    const primaryAdd = addresses.find(address => !!address?.default) ?? addresses[0];
+    const primaryAdd =
+      addresses.find(address => !!address?.default) ?? addresses[0];
     setHasAddress(!!primaryAdd);
     const profile = {
       addressLine1: primaryAdd?.addressLine1,
