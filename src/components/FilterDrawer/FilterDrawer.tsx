@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Slider from '@mui/material/Slider';
 import {useContext, useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
 
 import {AppContext} from '../../App/App';
 import {DASHBOARD_ACTIONS} from '../../shared/immutables';
@@ -94,6 +95,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
       type: DASHBOARD_ACTIONS.APPLY_FILTER,
       data: filter,
     });
+    toast.success('Filters applied successfully!');
     handleClose();
   };
 
@@ -104,6 +106,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
     dispatchFilterAction({
       type: DASHBOARD_ACTIONS.CLEAR_FILTER,
     });
+    toast.success('Filters cleared successfully!');
     handleClose();
   };
 

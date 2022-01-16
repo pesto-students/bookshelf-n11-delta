@@ -1,6 +1,6 @@
 import {
-  Container,
   Grid,
+  Pagination,
   Paper,
   Stack,
   Table,
@@ -10,7 +10,6 @@ import {
   TableHead,
   TableRow,
   Typography,
-  Pagination,
 } from '@mui/material';
 import moment from 'moment';
 import {useContext, useEffect, useState} from 'react';
@@ -69,7 +68,6 @@ export const Orders = () => {
       .finally(() => setLoading(false));
   };
 
-  // return the view
   return (
     <>
       {isLoading ? (
@@ -113,94 +111,88 @@ export const Orders = () => {
                     rowSpacing={0}
                     className={styles.orderOuterBox}
                   >
-                    <Grid item xs={8}>
-                      <Paper elevation={2}>
-                        <TableContainer>
-                          <Table
-                            size="small"
-                            sx={{
-                              tableLayout: 'fixed',
-                            }}
-                          >
-                            <TableHead style={{backgroundColor: '#8e99d7'}}>
-                              <TableRow>
-                                <TableCell>#</TableCell>
-                                <TableCell align="right">Book Name</TableCell>
-                                <TableCell align="right">Price</TableCell>
-                                <TableCell align="right">Quantity</TableCell>
-                              </TableRow>
-                            </TableHead>
-                            <TableBody>
-                              {order.orderDetails.map((orderDetail, index) => (
-                                <TableRow
-                                  key={orderDetail?.bookId?._id}
-                                  style={
-                                    index % 2
-                                      ? {background: '#EDEDEF'}
-                                      : {background: 'white'}
+                    <Grid item className={styles.bookDetails}>
+                      <TableContainer>
+                        <Table
+                          size="small"
+                          sx={{
+                            tableLayout: 'fixed',
+                          }}
+                        >
+                          <TableHead style={{backgroundColor: '#8e99d7'}}>
+                            <TableRow>
+                              <TableCell>#</TableCell>
+                              <TableCell align="right">Book Name</TableCell>
+                              <TableCell align="right">Price</TableCell>
+                              <TableCell align="right">Quantity</TableCell>
+                            </TableRow>
+                          </TableHead>
+                          <TableBody>
+                            {order.orderDetails.map((orderDetail, index) => (
+                              <TableRow
+                                key={orderDetail?.bookId?._id}
+                                style={
+                                  index % 2
+                                    ? {background: '#EDEDEF'}
+                                    : {background: 'white'}
+                                }
+                              >
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell
+                                  align="right"
+                                  style={{cursor: 'pointer'}}
+                                  onClick={() =>
+                                    redirectToBooksPage(
+                                      orderDetail?.bookId?._id,
+                                    )
                                   }
                                 >
-                                  <TableCell>{index + 1}</TableCell>
-                                  <TableCell
-                                    align="right"
-                                    style={{cursor: 'pointer'}}
-                                    onClick={() =>
-                                      redirectToBooksPage(
-                                        orderDetail?.bookId?._id,
-                                      )
-                                    }
-                                  >
-                                    {orderDetail?.bookId?.title}
-                                  </TableCell>
-                                  <TableCell align="right">
-                                    {orderDetail.price}
-                                  </TableCell>
-                                  <TableCell align="right">
-                                    {orderDetail.quantity}
-                                  </TableCell>
-                                </TableRow>
-                              ))}
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      </Paper>
+                                  {orderDetail?.bookId?.title}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {orderDetail.price}
+                                </TableCell>
+                                <TableCell align="right">
+                                  {orderDetail.quantity}
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
                     </Grid>
-                    <Grid item xs={4}>
-                      <Paper elevation={0} className={styles.orderInnerBox}>
-                        <TableContainer>
-                          <Table
-                            size="small"
-                            sx={{
-                              tableLayout: 'fixed',
-                            }}
-                          >
-                            <TableBody>
-                              <TableRow>
-                                <TableCell>Order Value</TableCell>
-                                <TableCell>{order.value}</TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>Order Date</TableCell>
-                                <TableCell>
-                                  {moment(order.createdOn).format('DD-MM-YYYY')}
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>Delivery Date</TableCell>
-                                <TableCell>
-                                  {moment(order.deliveredOn).format(
-                                    'DD-MM-YYYY',
-                                  )}
-                                </TableCell>
-                              </TableRow>
-                              <TableRow>
-                                <TableCell>Payment Method</TableCell>
-                                <TableCell>{order.paymentMethod}</TableCell>
-                              </TableRow>
-                            </TableBody>
-                          </Table>
-                        </TableContainer>
-                      </Paper>
+                    <Grid item className={styles.orderDetails}>
+                      <TableContainer>
+                        <Table
+                          size="small"
+                          sx={{
+                            tableLayout: 'fixed',
+                          }}
+                        >
+                          <TableBody>
+                            <TableRow>
+                              <TableCell>Order Value</TableCell>
+                              <TableCell>{order.value}</TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Order Date</TableCell>
+                              <TableCell>
+                                {moment(order.createdOn).format('DD-MM-YYYY')}
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Delivery Date</TableCell>
+                              <TableCell>
+                                {moment(order.deliveredOn).format('DD-MM-YYYY')}
+                              </TableCell>
+                            </TableRow>
+                            <TableRow>
+                              <TableCell>Payment Method</TableCell>
+                              <TableCell>{order.paymentMethod}</TableCell>
+                            </TableRow>
+                          </TableBody>
+                        </Table>
+                      </TableContainer>
                     </Grid>
                   </Grid>
                 ))
