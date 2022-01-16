@@ -33,8 +33,15 @@ export const AddBook = () => {
     <Paper elevation={2} className={styles.layout}>
       <div className={styles.image}>
         <label htmlFor="avatar">
-          <Input accept="image/*" id="avatar" type="file" onChange={onFileChange} />
-          <div className={styles.imageUpload}>{!!iconFile.url && <img src={iconFile.url} />}</div>
+          <Input
+            accept="image/*"
+            id="avatar"
+            type="file"
+            onChange={onFileChange}
+          />
+          <div className={styles.imageUpload}>
+            {!!iconFile.url && <img src={iconFile.url} />}
+          </div>
         </label>
       </div>
       <Formik

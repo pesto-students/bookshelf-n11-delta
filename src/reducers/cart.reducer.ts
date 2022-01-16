@@ -8,7 +8,10 @@ export interface ICartContext {
   orderType: OrderTypes;
 }
 
-export const CartReducer = (state: ICartContext, action: {type: string; data?: any}) => {
+export const CartReducer = (
+  state: ICartContext,
+  action: {type: string; data?: any},
+) => {
   const newState = {...state};
   const {type, data} = action;
   switch (type) {

@@ -37,9 +37,12 @@ axiosInstance.interceptors.response.use(
           // refresh token handling
           const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
           try {
-            const response = await axios.post(`${environment.API_URL}/refresh`, {
-              refresh_token: oldRefreshToken,
-            });
+            const response = await axios.post(
+              `${environment.API_URL}/refresh`,
+              {
+                refresh_token: oldRefreshToken,
+              },
+            );
             const {token, refreshToken} = response.data;
             localStorage.setItem(ACCESS_TOKEN, token);
             localStorage.setItem(REFRESH_TOKEN, refreshToken);
@@ -53,7 +56,10 @@ axiosInstance.interceptors.response.use(
         }
       }
     }
-    toast.error(error.response.data.message);
+    const msg = error.response?.data?.message;
+    if (msg) {
+      toast.error(msg);
+    }
     return Promise.reject(error);
   },
 );

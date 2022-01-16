@@ -21,7 +21,7 @@ export const QuantityPicker = ({qty, max, setQty}) => {
       >
         -
       </Button>
-      <Button>{value}</Button>
+      <Button style={{pointerEvents: 'none'}}>{value}</Button>
       <Button
         onClick={() => _setQtyValue(Math.min(max, value + 1))}
         disabled={value === max}

@@ -1,14 +1,16 @@
-@use '../../scss/mixins' as mixin;
+@use '../../scss/mixins' as mixins;
 @import '../../scss/variables';
 
 $avatarContainer: 150px;
 
 .profileLayout {
   display: flex;
+  flex-wrap: wrap;
   height: 100%;
   margin: 16px;
   padding: 16px;
   background-color: $white;
+  @include mixins.fxLayoutGap();
 
   .imageLayout {
     flex: 1;
@@ -50,12 +52,12 @@ $avatarContainer: 150px;
       font-weight: bold;
       color: $primary;
       display: flex;
+      flex-wrap: wrap;
       margin-top: 32px;
       margin-left: 32px;
-      @include mixin.fxLayoutGap(16px);
+      @include mixins.fxLayoutHorzGap();
 
       .title {
-        margin-right: 32px;
         font-size: 18px;
       }
     }
@@ -66,7 +68,7 @@ $avatarContainer: 150px;
 
       .textField {
         margin-bottom: 16px;
-        width: 80%;
+        width: 100%;
       }
     }
   }

@@ -7,6 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Slider from '@mui/material/Slider';
 import {useContext, useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
 
 import {AppContext} from '../../App/App';
 import {DASHBOARD_ACTIONS} from '../../shared/immutables';
@@ -58,7 +59,9 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
   const handleCheckboxChange = (position, type: CheckBoxType) => {
     const isLangChanged = type === CheckBoxType.LANG;
     const stateMap = isLangChanged ? langCheckedState : categoryCheckedState;
-    const updatedCheckedState = stateMap.map((item, index) => (index === position ? !item : item));
+    const updatedCheckedState = stateMap.map((item, index) =>
+      index === position ? !item : item,
+    );
 
     isLangChanged
       ? setLangCheckedState(updatedCheckedState)
@@ -92,6 +95,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
       type: DASHBOARD_ACTIONS.APPLY_FILTER,
       data: filter,
     });
+    toast.success('Filters applied successfully!');
     handleClose();
   };
 
@@ -102,20 +106,22 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
     dispatchFilterAction({
       type: DASHBOARD_ACTIONS.CLEAR_FILTER,
     });
+    toast.success('Filters cleared successfully!');
     handleClose();
   };
 
-  const toggleDrawer = (state: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
+  const toggleDrawer =
+    (state: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+      if (
+        event.type === 'keydown' &&
+        ((event as React.KeyboardEvent).key === 'Tab' ||
+          (event as React.KeyboardEvent).key === 'Shift')
+      ) {
+        return;
+      }
 
-    handleClose(state);
-  };
+      handleClose(state);
+    };
 
   return (
     <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
@@ -129,7 +135,9 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
                 control={
                   <Checkbox
                     checked={langCheckedState[index]}
-                    onChange={() => handleCheckboxChange(index, CheckBoxType.LANG)}
+                    onChange={() =>
+                      handleCheckboxChange(index, CheckBoxType.LANG)
+                    }
                   />
                 }
                 label={language}
@@ -146,7 +154,9 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
                 control={
                   <Checkbox
                     checked={categoryCheckedState[index]}
-                    onChange={() => handleCheckboxChange(index, CheckBoxType.CATEGORY)}
+                    onChange={() =>
+                      handleCheckboxChange(index, CheckBoxType.CATEGORY)
+                    }
                   />
                 }
                 label={category}
@@ -156,7 +166,10 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
         <Divider />
         <FormControlLabel
           control={
-            <Checkbox checked={priceCheckbox} onChange={() => setPriceCheckbox(!priceCheckbox)} />
+            <Checkbox
+              checked={priceCheckbox}
+              onChange={() => setPriceCheckbox(!priceCheckbox)}
+            />
           }
           className={styles.heading}
           label="PRICE"
