@@ -11,7 +11,7 @@ import environment from '../../Environment/environment';
 import {Book} from '../../shared/models';
 import styles from './AddBook.module.scss';
 
-export const AddBook = () => {
+const AddBook = () => {
   const [iconFile, setIconFile] = useState({
     file: '',
     url: '',
@@ -264,3 +264,5 @@ const validationSchema = object().shape({
   pages: number().required('Required field').min(0),
   description: string().required('Required field'),
 });
+
+export default AddBook;

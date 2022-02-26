@@ -19,7 +19,7 @@ import styles from './Cart.module.scss';
 export const CartContext = createContext(null);
 const steps = ['Delivery Address', 'Place Order'];
 
-export const Cart = () => {
+const Cart = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -132,3 +132,5 @@ export const Cart = () => {
     </Paper>
   );
 };
+
+export default Cart;

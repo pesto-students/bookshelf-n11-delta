@@ -19,7 +19,7 @@ import environment from '../../Environment/environment';
 import {Overlay} from '../../shared/components';
 import styles from './Admin.module.scss';
 
-export const UserList = () => {
+const UserList = () => {
   // State for saving User records to display
   // and to implement pagination in table
   const [userRecords, setUserRecords] = useState([]);
@@ -173,3 +173,5 @@ export const UserList = () => {
     </>
   );
 };
+
+export default UserList;

@@ -69,4 +69,5 @@ const TermsAndCond = () => {
   );
 };
 
-export const TermsAndConditions = memo(TermsAndCond);
+const TermsAndConditions = memo(TermsAndCond);
+export default TermsAndConditions;
