@@ -105,14 +105,7 @@ function App() {
         <AppContext.Provider value={{appState, dispatchAppAction}}>
           <Header />
           <div className={styles.wrapper}>
-            <Suspense
-              fallback={
-                <div>
-                  <h1>Loading … </h1>
-                  <Overlay />{' '}
-                </div>
-              }
-            >
+            <Suspense fallback={<Overlay showBackdrop={true} />}>
               <Routes>
                 <Route
                   path="/"
