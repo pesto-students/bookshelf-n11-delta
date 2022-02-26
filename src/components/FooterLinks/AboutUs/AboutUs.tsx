@@ -144,4 +144,5 @@ const AboutUsComp = () => {
   );
 };
 
-export const AboutUs = memo(AboutUsComp);
+const AboutUs = memo(AboutUsComp);
+export default AboutUs;

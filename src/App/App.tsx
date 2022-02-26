@@ -1,30 +1,19 @@
 import axios from 'axios';
-import {createContext, useEffect, useReducer, useState} from 'react';
+import {
+  createContext,
+  lazy,
+  Suspense,
+  useEffect,
+  useReducer,
+  useState,
+} from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import {
-  AboutUs,
-  AddBook,
-  AdminHome,
-  BookDetail,
-  BookList,
-  Cart,
-  CartList,
-  Dashboard,
-  Footer,
-  Header,
-  NotFound,
-  Orders,
-  Payments,
-  StripeContainer,
-  TermsAndConditions,
-  UserEntry,
-  UserList,
-  UserProfile,
-} from '../components';
+import {AdminHome, Dashboard, Footer, Header, UserEntry} from '../components';
 import appAxios from '../core/axios';
 import environment from '../Environment/environment';
 import {IAppContext, RootReducer} from '../reducers';
+import {Overlay} from '../shared/components';
 import {APP_ACTIONS, REFRESH_TOKEN} from '../shared/immutables';
 import styles from './App.module.scss';
 
@@ -80,38 +69,77 @@ function App() {
     setIsAdmin(appState.isSuperAdmin);
   }, [appState.isSuperAdmin]);
 
+  // admin routes
+  const UserList = lazy(() => import('../components/Admin/UserList'));
+  const BookList = lazy(() => import('../components/Admin/BookList'));
+  const AddBook = lazy(() => import('../components/AddBook/AddBook'));
+
+  // user routes
+  const UserProfile = lazy(
+    () => import('../components/UserProfile/UserProfile'),
+  );
+  const BookDetail = lazy(() => import('../components/BookDetail/BookDetail'));
+  const CartList = lazy(() => import('../components/CartList/CartList'));
+  const Cart = lazy(() => import('../components/Cart/Cart'));
+  const StripeContainer = lazy(
+    () => import('../components/Payment/StripeContainer/StripeContainer'),
+  );
+
+  // common routes
+  const Orders = lazy(() => import('../components/Orders/Orders'));
+  const AboutUs = lazy(
+    () => import('../components/FooterLinks/AboutUs/AboutUs'),
+  );
+  const TermsAndConditions = lazy(
+    () =>
+      import('../components/FooterLinks/TermsAndConditions/TermsAndConditions'),
+  );
+  const Payments = lazy(
+    () => import('../components/FooterLinks/Payments/Payments'),
+  );
+  const NotFound = lazy(() => import('../components/NotFound/NotFound'));
+
   return (
     <Router>
       <div className={styles.pageContainer}>
         <AppContext.Provider value={{appState, dispatchAppAction}}>
           <Header />
           <div className={styles.wrapper}>
-            <Routes>
-              <Route
-                path="/"
-                element={isAdmin ? <AdminHome /> : <Dashboard />}
-              />
-              {isAdmin ? (
-                <>
-                  <Route path="/users" element={<UserList />} />
-                  <Route path="/books" element={<BookList />} />
-                  <Route path="/books/new" element={<AddBook />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/books/:id" element={<BookDetail />} />
-                  <Route path="/cart" element={<CartList />} />
-                  <Route path="/buy" element={<Cart />} />
-                  <Route path="/payment" element={<StripeContainer />} />
-                </>
-              )}
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/about-us" element={<AboutUs />} />
-              <Route path="/terms" element={<TermsAndConditions />} />
-              <Route path="/payments" element={<Payments />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense
+              fallback={
+                <div>
+                  <h1>Loading … </h1>
+                  <Overlay />{' '}
+                </div>
+              }
+            >
+              <Routes>
+                <Route
+                  path="/"
+                  element={isAdmin ? <AdminHome /> : <Dashboard />}
+                />
+                {isAdmin ? (
+                  <>
+                    <Route path="/users" element={<UserList />} />
+                    <Route path="/books" element={<BookList />} />
+                    <Route path="/books/new" element={<AddBook />} />
+                  </>
+                ) : (
+                  <>
+                    <Route path="/profile" element={<UserProfile />} />
+                    <Route path="/books/:id" element={<BookDetail />} />
+                    <Route path="/cart" element={<CartList />} />
+                    <Route path="/buy" element={<Cart />} />
+                    <Route path="/payment" element={<StripeContainer />} />
+                  </>
+                )}
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/about-us" element={<AboutUs />} />
+                <Route path="/terms" element={<TermsAndConditions />} />
+                <Route path="/payments" element={<Payments />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
             {!!appState.userEntry && (
               <UserEntry showForm={appState.userEntry} />
             )}

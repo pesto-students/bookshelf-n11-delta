@@ -35,7 +35,7 @@ import {Book, CartItem, ChartRating, Review} from '../../shared/models';
 import RatingPopup from '../RatingPopup/RatingPopup';
 import styles from './BookDetail.module.scss';
 
-export const BookDetail = () => {
+const BookDetail = () => {
   const {id} = useParams();
   const location = useLocation();
   const navigate = useNavigate();
@@ -324,3 +324,5 @@ export const BookDetail = () => {
     </div>
   );
 };
+
+export default BookDetail;

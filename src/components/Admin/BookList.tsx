@@ -21,7 +21,7 @@ import environment from '../../Environment/environment';
 import {Overlay} from '../../shared/components';
 import styles from './Admin.module.scss';
 
-export const BookList = () => {
+const BookList = () => {
   // State for saving Book records to display
   // and to implement pagination in table
   const [bookRecords, setBookRecords] = useState([]);
@@ -182,3 +182,5 @@ export const BookList = () => {
     </>
   );
 };
+
+export default BookList;

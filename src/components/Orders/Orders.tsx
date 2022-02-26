@@ -22,7 +22,7 @@ import {Overlay} from '../../shared/components';
 import {DASHBOARD_ROUTE} from '../../shared/immutables';
 import styles from './Orders.module.scss';
 
-export const Orders = () => {
+const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -212,3 +212,5 @@ export const Orders = () => {
     </>
   );
 };
+
+export default Orders;

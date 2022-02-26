@@ -8,7 +8,7 @@ import {PaymentForm} from '../PaymentForm/PaymentForm';
 
 const stripeTestPromise = loadStripe(environment.STRIPE_API_KEY);
 
-export const StripeContainer = () => {
+const StripeContainer = () => {
   const location = useLocation();
 
   const amount = location.state?.amount ?? 0;
@@ -20,3 +20,5 @@ export const StripeContainer = () => {
     </Elements>
   );
 };
+
+export default StripeContainer;

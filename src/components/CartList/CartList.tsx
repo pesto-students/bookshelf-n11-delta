@@ -11,7 +11,7 @@ import {OrderTypes} from '../../shared/enums';
 import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
 import styles from './CartList.module.scss';
 
-export const CartList = () => {
+const CartList = () => {
   const navigate = useNavigate();
 
   const {
@@ -99,3 +99,5 @@ export const CartList = () => {
     </Paper>
   );
 };
+
+export default CartList;
