@@ -13,7 +13,7 @@ import environment from '../../Environment/environment';
 import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
 import styles from './UserProfile.module.scss';
 
-export const UserProfile = () => {
+const UserProfile = () => {
   const initialProfileData = {
     avatar: '',
     name: '',
@@ -258,3 +258,5 @@ const profileValidationSchema = object().shape({
   state: string(),
   pin: string(),
 });
+
+export default UserProfile;

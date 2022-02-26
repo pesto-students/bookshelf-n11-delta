@@ -46,4 +46,5 @@ const PaymentInfo = () => {
   );
 };
 
-export const Payments = memo(PaymentInfo);
+const Payments = memo(PaymentInfo);
+export default Payments;
