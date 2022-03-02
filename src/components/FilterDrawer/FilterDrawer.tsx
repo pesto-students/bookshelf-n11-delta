@@ -189,10 +189,10 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
           </>
         )}
         <Button variant="contained" onClick={applyFilterAction}>
-          Apply Filter
+          APPLY FILTER
         </Button>
         <Button variant="outlined" onClick={clearFilterAction}>
-          Clear Filter
+          CLEAR FILTER
         </Button>
       </Box>
     </Drawer>

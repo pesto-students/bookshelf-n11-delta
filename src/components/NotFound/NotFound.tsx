@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import notFound from '../../assets/not-found.png';
 import styles from './NotFound.module.scss';
 
-const NotFound = () => {
+export const NotFound = () => {
   return (
     <div className={styles.layout}>
       <img src={notFound} alt="notFound" className={styles.banner} />
@@ -22,5 +22,3 @@ const NotFound = () => {
     </div>
   );
 };
-
-export default NotFound;

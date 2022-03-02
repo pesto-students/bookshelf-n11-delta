@@ -107,7 +107,7 @@ const BookList = () => {
                           paddingRight: '25px',
                         }}
                       >
-                        Add Book to Catalogue
+                        ADD BOOK TO CATALOGUE
                       </Button>
                     </Stack>
                   </Stack>

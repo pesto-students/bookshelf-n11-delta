@@ -237,7 +237,7 @@ const UserProfile = () => {
                         variant="contained"
                         disabled={isSubmitting || formDisabled}
                       >
-                        Save
+                        SAVE
                       </Button>
                     </Grid>
                   </Grid>

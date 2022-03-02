@@ -67,7 +67,7 @@ export const BookCartTile = ({
             onClick={() => qtyUpdate(item._id, 0)}
             className={styles.deleteBtn}
           >
-            Delete
+            DELETE
           </Button>
         )}
       </div>

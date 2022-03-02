@@ -83,11 +83,6 @@ export const PaymentForm = ({amount, products, orderType}) => {
               `${environment.API_URL}/orders/new?orderType=${orderType}`,
               data,
             )
-            .then(() => {
-              axios.get(`${environment.API_URL}/cart`).then(({data}) => {
-                dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
-              });
-            })
             .catch(() => {
               toast.error('Error occurred while placing order');
             });
@@ -106,6 +101,14 @@ export const PaymentForm = ({amount, products, orderType}) => {
 
   const handleClose = () => {
     setOpen(false);
+
+    axios
+      .get(`${environment.API_URL}/cart`)
+      .then(({data}) => {
+        dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
+      })
+      .catch(() => console.error('Error while fetching cart items'));
+
     navigate('/orders');
   };
 
