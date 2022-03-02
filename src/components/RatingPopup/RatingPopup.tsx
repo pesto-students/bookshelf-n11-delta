@@ -121,7 +121,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
             onClick={handleSubmit}
             disabled={isSubmitting}
           >
-            Submit
+            SUBMIT
           </Button>
         </div>
       ) : (

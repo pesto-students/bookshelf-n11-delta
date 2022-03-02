@@ -124,7 +124,7 @@ function SignUpForm({userAction}) {
                 startIcon={<PersonAdd />}
                 disabled={isSubmitting}
               >
-                Sign Up
+                SIGN UP
               </Button>
             </Stack>
           </form>
