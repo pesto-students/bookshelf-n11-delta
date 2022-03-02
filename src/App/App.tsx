@@ -9,7 +9,14 @@ import {
 } from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
-import {AdminHome, Dashboard, Footer, Header, UserEntry} from '../components';
+import {
+  AdminHome,
+  Dashboard,
+  Footer,
+  Header,
+  UserEntry,
+  NotFound,
+} from '../components';
 import appAxios from '../core/axios';
 import environment from '../Environment/environment';
 import {IAppContext, RootReducer} from '../reducers';
@@ -97,7 +104,6 @@ function App() {
   const Payments = lazy(
     () => import('../components/FooterLinks/Payments/Payments'),
   );
-  const NotFound = lazy(() => import('../components/NotFound/NotFound'));
 
   return (
     <Router>

@@ -176,7 +176,7 @@ function LoginForm({userAction}) {
                 startIcon={<RegisterIcon />}
                 disabled={isLoading || isSubmitting}
               >
-                Login
+                LOGIN
               </Button>
               <GoogleLogin
                 clientId={environment.GOOGLE_CLIENT_ID}

@@ -234,7 +234,7 @@ const AddBook = () => {
                     setChips([]);
                   }}
                 >
-                  Reset
+                  RESET
                 </Button>
                 <Button
                   type="submit"
@@ -243,7 +243,7 @@ const AddBook = () => {
                   variant="contained"
                   disabled={isSubmitting}
                 >
-                  Add Book to Catalogue
+                  ADD BOOK TO CATALOGUE
                 </Button>
               </Grid>
             </Grid>

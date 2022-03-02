@@ -79,7 +79,7 @@ export const AdminHome = () => {
                         backgroundColor: '#3f51b5',
                       }}
                     >
-                      View All
+                      VIEW ALL
                     </Button>
                   </Stack>
                   <Paper elevation={0}>
@@ -171,7 +171,7 @@ export const AdminHome = () => {
                         backgroundColor: '#3f51b5',
                       }}
                     >
-                      View All
+                      VIEW ALL
                     </Button>
                   </Stack>
                   <Paper elevation={0}>

@@ -119,7 +119,7 @@ function AddressConfirmation({handleDelivery}) {
           </div>
           <div className={styles.buttons}>
             <Button variant="contained" size="small" onClick={handleDelivery}>
-              Deliver to this Address
+              DELIVER TO THIS ADDRESS
             </Button>
             <Button
               style={{minWidth: '100px'}}
@@ -127,7 +127,7 @@ function AddressConfirmation({handleDelivery}) {
               size="small"
               onClick={handleCancel}
             >
-              Cancel
+              CANCEL
             </Button>
           </div>
         </>
@@ -203,7 +203,7 @@ function AddressConfirmation({handleDelivery}) {
                           variant="contained"
                           disabled={isSubmitting}
                         >
-                          Save
+                          SAVE
                         </Button>
                       </Grid>
                     </Grid>
