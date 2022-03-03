@@ -1,6 +1,4 @@
-# Bookshelf
-
-<img src="./src/assets/bookshelf-logo.svg" width="300" height="100">
+<img src="./src/assets/bookshelf-logo.svg" alt="Bookshelf" width="300" height="100">
 
 ## Table of Contents
 
@@ -17,7 +15,7 @@
 
 Bookshelf is an online bookstore system via which users do not need to blindly go to various places to find required books, they just simply go to Bookshelf and find it. The online bookstore system can not only reduce costs, save time, space, to bring convenience to everyone, but also promote the development of the logistics industry, serving three purposes, mutual benefit. Users can view its details, place an order and then the book is delivered to their address. Users can see their orders placed, their status (delivered date, order placed date), and rate/review their ordered products
 
-Live demo [_here_](https://n11-bookshelf.herokuapp.com/)
+Live demo [_here_](https://n11-bookshelf.netlify.app/)
 
 ### Sample creds
 
@@ -36,10 +34,13 @@ Project also provide guest login functionality, just check `Sign in as Guest` ch
 // port number where app will host
 PORT= // optional (defaults to 3000)
 
-REACT_APP_API_URL= // backend server url
-REACT_APP_STRIPE_API_KEY=
-REACT_APP_GUEST_EMAIL= // account username used for guest login
-REACT_APP_GUEST_PASSWORD= // account username used for guest login
+REACT_APP_API_URL= // required, backend server url
+
+REACT_APP_STRIPE_API_KEY= // required, stripe public key
+REACT_APP_GOOGLE_CLIENT_ID= //required, OAuth client id created on GCP for app SSO
+
+REACT_APP_GUEST_EMAIL= // required, account username used for guest login
+REACT_APP_GUEST_PASSWORD= // required, account username used for guest login
 
 // delay added for infinite scrolling -- in ms
 REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
@@ -61,6 +62,7 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 - Infinite scrolling dashboard showing books list
 - Login using email & password and Google SSO
 - Payment gateway integration (stripe)
+- Deployment done on both Netlify and Heroku
 
 ## Technology Stack
 
@@ -68,8 +70,9 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)\
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)\
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)\
-![Sass](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
-
+![Sass](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)\
+![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)\
+![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
 ## Contributors ✨
 
 <a href="https://github.com/Alisha-Mahajan">Alisha Mahajan</a>\
