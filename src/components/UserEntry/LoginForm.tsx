@@ -67,11 +67,15 @@ function LoginForm({userAction}) {
         token: googleData.tokenId,
       })
       .then(success => {
-        toast.success(`${success.data.username} logged-in successfully`);
-        dispatchAppAction({type: APP_ACTIONS.LOGIN, data: success.data});
+        successLoginAction(success.data);
       })
       .catch(error => console.log(error))
       .finally(() => setIsLoading(false));
+  };
+
+  const successLoginAction = data => {
+    toast.success(`${data.user.username} logged-in successfully`);
+    dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
   };
 
   return (
@@ -80,16 +84,20 @@ function LoginForm({userAction}) {
         initialValues={loginInitialValues}
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
+          setIsLoading(true);
           axios
             .post(`${environment.API_URL}/login`, {
               email: values.email,
               password: values.password,
             })
             .then(({data}) => {
-              dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+              successLoginAction(data);
             })
             .catch(error => console.log(error))
-            .finally(() => setSubmitting(false));
+            .finally(() => {
+              setIsLoading(false);
+              setSubmitting(false);
+            });
         }}
         validationSchema={loginValidationSchema}
       >
