@@ -77,7 +77,7 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.\
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Our commit messages are formatted according to [Conventional Commits](https://conventionalcommits.org/), hence this repository has [commitizen](https://github.com/commitizen/cz-cli) support enabled. Commitizen can help you generate your commit messages automatically.
 
