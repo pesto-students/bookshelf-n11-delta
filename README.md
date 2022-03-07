@@ -7,8 +7,7 @@
 - [Features](#features)
 - [Code Features](#code-features)
 - [Technology Stack](#technology-stack)
-- [Contributors ✨](#contributors-)
-- [Contributing](#contributing)
+- [Contributors](#contributors)
 - [License](#license)
   
 # Introduction
@@ -62,7 +61,7 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 - Infinite scrolling dashboard showing books list
 - Login using email & password and Google SSO
 - Payment gateway integration (stripe)
-- Deployment done on both Netlify and Heroku
+- Deployment on Netlify
 
 ## Technology Stack
 
@@ -70,33 +69,11 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)\
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)\
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)\
-![Sass](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)\
-![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)\
-![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
-## Contributors ✨
+![Sass](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
+## Contributors
 
 <a href="https://github.com/Alisha-Mahajan">Alisha Mahajan</a>\
 <a href="https://github.com/SVB-knowmywork">Shubham Bansal</a>
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Our commit messages are formatted according to [Conventional Commits](https://conventionalcommits.org/), hence this repository has [commitizen](https://github.com/commitizen/cz-cli) support enabled. Commitizen can help you generate your commit messages automatically.
-
-And to use it, simply call git commit. The tool will help you generate a commit message that follows the below guidelines.
-
-### Commit Message Format
-
-Each commit message consists of a header, a body and a footer. The header has a special format that includes a type, an optional scope and a subject:
-
-```plaintext
-<type>(<scope>): <subject>
-<BLANK LINE>
-<body>
-<BLANK LINE>
-<footer>
-```
 
 ## License
 

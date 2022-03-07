@@ -74,7 +74,7 @@ function LoginForm({userAction}) {
   };
 
   const successLoginAction = data => {
-    toast.success(`${data.user.username} logged-in successfully`);
+    toast.success(`Welcome ${data.user.username}`);
     dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
   };
 
