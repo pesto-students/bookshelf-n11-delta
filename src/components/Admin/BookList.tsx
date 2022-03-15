@@ -61,7 +61,7 @@ const BookList = () => {
         setBookRecords(response.books);
         setRows(response.books);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   }, [searched]);
 
   // return the view
@@ -101,6 +101,7 @@ const BookList = () => {
                         component={Link}
                         to="/books/new"
                         variant="contained"
+                        aria-label="add-book"
                         size="small"
                         style={{
                           paddingLeft: '25px',

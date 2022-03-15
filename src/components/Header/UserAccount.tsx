@@ -31,7 +31,12 @@ export const UserAccount = () => {
   return (
     <>
       <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center'}}>
-        <IconButton onClick={handleClick} size="small" sx={{ml: 2}}>
+        <IconButton
+          onClick={handleClick}
+          size="small"
+          sx={{ml: 2}}
+          aria-label="user-avatar"
+        >
           <Avatar sx={{width: 28, height: 28}}>
             {appState.isUserLoggedIn && username ? username.slice(0, 1) : null}
           </Avatar>

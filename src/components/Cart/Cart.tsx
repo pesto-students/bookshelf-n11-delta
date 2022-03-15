@@ -121,6 +121,7 @@ const Cart = () => {
                   variant="contained"
                   size="small"
                   onClick={processPayment}
+                  aria-label="place order"
                 >
                   PLACE ORDER
                 </Button>

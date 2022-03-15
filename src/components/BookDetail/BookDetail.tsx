@@ -85,7 +85,7 @@ const BookDetail = () => {
           createBookDetails();
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
           navigate('/');
         });
     } else {
@@ -105,7 +105,7 @@ const BookDetail = () => {
         setReviews(bookReviews);
       })
       .catch(error => {
-        console.log(error);
+        console.error(error);
       })
       .finally(() => setShowLoader(false));
   }
@@ -237,6 +237,7 @@ const BookDetail = () => {
                 startIcon={<AddShoppingCartIcon />}
                 loading={cartLoading}
                 loadingPosition="start"
+                aria-label="cart"
                 onClick={addToCartHandler}
               >
                 {inCart ? 'GO TO CART' : 'ADD TO CART'}
@@ -246,6 +247,7 @@ const BookDetail = () => {
                 variant="contained"
                 startIcon={<ShoppingBasketOutlinedIcon />}
                 onClick={buyBook}
+                aria-label="buy now"
               >
                 BUY NOW
               </Button>

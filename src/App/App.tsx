@@ -63,12 +63,11 @@ function App() {
         .get(`${environment.API_URL}/me`)
         .then(({data}) => {
           dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data});
+          appAxios.get(`${environment.API_URL}/cart`).then(({data}) => {
+            dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
+          });
         })
-        .catch(err => console.log(err));
-
-      appAxios.get(`${environment.API_URL}/cart`).then(({data}) => {
-        dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
-      });
+        .catch(err => console.error(err));
     }
   }, [appState.isUserLoggedIn]);
 

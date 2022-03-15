@@ -64,6 +64,7 @@ export const BookCartTile = ({
           <Button
             variant="outlined"
             startIcon={<DeleteIcon />}
+            aria-label="delete"
             onClick={() => qtyUpdate(item._id, 0)}
             className={styles.deleteBtn}
           >

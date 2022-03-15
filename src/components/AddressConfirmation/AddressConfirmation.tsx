@@ -72,7 +72,7 @@ function AddressConfirmation({handleDelivery}) {
         setHasAddress(true);
         setAddressInfo({...addressInfo, ...addressData});
       })
-      .catch(error => console.log(error))
+      .catch(error => console.error(error))
       .finally(() => actions.setSubmitting(false));
   };
 
@@ -118,7 +118,12 @@ function AddressConfirmation({handleDelivery}) {
             </div>
           </div>
           <div className={styles.buttons}>
-            <Button variant="contained" size="small" onClick={handleDelivery}>
+            <Button
+              variant="contained"
+              size="small"
+              onClick={handleDelivery}
+              aria-label="deliver"
+            >
               DELIVER TO THIS ADDRESS
             </Button>
             <Button
@@ -126,6 +131,7 @@ function AddressConfirmation({handleDelivery}) {
               variant="outlined"
               size="small"
               onClick={handleCancel}
+              aria-label="cancel"
             >
               CANCEL
             </Button>
@@ -201,6 +207,7 @@ function AddressConfirmation({handleDelivery}) {
                           color="primary"
                           size="medium"
                           variant="contained"
+                          aria-label="save"
                           disabled={isSubmitting}
                         >
                           SAVE

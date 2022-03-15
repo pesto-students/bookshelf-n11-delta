@@ -52,7 +52,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
         .then((success: AnyObject) => {
           setCanReview(success.data.canPostReview);
         })
-        .catch(error => console.log(error));
+        .catch(error => console.error(error));
     }
   }, [isUserLoggedIn]);
 
@@ -117,6 +117,7 @@ function RatingPopup({open, handleDialogClose, bookId}) {
             color="primary"
             size="medium"
             variant="contained"
+            aria-label="submit"
             endIcon={<SendIcon />}
             onClick={handleSubmit}
             disabled={isSubmitting}

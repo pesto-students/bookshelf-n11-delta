@@ -34,7 +34,7 @@ export const AdminHome = () => {
       .then(response => {
         setUserRecords(response.users);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
 
     fetch(`${environment.API_URL}/books/bytimestamp?page=1&limit=5`, {
       method: 'GET',
@@ -43,7 +43,7 @@ export const AdminHome = () => {
       .then(response => {
         setBookRecords(response.books);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   }, [searched]);
 
   // return the view
@@ -73,6 +73,7 @@ export const AdminHome = () => {
                       to="/users"
                       variant="contained"
                       size="small"
+                      aria-label="view-all-users"
                       style={{
                         paddingLeft: '25px',
                         paddingRight: '25px',
@@ -165,6 +166,7 @@ export const AdminHome = () => {
                       to="/books"
                       variant="contained"
                       size="small"
+                      aria-label="view-all-books"
                       style={{
                         paddingLeft: '25px',
                         paddingRight: '25px',

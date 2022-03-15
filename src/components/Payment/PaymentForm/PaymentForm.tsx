@@ -170,6 +170,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
                 className={styles.btn}
                 variant="outlined"
                 size="small"
+                aria-label="cancel"
                 disabled={success}
                 onClick={handleCancel}
               >

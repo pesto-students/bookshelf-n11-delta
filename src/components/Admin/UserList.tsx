@@ -61,7 +61,7 @@ const UserList = () => {
         setUserRecords(response.users);
         setRows(response.users);
       })
-      .catch(error => console.log(error));
+      .catch(error => console.error(error));
   }, [searched]);
 
   // return the view
