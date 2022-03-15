@@ -70,7 +70,7 @@ export const Dashboard = () => {
           dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
         })
         .catch(error => {
-          console.log(error);
+          console.error(error);
         });
     }
   }
@@ -139,6 +139,7 @@ export const Dashboard = () => {
             <Button
               onClick={() => setFilterState(!filterState)}
               className={styles.filterBtn}
+              aria-label="filter"
               startIcon={<FilterAltOutlinedIcon />}
             />
             <Select

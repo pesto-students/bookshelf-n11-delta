@@ -15,7 +15,6 @@ const phrases = [
       'Designers',
       'Front-End Developers',
       'Artists',
-      'Warehouse organiser',
       'Specialists',
     ],
   },
@@ -36,8 +35,7 @@ const phrases = [
     logo: 'https://unfold.co/wp-content/uploads/what-we-do.png',
     words: [
       'Serve user',
-      'Provide nice UI / UX experience',
-      'Web App',
+      'One stop solution for every book need',
       'Process Orders',
       'Ship orders',
       'Deliver books',
@@ -84,7 +82,7 @@ const AboutUsComp = () => {
             <Grid item>
               <Typography variant="body1" color="rgb(103, 103, 103)">
                 We provide one stop solution to all your book needs in
-                affordable price. Creating a place that cuts doun user hassle to
+                affordable price. Creating a place that cuts down user hassle to
                 visit various places in search of books.
               </Typography>
             </Grid>

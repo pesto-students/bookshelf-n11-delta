@@ -69,7 +69,7 @@ const AddBook = () => {
               setIconFile({file: '', url: ''});
               setChips([]);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.error(error))
             .finally(() => setSubmitting(false));
         }}
         validationSchema={validationSchema}
@@ -227,6 +227,7 @@ const AddBook = () => {
                   color="primary"
                   size="medium"
                   disabled={isSubmitting}
+                  aria-label="delete"
                   startIcon={<DeleteIcon />}
                   onClick={() => {
                     resetForm();
@@ -239,6 +240,7 @@ const AddBook = () => {
                 <Button
                   type="submit"
                   color="primary"
+                  aria-label="add-book"
                   size="medium"
                   variant="contained"
                   disabled={isSubmitting}

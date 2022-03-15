@@ -188,10 +188,18 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
             <div>MAX: {price[1]}</div>
           </>
         )}
-        <Button variant="contained" onClick={applyFilterAction}>
+        <Button
+          variant="contained"
+          aria-label="apply filter"
+          onClick={applyFilterAction}
+        >
           APPLY FILTER
         </Button>
-        <Button variant="outlined" onClick={clearFilterAction}>
+        <Button
+          variant="outlined"
+          aria-label="clear filter"
+          onClick={clearFilterAction}
+        >
           CLEAR FILTER
         </Button>
       </Box>

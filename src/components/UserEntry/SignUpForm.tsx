@@ -49,7 +49,7 @@ function SignUpForm({userAction}) {
                 .then(({data}) => {
                   dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
                 })
-                .catch(error => console.log(error))
+                .catch(error => console.error(error))
                 .finally(() => setSubmitting(false));
             })
             .catch(() => {
@@ -120,6 +120,7 @@ function SignUpForm({userAction}) {
                 type="submit"
                 color="primary"
                 size="medium"
+                aria-label="sign up"
                 variant="contained"
                 startIcon={<PersonAdd />}
                 disabled={isSubmitting}

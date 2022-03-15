@@ -69,7 +69,7 @@ function LoginForm({userAction}) {
       .then(success => {
         successLoginAction(success.data);
       })
-      .catch(error => console.log(error))
+      .catch(error => console.error(error))
       .finally(() => setIsLoading(false));
   };
 
@@ -93,7 +93,7 @@ function LoginForm({userAction}) {
             .then(({data}) => {
               successLoginAction(data);
             })
-            .catch(error => console.log(error))
+            .catch(error => console.error(error))
             .finally(() => {
               setIsLoading(false);
               setSubmitting(false);
@@ -180,6 +180,7 @@ function LoginForm({userAction}) {
                 type="submit"
                 color="primary"
                 size="medium"
+                aria-label="submit"
                 variant="contained"
                 startIcon={<RegisterIcon />}
                 disabled={isLoading || isSubmitting}

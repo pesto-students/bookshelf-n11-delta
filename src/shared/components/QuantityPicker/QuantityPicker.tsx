@@ -16,6 +16,7 @@ export const QuantityPicker = ({qty, max, setQty}) => {
     <ButtonGroup disableElevation variant="outlined" color="primary">
       <Button
         variant="contained"
+        aria-label="decrease"
         onClick={() => _setQtyValue(Math.max(MIN_QTY, value - 1))}
         disabled={value === MIN_QTY}
       >
@@ -25,6 +26,7 @@ export const QuantityPicker = ({qty, max, setQty}) => {
       <Button
         onClick={() => _setQtyValue(Math.min(max, value + 1))}
         disabled={value === max}
+        aria-label="increase"
         variant="contained"
       >
         +

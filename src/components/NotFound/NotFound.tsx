@@ -16,6 +16,7 @@ export const NotFound = () => {
         component={Link}
         to="/"
         variant="contained"
+        aria-label="go to homepage"
       >
         GO TO HOMEPAGE
       </Button>

@@ -53,16 +53,14 @@ export const Header = () => {
         <img
           className={styles.appName}
           src={logo}
+          alt="bookshelf"
           onClick={() => {
             navigate(DASHBOARD_ROUTE);
           }}
         />
 
         {!appState.isSuperAdmin && (
-          <Box
-            className={styles.searchBar}
-            // sx={{display: {xs: 'none', sm: 'block'}}}
-          >
+          <Box className={styles.searchBar}>
             <SearchBar
               style={{
                 height: '100%',

@@ -66,6 +66,7 @@ const CartList = () => {
           className={styles.btn}
           component={Link}
           to="/"
+          aria-label="shop more"
           variant={cartItems.length ? 'outlined' : 'contained'}
         >
           CONTINUE SHOPPING
@@ -74,6 +75,7 @@ const CartList = () => {
         <Button
           variant="contained"
           onClick={checkout}
+          aria-label="checkout"
           disabled={!cartItems.length}
         >
           PROCEED TO CHECKOUT

@@ -79,7 +79,7 @@ const UserProfile = () => {
         setFormDisabled(true);
         dispatchAppAction({type: APP_ACTIONS.UPDATE_USER_INFO, data});
       })
-      .catch(error => console.log(error))
+      .catch(error => console.error(error))
       .finally(() => actions.setSubmitting(false));
   }
 
@@ -139,7 +139,7 @@ const UserProfile = () => {
             disabled={true}
           />
           <div className={styles.avatarContainer}>
-            {!!iconFile.url && <img src={iconFile.url} />}
+            {!!iconFile.url && <img src={iconFile.url} alt="user-image" />}
           </div>
         </label>
         <div className={styles.greetingMsg}>Hello {userInfo.name}</div>
@@ -234,6 +234,7 @@ const UserProfile = () => {
                         type="submit"
                         color="primary"
                         size="medium"
+                        aria-label="save"
                         variant="contained"
                         disabled={isSubmitting || formDisabled}
                       >
