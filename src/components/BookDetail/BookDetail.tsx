@@ -40,7 +40,7 @@ const BookDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  let book: Book = location.state?.book;
+  const [book, setBook] = useState(location.state?.book);
   const [details, setDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [showLoader, setShowLoader] = useState(false);
@@ -81,15 +81,15 @@ const BookDetail = () => {
       axios
         .get(`${environment.API_URL}/book/${id}`)
         .then(({data}) => {
-          book = data;
-          createBookDetails();
+          setBook(data);
+          createBookDetails(data);
         })
         .catch(error => {
           console.error(error);
           navigate('/');
         });
     } else {
-      createBookDetails();
+      createBookDetails(book);
     }
   }
 
@@ -119,19 +119,19 @@ const BookDetail = () => {
     setChartRating(data);
   }
 
-  function createBookDetails() {
+  function createBookDetails({language, author, category}) {
     setDetails([
       {
         key: 'language',
-        value: book.language,
+        value: language,
       },
       {
         key: 'author',
-        value: book.author,
+        value: author,
       },
       {
         key: 'category',
-        value: book.category,
+        value: category,
       },
     ]);
   }
@@ -298,7 +298,7 @@ const BookDetail = () => {
             <Divider />
             {showLoader ? (
               <div className={styles.loadingReviewContainer}>
-                <Overlay />
+                <Overlay showBackdrop={false} showCircularSpinner={true} />
               </div>
             ) : !!reviews.length ? (
               <>

@@ -19,12 +19,6 @@ const CartList = () => {
     dispatchAppAction,
   } = useContext(AppContext);
 
-  useEffect(() => {
-    if (!isUserLoggedIn) {
-      navigate(DASHBOARD_ROUTE);
-    }
-  }, [isUserLoggedIn]);
-
   const qtyUpdate = (id, value) => {
     const orderDetails = [];
     cartItems.forEach(item => {

@@ -14,10 +14,11 @@ import {
   Dashboard,
   Footer,
   Header,
-  UserEntry,
   NotFound,
+  UserEntry,
 } from '../components';
 import appAxios from '../core/axios';
+import PrivateRoute from '../core/PrivateRoute';
 import environment from '../Environment/environment';
 import {IAppContext, RootReducer} from '../reducers';
 import {Overlay} from '../shared/components';
@@ -50,7 +51,10 @@ function App() {
     if (refreshToken) {
       axios
         .post(`${environment.API_URL}/refresh`, {refreshToken})
-        .then(({data}) => dispatchAppAction({type: APP_ACTIONS.LOGIN, data}))
+        .then(({data}) => {
+          dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+          updateUserInfo();
+        })
         .catch(() => dispatchAppAction({type: APP_ACTIONS.LOGOUT}));
     } else {
       dispatchAppAction({type: APP_ACTIONS.LOGOUT});
@@ -58,22 +62,20 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (appState.isUserLoggedIn) {
-      appAxios
-        .get(`${environment.API_URL}/me`)
-        .then(({data}) => {
-          dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data});
-          appAxios.get(`${environment.API_URL}/cart`).then(({data}) => {
-            dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
-          });
-        })
-        .catch(err => console.error(err));
-    }
-  }, [appState.isUserLoggedIn]);
-
-  useEffect(() => {
     setIsAdmin(appState.isSuperAdmin);
   }, [appState.isSuperAdmin]);
+
+  const updateUserInfo = () => {
+    appAxios
+      .get(`${environment.API_URL}/me`)
+      .then(({data}) => {
+        dispatchAppAction({type: APP_ACTIONS.REGISTER_USER_INFO, data});
+        appAxios.get(`${environment.API_URL}/cart`).then(({data}) => {
+          dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
+        });
+      })
+      .catch(err => console.error(err));
+  };
 
   // admin routes
   const UserList = lazy(() => import('../components/Admin/UserList'));
@@ -124,14 +126,49 @@ function App() {
                   </>
                 ) : (
                   <>
-                    <Route path="/profile" element={<UserProfile />} />
+                    <Route
+                      path="/profile"
+                      element={
+                        <PrivateRoute>
+                          <UserProfile />
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/cart"
+                      element={
+                        <PrivateRoute>
+                          <CartList />
+                        </PrivateRoute>
+                      }
+                    />
                     <Route path="/books/:id" element={<BookDetail />} />
-                    <Route path="/cart" element={<CartList />} />
-                    <Route path="/buy" element={<Cart />} />
-                    <Route path="/payment" element={<StripeContainer />} />
+                    <Route
+                      path="/buy"
+                      element={
+                        <PrivateRoute>
+                          <Cart />
+                        </PrivateRoute>
+                      }
+                    />
+                    <Route
+                      path="/payment"
+                      element={
+                        <PrivateRoute>
+                          <StripeContainer />
+                        </PrivateRoute>
+                      }
+                    />
                   </>
                 )}
-                <Route path="/orders" element={<Orders />} />
+                <Route
+                  path="/orders"
+                  element={
+                    <PrivateRoute>
+                      <Orders />
+                    </PrivateRoute>
+                  }
+                />
                 <Route path="/about-us" element={<AboutUs />} />
                 <Route path="/terms" element={<TermsAndConditions />} />
                 <Route path="/payments" element={<Payments />} />

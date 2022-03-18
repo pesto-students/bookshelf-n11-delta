@@ -10,7 +10,7 @@ import {object, string} from 'yup';
 import {AppContext} from '../../App/App';
 import axios from '../../core/axios';
 import environment from '../../Environment/environment';
-import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
+import {APP_ACTIONS} from '../../shared/immutables';
 import styles from './UserProfile.module.scss';
 
 const UserProfile = () => {
@@ -39,12 +39,6 @@ const UserProfile = () => {
   useEffect(() => {
     getUserInfo();
   }, [appState.user]);
-
-  useEffect(() => {
-    if (!appState.isUserLoggedIn) {
-      navigate(DASHBOARD_ROUTE);
-    }
-  }, [appState.isUserLoggedIn]);
 
   function getUserInfo() {
     const user = appState.user ?? {};
