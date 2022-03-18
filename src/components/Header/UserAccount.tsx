@@ -79,7 +79,11 @@ export const UserAccount = () => {
         {menuItems.map(
           menuItem =>
             menuItem.show && (
-              <MenuItem key={menuItem.id} onClick={menuItem.onClick}>
+              <MenuItem
+                key={menuItem.id}
+                disabled={!!menuItem.disable}
+                onClick={menuItem.onClick}
+              >
                 <ListItemIcon>{menuItem.icon}</ListItemIcon>
                 {menuItem.title}
               </MenuItem>

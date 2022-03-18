@@ -19,29 +19,22 @@ import {AppContext} from '../../App/App';
 import axios from '../../core/axios';
 import environment from '../../Environment/environment';
 import {Overlay} from '../../shared/components';
-import {DASHBOARD_ROUTE} from '../../shared/immutables';
 import styles from './Orders.module.scss';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
   const navigate = useNavigate();
   const {
-    appState: {books, isUserLoggedIn},
+    appState: {books},
   } = useContext(AppContext);
 
   useEffect(() => {
     getUserOrders();
   }, []);
-
-  useEffect(() => {
-    if (!isUserLoggedIn) {
-      navigate(DASHBOARD_ROUTE);
-    }
-  }, [isUserLoggedIn]);
 
   const redirectToBooksPage = id => {
     const book = books.find(book => book._id === id);
@@ -56,7 +49,6 @@ const Orders = () => {
   };
 
   const getUserOrders = () => {
-    setLoading(true);
     axios
       .get(`${environment.API_URL}/orders`)
       .then(({data}) => {
