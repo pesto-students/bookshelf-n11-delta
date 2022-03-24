@@ -16,8 +16,8 @@ export const Price = ({deliveryFee, address}) => {
     let priceToPay = 0;
     let qty = 0;
     cartState.products?.forEach(pdt => {
-      priceToPay += pdt.price * pdt.qtyOrdered;
-      qty += pdt.qtyOrdered;
+      priceToPay += pdt.price * pdt.quantity;
+      qty += pdt.quantity;
     });
     setPrice(priceToPay);
     setQuantity(qty);

@@ -17,7 +17,7 @@ export const CartReducer = (
   switch (type) {
     case CART_ACTIONS.UPDATE_QTY:
       const pdt = newState.products.find(pdt => pdt._id === data.id);
-      pdt.qtyOrdered = data.value;
+      pdt.quantity = data.value;
       break;
     case CART_ACTIONS.SET_PAYABLE_AMOUNT:
       newState.totalPrice = data.value;

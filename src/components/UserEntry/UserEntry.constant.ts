@@ -1,5 +1,6 @@
 export const enum UserEntryState {
-  Login = 1,
+  Closed,
+  Login,
   SignUp,
 }
 

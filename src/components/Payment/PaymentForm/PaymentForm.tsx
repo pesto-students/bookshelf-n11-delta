@@ -3,6 +3,7 @@ import {Button, Paper} from '@mui/material';
 import {CardElement, useElements, useStripe} from '@stripe/react-stripe-js';
 import {StripeCardElementOptions} from '@stripe/stripe-js';
 import {useContext, useState} from 'react';
+import {batch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
@@ -11,6 +12,12 @@ import payment from '../../../assets/card-payment.svg';
 import orderSuccess from '../../../assets/success.jpg';
 import axios from '../../../core/axios';
 import environment from '../../../Environment/environment';
+import {
+  CartThunks,
+  orderActions,
+  OrderThunks,
+  useAppDispatch,
+} from '../../../redux';
 import {GenericDialog} from '../../../shared/components';
 import {APP_ACTIONS, HTML_SPECIAL_CHARS} from '../../../shared/immutables';
 import {CartItem} from '../../../shared/models';
@@ -46,6 +53,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
   const elements = useElements();
 
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -68,9 +76,9 @@ export const PaymentForm = ({amount, products, orderType}) => {
 
           const orderDetails = products.map((pdt: Partial<CartItem>) => {
             return {
-              bookId: pdt._id,
+              bookId: pdt.book._id,
               price: pdt.price,
-              quantity: pdt.qtyOrdered,
+              quantity: pdt.quantity,
             };
           });
           const data = {
@@ -102,13 +110,8 @@ export const PaymentForm = ({amount, products, orderType}) => {
   const handleClose = () => {
     setOpen(false);
 
-    axios
-      .get(`${environment.API_URL}/cart`)
-      .then(({data}) => {
-        dispatchAppAction({type: APP_ACTIONS.SET_CART, data});
-      })
-      .catch(() => console.error('Error while fetching cart items'));
-
+    dispatch(CartThunks.getCartItems());
+    dispatch(orderActions.refreshData());
     navigate('/orders');
   };
 

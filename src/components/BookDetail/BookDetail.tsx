@@ -12,12 +12,23 @@ import {
   Typography,
 } from '@mui/material';
 import {Fragment, useContext, useEffect, useState} from 'react';
-import {useLocation, useNavigate, useParams} from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
+import {toast} from 'react-toastify';
 
 import {AppContext} from '../../App/App';
 import noReviews from '../../assets/no-reviews.svg';
 import axios from '../../core/axios';
 import environment from '../../Environment/environment';
+import {
+  bookReviewSelectors,
+  BookReviewThunks,
+  bookSelectors,
+  BookThunks,
+  cartSelectors,
+  CartThunks,
+  useAppDispatch,
+  useAppSelector,
+} from '../../redux';
 import {
   MemoizedRatingBox,
   Overlay,
@@ -31,23 +42,35 @@ import {
   APP_ACTIONS,
   HTML_SPECIAL_CHARS,
 } from '../../shared/immutables';
-import {Book, CartItem, ChartRating, Review} from '../../shared/models';
+import {CartItem, ChartRating, Review} from '../../shared/models';
 import RatingPopup from '../RatingPopup/RatingPopup';
 import styles from './BookDetail.module.scss';
 
 const BookDetail = () => {
   const {id} = useParams();
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const [book, setBook] = useState(location.state?.book);
+  const dispatch = useAppDispatch();
+  const book = useAppSelector(state =>
+    bookSelectors.selectById(state.book, id),
+  );
+  const bookReviews = useAppSelector(state =>
+    bookReviewSelectors.selectById(state.bookReview, id),
+  );
+
+  const isLoaded = useAppSelector(state => state.book.isLoaded);
+  const isReviewsLoading = useAppSelector(state => state.bookReview.isLoading);
+
   const [details, setDetails] = useState([]);
   const [reviews, setReviews] = useState([]);
-  const [showLoader, setShowLoader] = useState(false);
   const [cartLoading, setCartLoading] = useState(false);
   const [inCart, setInCart] = useState(false);
 
-  const {appState, dispatchAppAction} = useContext(AppContext);
+  const currentUser = useAppSelector(state => state.auth.user);
+  const isCartLoaded = useAppSelector(state => state.cart.isLoaded);
+  const cartItems = useAppSelector(state =>
+    cartSelectors.selectAll(state.cart),
+  );
 
   const initialChartRating = new ChartRating();
   const [chartRating, setChartRating] = useState(initialChartRating);
@@ -61,59 +84,48 @@ const BookDetail = () => {
   }));
 
   useEffect(() => {
-    getBookDetails();
-    getBookReviews();
+    if (isLoaded && !book) {
+      toast.error('Invalid book id refrenced');
+    } else {
+      if (!book) {
+        dispatch(BookThunks.getBookById(id));
+      }
+      if (!bookReviews) {
+        dispatch(BookReviewThunks.getBookReviewsById(id));
+      }
+    }
   }, [id]);
 
   useEffect(() => {
-    if (reviews.length) {
-      createChartRating();
+    if (bookReviews?.reviews?.length) {
+      setReviews(bookReviews.reviews);
+      createChartRating(bookReviews.reviews);
     }
-  }, [reviews]);
+  }, [bookReviews]);
 
   useEffect(() => {
-    const isPresent = appState.cartItems.some(item => item._id === book._id);
-    setInCart(isPresent);
-  }, [appState.cartItems]);
+    if (currentUser) {
+      if (isCartLoaded) {
+        const isPresent = cartItems.some(item => item.book._id === book._id);
+        setInCart(isPresent);
+      } else {
+        dispatch(CartThunks.getCartItems());
+      }
+    }
+  }, [currentUser, cartItems]);
 
-  function getBookDetails() {
-    if (!book) {
-      axios
-        .get(`${environment.API_URL}/book/${id}`)
-        .then(({data}) => {
-          setBook(data);
-          createBookDetails(data);
-        })
-        .catch(error => {
-          console.error(error);
-          navigate('/');
-        });
-    } else {
+  useEffect(() => {
+    if (book) {
       createBookDetails(book);
     }
-  }
+  }, [book]);
 
-  function getBookReviews() {
-    setShowLoader(true);
-    axios
-      .get(`${environment.API_URL}/reviews?bookId=${id}`)
-      .then(({data}) => {
-        const bookReviews = [];
-        data.reviews.forEach(review => {
-          bookReviews.push(new Review(review));
-        });
-        setReviews(bookReviews);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-      .finally(() => setShowLoader(false));
-  }
-
-  function createChartRating() {
+  function createChartRating(reviewData: Review[]) {
     const data = {...chartRating};
     [1, 2, 3, 4, 5].forEach(element => {
-      const length = reviews.filter(review => review.rating === element).length;
+      const length = reviewData.filter(
+        review => review.rating === element,
+      ).length;
       data[`star${element}`] = length;
     });
     setChartRating(data);
@@ -150,14 +162,12 @@ const BookDetail = () => {
   };
 
   const buyBook = () => {
-    const date = new Date();
     const cartItem = new CartItem({
-      ...book,
-      qtyOrdered: 1,
-      createdOn: date,
-      modifiedOn: date,
+      book: {...book},
+      quantity: 1,
+      price: book.price,
     });
-    navigate(`/buy`, {
+    navigate('/buy', {
       state: {
         cartItems: [cartItem],
         orderType: OrderTypes.BUY_NOW,
@@ -165,11 +175,8 @@ const BookDetail = () => {
     });
   };
 
-  const handleDialogClose = (fetchReviews = false) => {
+  const handleDialogClose = () => {
     setOpen(false);
-    if (fetchReviews) {
-      getBookReviews();
-    }
   };
 
   const navigateToCart = () => {
@@ -190,26 +197,26 @@ const BookDetail = () => {
       price: book.price,
       quantity: 1,
     });
-    appState.cartItems.forEach(item => {
+    cartItems.forEach(item => {
       if (item._id !== id) {
         orderDetails.push({
           bookId: item._id,
           price: item.price,
-          quantity: item.qtyOrdered,
+          quantity: item.quantity,
         });
       }
     });
-    axios
-      .patch(`${environment.API_URL}/cart`, {orderDetails})
+
+    dispatch(
+      CartThunks.updateCartItem({
+        type: ADD_ITEM_TO_CART,
+        id: book._id,
+        book: book,
+        orderDetails,
+      }),
+    )
+      .unwrap()
       .then(() => {
-        const item = new CartItem({
-          ...book,
-          qtyOrdered: 1,
-        });
-        dispatchAppAction({
-          type: APP_ACTIONS.UPDATE_CART,
-          data: {item, action: ADD_ITEM_TO_CART},
-        });
         navigateToCart();
       })
       .catch(err => console.log(err))
@@ -232,7 +239,7 @@ const BookDetail = () => {
             </div>
             <div className={styles.buttons}>
               <AddToCartButton
-                disabled={!appState.isUserLoggedIn || !book.quantity}
+                disabled={!currentUser || !book.quantity}
                 variant="contained"
                 startIcon={<AddShoppingCartIcon />}
                 loading={cartLoading}
@@ -243,7 +250,7 @@ const BookDetail = () => {
                 {inCart ? 'GO TO CART' : 'ADD TO CART'}
               </AddToCartButton>
               <Button
-                disabled={!appState.isUserLoggedIn || !book.quantity}
+                disabled={!currentUser || !book.quantity}
                 variant="contained"
                 startIcon={<ShoppingBasketOutlinedIcon />}
                 onClick={buyBook}
@@ -289,14 +296,14 @@ const BookDetail = () => {
               <div className={styles.title}>
                 Rating {HTML_SPECIAL_CHARS.AND} Reviews
               </div>
-              {!showLoader && (
+              {!isReviewsLoading && (
                 <div className={styles.rateBtn} onClick={openRatingDialog}>
                   +
                 </div>
               )}
             </div>
             <Divider />
-            {showLoader ? (
+            {isReviewsLoading ? (
               <div className={styles.loadingReviewContainer}>
                 <Overlay showBackdrop={false} showCircularSpinner={true} />
               </div>

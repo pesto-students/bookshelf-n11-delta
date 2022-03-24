@@ -8,6 +8,8 @@ import {toast} from 'react-toastify';
 
 import {AppContext} from '../../App/App';
 import logo from '../../assets/bookshelf.svg';
+import {useAppSelector} from '../../redux';
+import {cartSelectors} from '../../redux/slices';
 import {APP_ACTIONS, DASHBOARD_ROUTE} from '../../shared/immutables';
 import styles from './Header.module.scss';
 import {UserAccount} from './UserAccount';
@@ -20,9 +22,16 @@ const useStyles = makeStyles(() => ({
 
 export const Header = () => {
   const classes = useStyles();
-  const {appState, dispatchAppAction} = useContext(AppContext);
+  const {dispatchAppAction} = useContext(AppContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const currentUser = useAppSelector(state => state.auth.user);
+  const cartCount = useAppSelector(state =>
+    cartSelectors.selectTotal(state.cart),
+  );
+  const cartItems = useAppSelector(state =>
+    cartSelectors.selectAll(state.cart),
+  );
 
   const changeInputValue = newValue => {
     dispatchAppAction({type: APP_ACTIONS.UPDATE_SEARCH_TEXT, data: newValue});
@@ -36,10 +45,10 @@ export const Header = () => {
   };
 
   const cartProcessing = () => {
-    if (appState.isUserLoggedIn) {
+    if (!!currentUser) {
       navigate(`/cart`, {
         state: {
-          cartItems: appState.cartItems,
+          cartItems: cartItems,
         },
       });
     } else {
@@ -58,8 +67,7 @@ export const Header = () => {
             navigate(DASHBOARD_ROUTE);
           }}
         />
-
-        {!appState.isSuperAdmin && (
+        {!currentUser?.isSuperAdmin && (
           <Box className={styles.searchBar}>
             <SearchBar
               style={{
@@ -73,10 +81,10 @@ export const Header = () => {
         <div className={styles.topRightBanner}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <UserAccount />
-            {!appState.isSuperAdmin && (
+            {!currentUser?.isSuperAdmin && (
               <Badge
                 classes={{badge: classes.badge}}
-                badgeContent={appState.cartItems.length}
+                badgeContent={cartCount}
                 color="error"
               >
                 <ShoppingCartIcon

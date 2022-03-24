@@ -1,11 +1,11 @@
+import DeleteIcon from '@mui/icons-material/Delete';
+import Button from '@mui/material/Button';
 import {useNavigate} from 'react-router-dom';
 
 import {HTML_SPECIAL_CHARS} from '../../immutables';
 import {CartItem} from '../../models';
 import {QuantityPicker} from '../QuantityPicker/QuantityPicker';
 import styles from './BookCartTile.module.scss';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 
 export const BookCartTile = ({
   item,
@@ -18,44 +18,30 @@ export const BookCartTile = ({
 }) => {
   const navigate = useNavigate();
 
-  const getBookDetails = item => {
-    const bookItem = {...item};
-    delete bookItem.id;
-    delete bookItem.qtyOrdered;
-    delete bookItem.createdOn;
-    delete bookItem.modifiedOn;
-    return bookItem;
-  };
-
   const handleTitleClick = () => {
-    const book = getBookDetails(item);
-    navigate(`/books/${item._id}`, {
-      state: {
-        book,
-      },
-    });
+    navigate(`/books/${item.book._id}`);
   };
 
   return (
     <div className={styles.bookTile}>
       <div className={styles.image}>
-        <img src={item.imageUri} className={styles.photo} />
+        <img src={item.book.imageUri} className={styles.photo} />
         <div className={styles.quantity}>
           <QuantityPicker
-            qty={item.qtyOrdered}
-            max={item.quantity}
+            qty={item.quantity}
+            max={item.book.quantity}
             setQty={value => {
-              qtyUpdate(item._id, value);
+              qtyUpdate(item.book._id, value);
             }}
           />
         </div>
       </div>
       <div className={styles.description}>
         <div className={styles.title} onClick={handleTitleClick}>
-          {item.title}
+          {item.book.title}
         </div>
         <div className={styles.info}>
-          {item.language}, {item.author}
+          {item.book.language}, {item.book.author}
         </div>
         <div className={styles.info}>
           {HTML_SPECIAL_CHARS.RUPEE} {item.price}
@@ -65,7 +51,7 @@ export const BookCartTile = ({
             variant="outlined"
             startIcon={<DeleteIcon />}
             aria-label="delete"
-            onClick={() => qtyUpdate(item._id, 0)}
+            onClick={() => qtyUpdate(item.book._id, 0)}
             className={styles.deleteBtn}
           >
             DELETE

@@ -3,14 +3,10 @@ import {Button, Grid, Paper, styled, TextField} from '@mui/material';
 import {Formik} from 'formik';
 import {motion} from 'framer-motion';
 import {useContext, useEffect, useState} from 'react';
-import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 import {object, string} from 'yup';
 
-import {AppContext} from '../../App/App';
-import axios from '../../core/axios';
-import environment from '../../Environment/environment';
-import {APP_ACTIONS} from '../../shared/immutables';
+import {AuthThunks, useAppDispatch, useAppSelector} from '../../redux';
 import styles from './UserProfile.module.scss';
 
 const UserProfile = () => {
@@ -27,27 +23,26 @@ const UserProfile = () => {
 
   const [formDisabled, setFormDisabled] = useState(true);
 
+  const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState(initialProfileData);
-  const navigate = useNavigate();
 
   const Input = styled('input')({
     display: 'none',
   });
 
-  const {appState, dispatchAppAction} = useContext(AppContext);
+  const currentUser = useAppSelector(state => state.auth.user);
 
   useEffect(() => {
     getUserInfo();
-  }, [appState.user]);
+  }, []);
 
   function getUserInfo() {
-    const user = appState.user ?? {};
-    const addresses = user.addresses ?? [];
+    const addresses = currentUser?.addresses ?? [];
     const primaryAdd =
       addresses.find(address => !!address?.default) ?? addresses[0];
     const profile = {
-      email: user.email,
-      name: user.username,
+      email: currentUser.email,
+      name: currentUser.username,
       address: primaryAdd?.addressLine1,
       city: primaryAdd?.city,
       state: primaryAdd?.state,
@@ -65,13 +60,13 @@ const UserProfile = () => {
       city: values.city,
       state: values.state,
       pincode: values.pin,
+      default: true,
     };
-    axios
-      .post(`${environment.API_URL}/me`, data)
+    dispatch(AuthThunks.updateUserInfo(data))
+      .unwrap()
       .then(() => {
         toast.success('Profile data updated successfully');
         setFormDisabled(true);
-        dispatchAppAction({type: APP_ACTIONS.UPDATE_USER_INFO, data});
       })
       .catch(error => console.error(error))
       .finally(() => actions.setSubmitting(false));

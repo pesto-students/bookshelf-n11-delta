@@ -2,6 +2,7 @@ import axios from 'axios';
 import {toast} from 'react-toastify';
 import environment from '../Environment/environment';
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '../shared/immutables';
+import {TokenService} from '../shared/services';
 
 const axiosInstance = axios.create({
   baseURL: '',
@@ -24,32 +25,26 @@ axiosInstance.interceptors.response.use(
   res => res,
   async error => {
     const originalConfig = error.config;
-    if (!['/login', '/signup'].includes(error.url) && error.response) {
+    if (!['/login', '/signup'].includes(originalConfig.url) && error.response) {
       // Access token expired
+      const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
+
       if (
         error.response.status === 401 &&
-        error.response.data === 'TokenExpiredError' &&
-        !originalConfig._retry
+        !originalConfig._retry &&
+        oldRefreshToken
       ) {
         originalConfig._retry = true;
 
         try {
-          // refresh token handling
-          const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
-          try {
-            const response = await axios.post(
-              `${environment.API_URL}/refresh`,
-              {
-                refresh_token: oldRefreshToken,
-              },
-            );
-            const {token, refreshToken} = response.data;
-            localStorage.setItem(ACCESS_TOKEN, token);
-            localStorage.setItem(REFRESH_TOKEN, refreshToken);
-          } catch (err) {
-            console.log('Error occured while refreshing token: ', error);
-            // do nothing
-          }
+          const response = await axios.post(`${environment.API_URL}/refresh`, {
+            refreshToken: oldRefreshToken,
+          });
+          const {token, refreshToken} = response.data;
+          TokenService.setTokenPayload({
+            token,
+            refreshToken,
+          });
           return axiosInstance(originalConfig);
         } catch (err) {
           return Promise.reject(err);

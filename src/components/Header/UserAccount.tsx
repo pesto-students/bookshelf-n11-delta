@@ -4,10 +4,9 @@ import IconButton from '@mui/material/IconButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import Tooltip from '@mui/material/Tooltip';
-import {useContext, useState} from 'react';
+import {useState} from 'react';
 
-import {AppContext} from '../../App/App';
+import {useAppSelector} from '../../redux';
 import {MenuItems} from './MenuItems';
 
 export const UserAccount = () => {
@@ -20,14 +19,10 @@ export const UserAccount = () => {
     setAnchorEl(null);
   };
 
-  const {appState, dispatchAppAction} = useContext(AppContext);
-  const menuItems = MenuItems(
-    appState.isUserLoggedIn,
-    appState.isSuperAdmin,
-    dispatchAppAction,
-  );
+  const menuItems = MenuItems();
+  const currentUser = useAppSelector(state => state.auth.user);
 
-  const username = appState.user?.username;
+  const username = currentUser?.username;
   return (
     <>
       <Box sx={{display: 'flex', alignItems: 'center', textAlign: 'center'}}>
@@ -38,7 +33,7 @@ export const UserAccount = () => {
           aria-label="user-avatar"
         >
           <Avatar sx={{width: 28, height: 28}}>
-            {appState.isUserLoggedIn && username ? username.slice(0, 1) : null}
+            {currentUser?.username ? username.slice(0, 1) : null}
           </Avatar>
         </IconButton>
       </Box>
