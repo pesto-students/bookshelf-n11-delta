@@ -1,19 +1,18 @@
+import PersonAdd from '@mui/icons-material/PersonAdd';
 import {Button, Stack, TextField} from '@mui/material';
 import {Formik} from 'formik';
-import {useContext, useEffect} from 'react';
+import {useEffect} from 'react';
 import {object, ref, string} from 'yup';
-import environment from '../../Environment/environment';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 
-import {AppContext} from '../../App/App';
-import axios from '../../core/axios';
-import {APP_ACTIONS, USER_ENTRY_ACTIONS} from '../../shared/immutables';
+import {signUp, useAppDispatch} from '../../redux';
+import {USER_ENTRY_ACTIONS} from '../../shared/immutables';
 import {
   MIN_PASSWORD_LENGTH,
   PASSWORD_MIN_LENGTH_MSG,
   UserEntryState,
 } from './UserEntry.constant';
 import styles from './UserEntry.module.scss';
+
 function SignUpForm({userAction}) {
   const signUpInitialValues = {
     name: '',
@@ -22,7 +21,7 @@ function SignUpForm({userAction}) {
     confirmPassword: '',
   };
 
-  const {dispatchAppAction} = useContext(AppContext);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: 'Sign Up'});
@@ -34,27 +33,7 @@ function SignUpForm({userAction}) {
         initialValues={signUpInitialValues}
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
-          axios
-            .post(`${environment.API_URL}/signup`, {
-              name: values.name,
-              email: values.email,
-              password: values.password,
-            })
-            .then(() => {
-              axios
-                .post(`${environment.API_URL}/login`, {
-                  email: values.email,
-                  password: values.password,
-                })
-                .then(({data}) => {
-                  dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
-                })
-                .catch(error => console.error(error))
-                .finally(() => setSubmitting(false));
-            })
-            .catch(() => {
-              setSubmitting(false);
-            });
+          dispatch(signUp(values)).finally(() => setSubmitting(false));
         }}
         validationSchema={signUpValidationSchema}
       >

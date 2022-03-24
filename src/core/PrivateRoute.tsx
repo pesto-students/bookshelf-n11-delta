@@ -1,13 +1,11 @@
-import {useContext} from 'react';
 import {Navigate} from 'react-router-dom';
 
-import {AppContext} from '../App/App';
+import {useAppSelector} from '../redux';
 
 const PrivateRoute = (props: any) => {
-  const {
-    appState: {isUserLoggedIn},
-  } = useContext(AppContext);
-  return isUserLoggedIn ? <>{props.children}</> : <Navigate to="/" />;
+  const currentUser = useAppSelector(state => state.auth.user);
+
+  return !!currentUser ? <>{props.children}</> : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

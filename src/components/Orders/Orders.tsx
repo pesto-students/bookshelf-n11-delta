@@ -18,51 +18,39 @@ import {useNavigate} from 'react-router-dom';
 import {AppContext} from '../../App/App';
 import axios from '../../core/axios';
 import environment from '../../Environment/environment';
+import {
+  orderSelectors,
+  OrderThunks,
+  useAppDispatch,
+  useAppSelector,
+} from '../../redux';
 import {Overlay} from '../../shared/components';
 import styles from './Orders.module.scss';
 
 const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const [isLoading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const rowsPerPage = 5;
 
   const navigate = useNavigate();
-  const {
-    appState: {books},
-  } = useContext(AppContext);
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(state => state.order.isLaoding);
+  const isLoaded = useAppSelector(state => state.order.isLoaded);
+  const orders = useAppSelector(state => orderSelectors.selectAll(state.order));
 
   useEffect(() => {
-    getUserOrders();
+    if (!isLoaded) {
+      dispatch(OrderThunks.getOrders());
+    }
   }, []);
 
   const redirectToBooksPage = id => {
-    const book = books.find(book => book._id === id);
-    if (!!book) {
-      // redirect to books detail page
-      navigate(`/books/${id}`, {
-        state: {
-          book,
-        },
-      });
-    }
-  };
-
-  const getUserOrders = () => {
-    axios
-      .get(`${environment.API_URL}/orders`)
-      .then(({data}) => {
-        setOrders(data.orders);
-      })
-      .catch(error => {
-        console.error(error);
-      })
-      .finally(() => setLoading(false));
+    // redirect to books detail page
+    navigate(`/books/${id}`);
   };
 
   return (
     <>
-      {isLoading ? (
+      {!isLoaded || isLoading ? (
         <Overlay showBackdrop={true} />
       ) : (
         <Paper elevation={2} className={styles.layout}>

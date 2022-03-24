@@ -5,14 +5,11 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import {Formik} from 'formik';
-import {Fragment, useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {object, string} from 'yup';
 
-import {AppContext} from '../../App/App';
-import axios from '../../core/axios';
-import environment from '../../Environment/environment';
-import {APP_ACTIONS} from '../../shared/immutables';
+import {AuthThunks, useAppDispatch, useAppSelector} from '../../redux';
 import styles from './AddressConfirmation.module.scss';
 
 function AddressConfirmation({handleDelivery}) {
@@ -28,14 +25,14 @@ function AddressConfirmation({handleDelivery}) {
 
   const navigate = useNavigate();
 
-  const {appState, dispatchAppAction} = useContext(AppContext);
+  const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(state => state.auth.user);
   useEffect(() => {
     getUserAddress();
-  }, [appState]);
+  }, []);
 
   function getUserAddress() {
-    const user = appState.user ?? {};
-    const addresses = user.addresses ?? [];
+    const addresses = currentUser?.addresses ?? [];
     const primaryAdd =
       addresses.find(address => !!address?.default) ?? addresses[0];
     setHasAddress(!!primaryAdd);
@@ -60,19 +57,15 @@ function AddressConfirmation({handleDelivery}) {
       city: values.city,
       state: values.state,
       pincode: values.pincode,
+      default: true,
     };
-    axios
-      .post(`${environment.API_URL}/cart/address`, {address: addressData})
-      .then(_ => {
-        dispatchAppAction({
-          type: APP_ACTIONS.UPDATE_ADDRESS,
-          data: addressData,
-        });
-        actions.setSubmitting(false);
+
+    dispatch(AuthThunks.addUserAddress(addressData))
+      .unwrap()
+      .then(() => {
         setHasAddress(true);
         setAddressInfo({...addressInfo, ...addressData});
       })
-      .catch(error => console.error(error))
       .finally(() => actions.setSubmitting(false));
   };
 
@@ -105,7 +98,7 @@ function AddressConfirmation({handleDelivery}) {
   };
 
   return (
-    <Fragment>
+    <>
       {hasAddress ? (
         <>
           <div className={styles.address}>
@@ -221,7 +214,7 @@ function AddressConfirmation({handleDelivery}) {
           </Accordion>
         </div>
       )}
-    </Fragment>
+    </>
   );
 }
 

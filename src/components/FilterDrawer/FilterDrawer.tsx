@@ -6,10 +6,10 @@ import Drawer from '@mui/material/Drawer';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
 import Slider from '@mui/material/Slider';
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 
-import {AppContext} from '../../App/App';
+import {bookSelectors, useAppSelector} from '../../redux';
 import {DASHBOARD_ACTIONS} from '../../shared/immutables';
 import {Filter} from '../../shared/models';
 import styles from './FilterDrawer.module.scss';
@@ -28,13 +28,14 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
   const [categoryCheckedState, setCategoryCheckedState] = useState([]);
   const [maxPrice, setMaxPrice] = useState(0);
 
-  const {appState} = useContext(AppContext);
+  const books = useAppSelector(state => bookSelectors.selectAll(state.book));
 
   useEffect(() => {
     const langSet = new Set();
     const categorySet = new Set();
     let max = 0;
-    appState.books?.forEach(book => {
+
+    books?.forEach(book => {
       langSet.add(book.language);
       categorySet.add(book.category);
       max = Math.max(max, book.price);
@@ -42,7 +43,7 @@ function FilterDrawer({open, handleClose, dispatchFilterAction}) {
     setLang(Array.from(langSet));
     setCategories(Array.from(categorySet));
     setMaxPrice(max);
-  }, [appState.books]);
+  }, [books]);
 
   useEffect(() => {
     setLangCheckedState(new Array(lang.length).fill(false));

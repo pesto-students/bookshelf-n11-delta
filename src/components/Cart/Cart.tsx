@@ -1,15 +1,9 @@
 import {Box, Button, Paper, Step, StepLabel, Stepper} from '@mui/material';
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useReducer,
-  useState,
-} from 'react';
+import {createContext, useEffect, useReducer, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 
-import {AppContext} from '../../App/App';
 import {CartReducer, ICartContext} from '../../reducers';
+import {useAppSelector} from '../../redux';
 import {BookCartTile} from '../../shared/components';
 import {CART_ACTIONS} from '../../shared/immutables';
 import AddressConfirmation from '../AddressConfirmation/AddressConfirmation';
@@ -23,7 +17,7 @@ const Cart = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const {appState} = useContext(AppContext);
+  const currentUser = useAppSelector(state => state.auth.user);
   const initialState: ICartContext = {
     products: location.state.cartItems,
     totalPrice: 0,
@@ -44,7 +38,7 @@ const Cart = () => {
   const processPayment = () => {
     let total = 0;
     cartState.products.forEach(pdt => {
-      total += pdt.qtyOrdered * pdt.price;
+      total += pdt.quantity * pdt.price;
     });
     navigate('/payment', {
       state: {
@@ -58,14 +52,14 @@ const Cart = () => {
   const [address, setAddress] = useState(null);
 
   useEffect(() => {
-    const addresses = appState.user?.addresses ?? [];
+    const addresses = currentUser?.addresses ?? [];
     const primaryAdd =
       addresses.find(address => !!address?.default) ?? addresses[0];
     if (!!primaryAdd) {
       const locationAdd = `${primaryAdd.addressLine1}, ${primaryAdd.city}, ${primaryAdd.state}, PIN: ${primaryAdd.pincode}`;
       setAddress(locationAdd);
     }
-  }, [appState]);
+  }, []);
 
   const qtyUpdate = (id, value) => {
     dispatchCartActions({
@@ -99,7 +93,7 @@ const Cart = () => {
                 {cartState.products.map(item => (
                   <BookCartTile
                     item={item}
-                    key={item.id}
+                    key={item.book._id}
                     qtyUpdate={(id, value) => qtyUpdate(id, value)}
                     showDelete={false}
                   />
@@ -113,9 +107,7 @@ const Cart = () => {
               <div className={styles.borderLayoutBox}>
                 <div>
                   Order confirmation will be sent to:{' '}
-                  <span className={styles.boldText}>
-                    {appState.user?.email}
-                  </span>
+                  <span className={styles.boldText}>{currentUser?.email}</span>
                 </div>
                 <Button
                   variant="contained"

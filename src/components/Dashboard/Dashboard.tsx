@@ -9,7 +9,6 @@ import {Carousel} from 'react-responsive-carousel';
 import {AppContext} from '../../App/App';
 import banner from '../../assets/banner.svg';
 import searching from '../../assets/search.svg';
-import axios from '../../core/axios';
 import environment from '../../Environment/environment';
 import {DashboardReducer, IDashboardState} from '../../reducers';
 import {Overlay} from '../../shared/components';
@@ -20,6 +19,8 @@ import {BookCard} from '../BookCard/BookCard';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
 import {CAROUSEL_IMAGES} from './carousel-images';
 import styles from './Dashboard.module.scss';
+import {BookThunks, useAppDispatch, useAppSelector} from '../../redux';
+import {bookSelectors} from '../../redux';
 
 const emptyBooksList: Book[] = [];
 
@@ -36,58 +37,53 @@ const initialDashboardState: IDashboardState = {
 
 export const Dashboard = () => {
   const {
-    appState: {searchText, books},
-    dispatchAppAction,
+    appState: {searchText},
   } = useContext(AppContext);
-  const [state, dispatch] = useReducer(DashboardReducer, initialDashboardState);
+  const [state, dispatchDS] = useReducer(
+    DashboardReducer,
+    initialDashboardState,
+  );
 
+  const dispatch = useAppDispatch();
+  const isLoaded = useAppSelector(state => state.book.isLoaded);
+  const books = useAppSelector(state => bookSelectors.selectAll(state.book));
   const [filterState, setFilterState] = useState(false);
 
   const fetchMoreData = () => {
     setTimeout(() => {
-      dispatch({type: DASHBOARD_ACTIONS.UPDATE_DASHBOARD_SCROLL});
+      dispatchDS({type: DASHBOARD_ACTIONS.UPDATE_DASHBOARD_SCROLL});
     }, environment.LOADING_DELAY);
   };
 
   const handleChange = event => {
-    dispatch({
+    dispatchDS({
       type: DASHBOARD_ACTIONS.SORT_ACTION,
       data: event.target.value,
     });
   };
 
   function getAllBooks() {
-    dispatch({
+    dispatchDS({
       type: DASHBOARD_ACTIONS.GET_ALL_BOOKS,
     });
-    if (books.length) {
-      setBooks(books);
-    } else {
-      axios
-        .get(`${environment.API_URL}/books`)
-        .then(({data}) => {
-          setBooks(data.books);
-          dispatchAppAction({type: APP_ACTIONS.SET_BOOKS, data: data.books});
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
+    dispatch(BookThunks.getBooks());
   }
 
-  const setBooks = bookList => {
-    dispatch({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: bookList});
-  };
-
   useEffect(() => {
-    if (!state.books.length) {
+    if (!isLoaded) {
       getAllBooks();
     }
-    dispatch({
+    dispatchDS({
       type: DASHBOARD_ACTIONS.SEARCH_BOOKS,
       searchOn: searchText,
     });
   }, [searchText]);
+
+  useEffect(() => {
+    if (isLoaded) {
+      dispatchDS({type: DASHBOARD_ACTIONS.SET_ALL_BOOKS, data: books});
+    }
+  }, [books]);
 
   const {
     isLoading,
@@ -161,7 +157,7 @@ export const Dashboard = () => {
           <FilterDrawer
             open={filterState}
             handleClose={setFilterState}
-            dispatchFilterAction={dispatch}
+            dispatchFilterAction={dispatchDS}
           />
           {searchFilteredBooks.length ? (
             booksGrid

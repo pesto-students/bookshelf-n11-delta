@@ -18,8 +18,15 @@ Live demo [_here_](https://n11-bookshelf.netlify.app/)
 
 ### Sample creds
 
-Username : guest_bookshelf@gmail.com \
-Password: G*907ues$#t!
+- For normal user login:  
+
+    Username : guest_bookshelf@gmail.com \
+    Password : G*907ues$#t!
+
+- For admin login:
+
+    Username : admin_bookshelf@gmail.com \
+    Password : Mnbvcxz@12
 
 Project also provide guest login functionality, just check `Sign in as Guest` checkbox and hit `Sign in` button
 ## Installation
@@ -58,6 +65,7 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 
 - Material-UI styled components and animations using Framer-Motion
 - React functional components used with hooks
+- Global state management using Redux (Redux Toolkit)
 - Infinite scrolling dashboard showing books list
 - Login using email & password and Google SSO
 - Payment gateway integration (stripe)
@@ -67,6 +75,7 @@ REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 
 ![React JS](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)\
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)\
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)\
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)\
 ![Material UI](https://img.shields.io/badge/Material--UI-0081CB?style=for-the-badge&logo=material-ui&logoColor=white)\
 ![Sass](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)

@@ -11,14 +11,12 @@ import InputAdornment from '@mui/material/InputAdornment';
 import {Formik} from 'formik';
 import {useContext, useEffect, useState} from 'react';
 import GoogleLogin from 'react-google-login';
-import {toast} from 'react-toastify';
 import {object, string} from 'yup';
 
-import {AppContext} from '../../App/App';
-import axios from '../../core/axios';
 import environment from '../../Environment/environment';
+import {googleLogin, login, useAppDispatch} from '../../redux';
 import {Overlay} from '../../shared/components';
-import {APP_ACTIONS, USER_ENTRY_ACTIONS} from '../../shared/immutables';
+import {USER_ENTRY_ACTIONS} from '../../shared/immutables';
 import {
   MIN_PASSWORD_LENGTH,
   PASSWORD_MIN_LENGTH_MSG,
@@ -33,11 +31,10 @@ function LoginForm({userAction}) {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  const dispatch = useAppDispatch();
   useEffect(() => {
     userAction({type: USER_ENTRY_ACTIONS.SET_TITLE, data: 'Login'});
   }, []);
-
-  const {dispatchAppAction} = useContext(AppContext);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -62,20 +59,7 @@ function LoginForm({userAction}) {
 
   const handleLogin = async googleData => {
     setIsLoading(true);
-    axios
-      .post(`${environment.API_URL}/google-login`, {
-        token: googleData.tokenId,
-      })
-      .then(success => {
-        successLoginAction(success.data);
-      })
-      .catch(error => console.error(error))
-      .finally(() => setIsLoading(false));
-  };
-
-  const successLoginAction = data => {
-    toast.success(`Welcome ${data.user.username}`);
-    dispatchAppAction({type: APP_ACTIONS.LOGIN, data});
+    dispatch(googleLogin(googleData)).finally(() => setIsLoading(false));
   };
 
   return (
@@ -85,19 +69,10 @@ function LoginForm({userAction}) {
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
           setIsLoading(true);
-          axios
-            .post(`${environment.API_URL}/login`, {
-              email: values.email,
-              password: values.password,
-            })
-            .then(({data}) => {
-              successLoginAction(data);
-            })
-            .catch(error => console.error(error))
-            .finally(() => {
-              setIsLoading(false);
-              setSubmitting(false);
-            });
+          dispatch(login(values)).finally(() => {
+            setIsLoading(false);
+            setSubmitting(false);
+          });
         }}
         validationSchema={loginValidationSchema}
       >

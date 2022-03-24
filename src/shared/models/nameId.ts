@@ -1,11 +1,11 @@
 import {AnyObject} from 'yup/lib/object';
 
 export class NameId {
-  id: number;
+  _id: number;
   name: string;
 
   constructor(data: AnyObject = {}) {
-    this.id = data.id;
+    this._id = data._id;
     this.name = data.name;
   }
 }

@@ -3,9 +3,11 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
 import {toast} from 'react-toastify';
 
 import App from './App/App';
+import store from './redux';
 
 toast.configure({
   pauseOnHover: false,
@@ -13,7 +15,9 @@ toast.configure({
 });
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
