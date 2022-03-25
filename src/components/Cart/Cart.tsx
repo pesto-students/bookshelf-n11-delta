@@ -1,6 +1,7 @@
 import {Box, Button, Paper, Step, StepLabel, Stepper} from '@mui/material';
 import {createContext, useEffect, useReducer, useState} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
+import environment from '../../Environment/environment';
 
 import {CartReducer, ICartContext} from '../../reducers';
 import {useAppSelector} from '../../redux';
@@ -35,8 +36,12 @@ const Cart = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
   };
 
+  const handleBack = () => {
+    setActiveStep(prevActiveStep => prevActiveStep - 1);
+  };
+
   const processPayment = () => {
-    let total = 0;
+    let total = +environment.DELIVERY_FEE;
     cartState.products.forEach(pdt => {
       total += pdt.quantity * pdt.price;
     });
@@ -102,7 +107,7 @@ const Cart = () => {
             )}
           </div>
           <div className={styles.rightLayout}>
-            <Price deliveryFee="0" address={address} />
+            <Price deliveryFee={environment.DELIVERY_FEE} address={address} />
             {activeStep === steps.length - 1 && (
               <div className={styles.borderLayoutBox}>
                 <div>
@@ -122,6 +127,14 @@ const Cart = () => {
           </div>
         </CartContext.Provider>
       </div>
+      <Button
+        color="inherit"
+        className={styles.backBtn}
+        disabled={activeStep === 0}
+        onClick={handleBack}
+      >
+        Back
+      </Button>
     </Paper>
   );
 };

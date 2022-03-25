@@ -5,6 +5,7 @@ const environment = {
   GUEST_PASSWORD: process.env.REACT_APP_GUEST_PASSWORD,
   LOADING_DELAY: +(process.env.REACT_APP_LOADING_DELAY ?? 1000),
   GOOGLE_CLIENT_ID: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+  DELIVERY_FEE: process.env.REACT_APP_DELIVERY_FEE ?? '0',
 };
 
 export default environment;

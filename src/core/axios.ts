@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import environment from '../Environment/environment';
-import {ACCESS_TOKEN, REFRESH_TOKEN} from '../shared/immutables';
 import {TokenService} from '../shared/services';
 
 const axiosInstance = axios.create({
@@ -12,7 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   config => {
     // add bearer token
-    const token = localStorage.getItem(ACCESS_TOKEN);
+    const token = TokenService.getAccessToken();
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
     }
@@ -27,8 +26,7 @@ axiosInstance.interceptors.response.use(
     const originalConfig = error.config;
     if (!['/login', '/signup'].includes(originalConfig.url) && error.response) {
       // Access token expired
-      const oldRefreshToken = localStorage.getItem(REFRESH_TOKEN);
-
+      const oldRefreshToken = TokenService.getRefreshToken();
       if (
         error.response.status === 401 &&
         !originalConfig._retry &&

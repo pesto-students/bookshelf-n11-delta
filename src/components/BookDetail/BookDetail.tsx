@@ -11,14 +11,11 @@ import {
   styled,
   Typography,
 } from '@mui/material';
-import {Fragment, useContext, useEffect, useState} from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
-import {AppContext} from '../../App/App';
 import noReviews from '../../assets/no-reviews.svg';
-import axios from '../../core/axios';
-import environment from '../../Environment/environment';
 import {
   bookReviewSelectors,
   BookReviewThunks,
@@ -37,11 +34,7 @@ import {
   ReviewDetails,
 } from '../../shared/components';
 import {OrderTypes} from '../../shared/enums';
-import {
-  ADD_ITEM_TO_CART,
-  APP_ACTIONS,
-  HTML_SPECIAL_CHARS,
-} from '../../shared/immutables';
+import {ADD_ITEM_TO_CART, HTML_SPECIAL_CHARS} from '../../shared/immutables';
 import {CartItem, ChartRating, Review} from '../../shared/models';
 import RatingPopup from '../RatingPopup/RatingPopup';
 import styles from './BookDetail.module.scss';

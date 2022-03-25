@@ -244,9 +244,9 @@ const UserProfile = () => {
 const profileValidationSchema = object().shape({
   name: string().required('Required field'),
   address: string().required('Required field'),
-  city: string(),
-  state: string(),
-  pin: string(),
+  city: string().required('Required field'),
+  state: string().required('Required field'),
+  pin: string().required('Required field'),
 });
 
 export default UserProfile;
