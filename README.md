@@ -51,6 +51,9 @@ REACT_APP_GUEST_PASSWORD= // required, account username used for guest login
 // delay added for infinite scrolling -- in ms
 REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
 
+// delivery fee applicable on each order
+REACT_APP_DELIVERY_FEE= // optional (defaults to 0)
+
 ```
 
 ## Features

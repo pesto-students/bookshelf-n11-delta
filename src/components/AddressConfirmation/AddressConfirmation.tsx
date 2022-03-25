@@ -22,6 +22,11 @@ function AddressConfirmation({handleDelivery}) {
 
   const [addressInfo, setAddressInfo] = useState(initialAddressData);
   const [hasAddress, setHasAddress] = useState(false);
+  const [expanded, setExpanded] = useState(true);
+
+  const handleChange = () => {
+    setExpanded(prevExpState => !prevExpState);
+  };
 
   const navigate = useNavigate();
 
@@ -132,8 +137,11 @@ function AddressConfirmation({handleDelivery}) {
         </>
       ) : (
         <div className={styles.layout}>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+          <Accordion expanded={expanded} onChange={handleChange}>
+            <AccordionSummary
+              aria-controls="delivery-address"
+              expandIcon={<ExpandMoreIcon />}
+            >
               <Typography>Add delivery Address</Typography>
             </AccordionSummary>
             <AccordionDetails>

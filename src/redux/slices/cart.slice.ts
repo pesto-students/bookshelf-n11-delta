@@ -23,8 +23,6 @@ const cartSlice = createSlice({
     setItem: adapter.setOne,
     upsertItem: adapter.upsertOne,
     removeItem: adapter.removeOne,
-    addQuantity: adapter.updateOne,
-    removeQuantity: adapter.removeOne,
     removeAll: adapter.removeAll,
     setLoading: (state, action: PayloadAction<boolean>) => {
       state.loading = action.payload;

@@ -21,10 +21,17 @@ export const getCartItems = createAsyncThunk(
           acc.push(new CartItem(item));
           return acc;
         }, []) ?? [];
-      batch(() => {
-        dispatch(cartActions.setLoaded());
-        dispatch(cartActions.setItems(cartItems));
-      });
+      if (cartItems.length) {
+        batch(() => {
+          dispatch(cartActions.setLoaded());
+          dispatch(cartActions.setItems(cartItems));
+        });
+      } else {
+        batch(() => {
+          dispatch(cartActions.setLoaded());
+          dispatch(cartActions.removeAll());
+        });
+      }
       return fulfillWithValue(data as any);
     } catch (err) {
       throw rejectWithValue(err);

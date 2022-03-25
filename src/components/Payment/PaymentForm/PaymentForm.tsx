@@ -2,12 +2,11 @@ import {LoadingButton} from '@mui/lab';
 import {Button, Paper} from '@mui/material';
 import {CardElement, useElements, useStripe} from '@stripe/react-stripe-js';
 import {StripeCardElementOptions} from '@stripe/stripe-js';
-import {useContext, useState} from 'react';
+import {useState} from 'react';
 import {batch} from 'react-redux';
 import {useNavigate} from 'react-router-dom';
 import {toast} from 'react-toastify';
 
-import {AppContext} from '../../../App/App';
 import payment from '../../../assets/card-payment.svg';
 import orderSuccess from '../../../assets/success.jpg';
 import axios from '../../../core/axios';
@@ -15,11 +14,12 @@ import environment from '../../../Environment/environment';
 import {
   CartThunks,
   orderActions,
-  OrderThunks,
   useAppDispatch,
+  useAppSelector,
 } from '../../../redux';
 import {GenericDialog} from '../../../shared/components';
-import {APP_ACTIONS, HTML_SPECIAL_CHARS} from '../../../shared/immutables';
+import {OrderTypes} from '../../../shared/enums';
+import {HTML_SPECIAL_CHARS} from '../../../shared/immutables';
 import {CartItem} from '../../../shared/models';
 import styles from './PaymentForm.module.scss';
 
@@ -43,17 +43,25 @@ const CARD_OPTIONS: StripeCardElementOptions = {
   },
 };
 
-export const PaymentForm = ({amount, products, orderType}) => {
+export const PaymentForm = ({
+  amount,
+  products,
+  orderType,
+}: {
+  amount: number;
+  products: CartItem[];
+  orderType: OrderTypes;
+}) => {
   const [success, setSuccess] = useState(false);
   const [open, setOpen] = useState(false);
   const [processingPayment, setProcessingPayment] = useState(false);
 
-  const {appState, dispatchAppAction} = useContext(AppContext);
   const stripe = useStripe();
   const elements = useElements();
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector(state => state.auth.user);
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -110,8 +118,10 @@ export const PaymentForm = ({amount, products, orderType}) => {
   const handleClose = () => {
     setOpen(false);
 
-    dispatch(CartThunks.getCartItems());
-    dispatch(orderActions.refreshData());
+    batch(() => {
+      dispatch(CartThunks.getCartItems());
+      dispatch(orderActions.refreshData());
+    });
     navigate('/orders');
   };
 
@@ -130,15 +140,15 @@ export const PaymentForm = ({amount, products, orderType}) => {
               <div className={styles.pdtDescription} key={product._id}>
                 <div>
                   <span>Title: </span>
-                  <span>{product.title}</span>
+                  <span>{product.book.title}</span>
                 </div>
                 <div>
                   <span>Price: {HTML_SPECIAL_CHARS.RUPEE}</span>
-                  <span>{product.price}</span>
+                  <span>{product.book.price}</span>
                 </div>
                 <div>
                   <span>Quantity: </span>
-                  <span>{product.qtyOrdered}</span>
+                  <span>{product.quantity}</span>
                 </div>
               </div>
             ))}
@@ -174,7 +184,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
                 variant="outlined"
                 size="small"
                 aria-label="cancel"
-                disabled={success}
+                disabled={success || processingPayment}
                 onClick={handleCancel}
               >
                 Cancel
@@ -203,7 +213,7 @@ export const PaymentForm = ({amount, products, orderType}) => {
               </span>{' '}
               is successful. You will shortly receive delivery details on your
               email-id:{' '}
-              <span className={styles.impText}>{appState.user.email}</span>
+              <span className={styles.impText}>{currentUser.email}</span>
             </div>
           </div>
         </GenericDialog>
