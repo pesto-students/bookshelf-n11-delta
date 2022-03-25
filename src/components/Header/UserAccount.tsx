@@ -33,7 +33,7 @@ export const UserAccount = () => {
           aria-label="user-avatar"
         >
           <Avatar sx={{width: 28, height: 28}}>
-            {currentUser?.username ? username.slice(0, 1) : null}
+            {!!currentUser?.username ? username.charAt(0).toUpperCase() : null}
           </Avatar>
         </IconButton>
       </Box>

@@ -16,10 +16,11 @@ export const getCartItems = createAsyncThunk(
       const {data} = await axios.get(`${environment.API_URL}/cart`);
       // we will use book id as cart id, bcoz cart item can be created
       // in UI too so need to have unique identifier persisting all times
-      const cartItems = data.orderDetails.reduce((acc, item) => {
-        acc.push(new CartItem(item));
-        return acc;
-      }, []);
+      const cartItems =
+        data?.orderDetails?.reduce((acc, item) => {
+          acc.push(new CartItem(item));
+          return acc;
+        }, []) ?? [];
       batch(() => {
         dispatch(cartActions.setLoaded());
         dispatch(cartActions.setItems(cartItems));
@@ -45,6 +46,7 @@ export const updateCartItem = createAsyncThunk(
           _id: payload.id,
           book: payload.book,
           quantity: 1,
+          price: payload.book.price,
         });
         dispatch(cartActions.upsertItem(cartItem));
       } else if (payload.value) {
