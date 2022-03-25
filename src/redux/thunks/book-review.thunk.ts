@@ -6,7 +6,7 @@ import environment from '../../Environment/environment';
 import {Book, Review} from '../../shared/models';
 import {bookActions, bookReviewActions} from '../slices';
 
-export const getBookReviewsById = createAsyncThunk(
+const getBookReviewsById = createAsyncThunk(
   'book-reviews/getbyId',
   async (id: string, {dispatch, fulfillWithValue, rejectWithValue}) => {
     try {
@@ -28,7 +28,7 @@ export const getBookReviewsById = createAsyncThunk(
   },
 );
 
-export const addBookReview = createAsyncThunk(
+const addBookReview = createAsyncThunk(
   'book-reviews/createOne',
   async (
     payload: AnyObject,
@@ -57,7 +57,7 @@ export const addBookReview = createAsyncThunk(
   },
 );
 
-export const canPostReview = createAsyncThunk(
+const canPostReview = createAsyncThunk(
   'book-reviews/canPost',
   async (
     id: string,

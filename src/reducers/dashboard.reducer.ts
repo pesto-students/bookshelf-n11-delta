@@ -6,7 +6,6 @@ export interface IDashboardState {
   books: Book[];
   searchFilteredBooks: Book[];
   dashboardFilteredBooks: Book[];
-  isLoading: boolean;
   sortFilter: SortTypes;
   filteredBooks: Book[];
   appliedFilters: Filter;
@@ -24,7 +23,6 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       newState.books = [];
       newState.searchFilteredBooks = [];
       newState.filteredBooks = [];
-      newState.isLoading = true;
       newState.appliedFilters = {};
       newState.dashboardFilteredBooks = [];
       newState.hasMore = true;
@@ -33,7 +31,6 @@ export const DashboardReducer = (state: IDashboardState, action) => {
       newState.books = [...data];
       newState.searchFilteredBooks = [...data];
       newState.filteredBooks = [...data];
-      newState.isLoading = false;
       newState.hasMore = data.length > SCROLL_LIMIT;
       updateDashboardFilteredBooks(newState);
       break;

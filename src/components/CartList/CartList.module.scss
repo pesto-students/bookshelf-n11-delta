@@ -14,11 +14,13 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
+    column-gap: 16px;
 
     .title {
       font-weight: bold;
     }
   }
+
   .borderLayoutBox {
     display: flex;
     justify-content: space-between;
