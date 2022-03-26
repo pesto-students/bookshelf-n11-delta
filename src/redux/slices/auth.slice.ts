@@ -2,7 +2,7 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {toast} from 'react-toastify';
 import {AnyObject} from 'yup/lib/types';
 import {UserEntryState} from '../../components/UserEntry';
-import {User} from '../../shared/models';
+import {User, UserAddress} from '../../shared/models';
 import {TokenService} from '../../shared/services';
 
 import {RootState} from '../store';
@@ -51,9 +51,25 @@ export const authSlice = createSlice({
         },
       )
       .addCase(
-        AuthThunks.addUserAddress.fulfilled,
+        AuthThunks.editUserAddress.fulfilled,
         (state, action: PayloadAction<any>) => {
-          state.user.addresses = [action.payload];
+          let {addresses} = state.user;
+          addresses = addresses.map(address => {
+            if (address._id === action.payload._id) {
+              address = new UserAddress({...address, ...action.payload});
+            }
+            return address;
+          });
+          state.user = {...state.user, addresses};
+        },
+      )
+      .addCase(
+        AuthThunks.addUserAddress.fulfilled,
+        (state, action: PayloadAction<AnyObject>) => {
+          const {addresses} = state.user;
+          const newAdd = new UserAddress(action.payload.address);
+          addresses.push(newAdd);
+          state.user = {...state.user, addresses};
         },
       ),
 });

@@ -1,236 +1,121 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {Button, Grid, TextField} from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import {Formik} from 'formik';
-import {useEffect, useState} from 'react';
+import EditIcon from '@mui/icons-material/Edit';
+import {Button, Radio} from '@mui/material';
+import {useContext, useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import {object, string} from 'yup';
 
-import {AuthThunks, useAppDispatch, useAppSelector} from '../../redux';
+import {useAppSelector} from '../../redux';
+import {CART_ACTIONS} from '../../shared/immutables';
+import AddressAccordion from '../AddressAccordion/AddressAccordion';
+import {AddressDetails} from '../AddressDetails/AddressDetails';
+import {CartContext} from '../Cart/Cart';
 import styles from './AddressConfirmation.module.scss';
 
 function AddressConfirmation({handleDelivery}) {
-  const initialAddressData = {
-    addressLine1: '',
-    city: '',
-    state: '',
-    pincode: '',
-  };
-
-  const [addressInfo, setAddressInfo] = useState(initialAddressData);
-  const [hasAddress, setHasAddress] = useState(false);
-  const [expanded, setExpanded] = useState(true);
-
-  const handleChange = () => {
-    setExpanded(prevExpState => !prevExpState);
-  };
-
   const navigate = useNavigate();
+  const [addresses, setAddresses] = useState([]);
+  const [showAddAddBtn, setShowAddAddBtn] = useState(true);
+  const [defaultAddress, setDefaultAddress] = useState('');
 
-  const dispatch = useAppDispatch();
   const currentUser = useAppSelector(state => state.auth.user);
+
+  const {dispatchCartActions} = useContext(CartContext);
+
   useEffect(() => {
-    getUserAddress();
+    getUserAddresses();
   }, []);
 
-  function getUserAddress() {
-    const addresses = currentUser?.addresses ?? [];
-    const primaryAdd =
-      addresses.find(address => !!address?.default) ?? addresses[0];
-    setHasAddress(!!primaryAdd);
-    const profile = {
-      addressLine1: primaryAdd?.addressLine1,
-      city: primaryAdd?.city,
-      state: primaryAdd?.state,
-      pincode: primaryAdd?.pincode,
-    };
-    setAddressInfo({...addressInfo, ...profile});
+  function getUserAddresses() {
+    if (currentUser?.addresses) {
+      const addressDetails = [...currentUser.addresses];
+      addressDetails.forEach(address => {
+        address.showAccordion = false;
+      });
+      setAddresses(addressDetails);
+    }
   }
+
+  const showAccState = (id, showAcc) => {
+    const add = addresses.find(address => address._id === id);
+    add.showAccordion = showAcc;
+    setAddresses([...addresses]);
+
+    addresses.some(add => add.showAccordion);
+  };
 
   const handleCancel = () => {
     // go back to previos route
     navigate(-1);
   };
 
-  const handleSubmit = (values, actions) => {
-    actions.setSubmitting(true);
-    const addressData = {
-      addressLine1: values.addressLine1,
-      city: values.city,
-      state: values.state,
-      pincode: values.pincode,
-      default: true,
-    };
-
-    dispatch(AuthThunks.addUserAddress(addressData))
-      .unwrap()
-      .then(() => {
-        setHasAddress(true);
-        setAddressInfo({...addressInfo, ...addressData});
-      })
-      .finally(() => actions.setSubmitting(false));
-  };
-
-  const TextWrappedInGrid = (
-    width,
-    name,
-    label,
-    values,
-    onChangeHandler,
-    onBlurHandler,
-    touched,
-    errors,
-  ) => {
-    return (
-      <Grid item xs={width}>
-        <TextField
-          name={name}
-          label={label}
-          size="small"
-          variant="outlined"
-          fullWidth
-          value={values[`${name}`]}
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
-          error={touched[`${name}`] && !!errors[`${name}`]}
-          helperText={touched[`${name}`] && errors[`${name}`]}
-        />
-      </Grid>
-    );
+  const handleAddressSelection = () => {
+    const address = addresses.find(add => add._id === defaultAddress);
+    dispatchCartActions({
+      type: CART_ACTIONS.SET_DELIVERY_ADDRESS,
+      data: address,
+    });
+    handleDelivery();
   };
 
   return (
-    <>
-      {hasAddress ? (
-        <>
-          <div className={styles.address}>
-            <div className={styles.title}>Address: </div>
-            <div>
-              {addressInfo.addressLine1}, {addressInfo.city}
-            </div>
-            <div>
-              {addressInfo.state}, PIN: {addressInfo.pincode}
-            </div>
-          </div>
-          <div className={styles.buttons}>
-            <Button
-              variant="contained"
-              size="small"
-              onClick={handleDelivery}
-              aria-label="deliver"
-            >
-              DELIVER TO THIS ADDRESS
-            </Button>
-            <Button
-              style={{minWidth: '100px'}}
-              variant="outlined"
-              size="small"
-              onClick={handleCancel}
-              aria-label="cancel"
-            >
-              CANCEL
-            </Button>
-          </div>
-        </>
+    <div className={styles.addressLayout}>
+      {showAddAddBtn ? (
+        <Button
+          variant="outlined"
+          className={styles.addNewBtn}
+          onClick={() => setShowAddAddBtn(false)}
+        >
+          + ADD A NEW ADDRESS
+        </Button>
       ) : (
-        <div className={styles.layout}>
-          <Accordion expanded={expanded} onChange={handleChange}>
-            <AccordionSummary
-              aria-controls="delivery-address"
-              expandIcon={<ExpandMoreIcon />}
-            >
-              <Typography>Add delivery Address</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <Formik
-                initialValues={addressInfo}
-                onSubmit={(values, actions) => handleSubmit(values, actions)}
-                validationSchema={addValidationSchema}
-              >
-                {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  isSubmitting,
-                }) => (
-                  <form className={styles.form} onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
-                      {TextWrappedInGrid(
-                        12,
-                        'addressLine1',
-                        'Address',
-                        values,
-                        handleChange,
-                        handleBlur,
-                        touched,
-                        errors,
-                      )}
-                      {TextWrappedInGrid(
-                        4,
-                        'city',
-                        'City',
-                        values,
-                        handleChange,
-                        handleBlur,
-                        touched,
-                        errors,
-                      )}
-                      {TextWrappedInGrid(
-                        4,
-                        'state',
-                        'State',
-                        values,
-                        handleChange,
-                        handleBlur,
-                        touched,
-                        errors,
-                      )}
-                      {TextWrappedInGrid(
-                        4,
-                        'pincode',
-                        'Pin code',
-                        values,
-                        handleChange,
-                        handleBlur,
-                        touched,
-                        errors,
-                      )}
-                      <Grid item xs={8}>
-                        <Button
-                          style={{minWidth: '150px'}}
-                          type="submit"
-                          color="primary"
-                          size="medium"
-                          variant="contained"
-                          aria-label="save"
-                          disabled={isSubmitting}
-                        >
-                          SAVE
-                        </Button>
-                      </Grid>
-                    </Grid>
-                  </form>
-                )}
-              </Formik>
-            </AccordionDetails>
-          </Accordion>
-        </div>
+        <AddressAccordion onCloseHandler={() => setShowAddAddBtn(true)} />
       )}
-    </>
+      {!!addresses &&
+        addresses.map(address =>
+          address.showAccordion ? (
+            <AddressAccordion
+              key={address._id}
+              userAddress={address}
+              onCloseHandler={() => showAccState(address._id, false)}
+            />
+          ) : (
+            <div className={styles.addressSection}>
+              <Radio
+                checked={defaultAddress === address._id}
+                onChange={() => setDefaultAddress(address._id)}
+                value={address._id}
+                name="radio-buttons"
+              />
+              <div className={styles.details}>
+                <AddressDetails address={address} />
+                <EditIcon
+                  className={styles.pencilIcon}
+                  onClick={() => showAccState(address._id, true)}
+                />
+              </div>
+            </div>
+          ),
+        )}
+      <div className={styles.buttons}>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={handleAddressSelection}
+          aria-label="deliver"
+          disabled={!defaultAddress || addresses.some(add => add.showAccordion)}
+        >
+          DELIVER TO SELECTED ADDRESS
+        </Button>
+        <Button
+          variant="outlined"
+          size="small"
+          onClick={handleCancel}
+          aria-label="cancel"
+        >
+          CANCEL
+        </Button>
+      </div>
+    </div>
   );
 }
-
-const addValidationSchema = object().shape({
-  addressLine1: string().required('Required field'),
-  city: string().required('Required field'),
-  state: string().required('Required field'),
-  pincode: string().required('Required field'),
-});
 
 export default AddressConfirmation;

@@ -2,11 +2,13 @@ import EditIcon from '@mui/icons-material/Edit';
 import {Button, Grid, Paper, styled, TextField} from '@mui/material';
 import {Formik} from 'formik';
 import {motion} from 'framer-motion';
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 import {object, string} from 'yup';
 
 import {AuthThunks, useAppDispatch, useAppSelector} from '../../redux';
+import AddressAccordion from '../AddressAccordion/AddressAccordion';
+import {AddressDetails} from '../AddressDetails/AddressDetails';
 import styles from './UserProfile.module.scss';
 
 const UserProfile = () => {
@@ -14,17 +16,14 @@ const UserProfile = () => {
     avatar: '',
     name: '',
     email: '',
-    address: '',
-    city: '',
-    state: '',
-    pin: '',
-    display: false,
   };
 
   const [formDisabled, setFormDisabled] = useState(true);
 
   const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState(initialProfileData);
+  const [addresses, setAddresses] = useState([]);
+  const [showAddAddBtn, setShowAddAddBtn] = useState(true);
 
   const Input = styled('input')({
     display: 'none',
@@ -37,32 +36,23 @@ const UserProfile = () => {
   }, []);
 
   function getUserInfo() {
-    const addresses = currentUser?.addresses ?? [];
-    const primaryAdd =
-      addresses.find(address => !!address?.default) ?? addresses[0];
     const profile = {
       email: currentUser.email,
       name: currentUser.username,
-      address: primaryAdd?.addressLine1,
-      city: primaryAdd?.city,
-      state: primaryAdd?.state,
-      pin: primaryAdd?.pincode,
-      display: true,
     };
     setUserInfo({...userInfo, ...profile});
+    if (currentUser?.addresses) {
+      const addressDetails = [...currentUser.addresses];
+      addressDetails.forEach(address => {
+        address.showAccordion = false;
+      });
+      setAddresses(addressDetails);
+    }
   }
 
   function handleSubmit(values, actions) {
     actions.setSubmitting(true);
-    const data = {
-      username: values.name,
-      addressLine1: values.address,
-      city: values.city,
-      state: values.state,
-      pincode: values.pin,
-      default: true,
-    };
-    dispatch(AuthThunks.updateUserInfo(data))
+    dispatch(AuthThunks.updateUserInfo(values.name))
       .unwrap()
       .then(() => {
         toast.success('Profile data updated successfully');
@@ -111,142 +101,133 @@ const UserProfile = () => {
     );
   };
 
+  const showAccState = (id, showAcc) => {
+    const add = addresses.find(address => address._id === id);
+    add.showAccordion = showAcc;
+    setAddresses([...addresses]);
+  };
+
   return (
-    <Paper elevation={2} className={styles.profileLayout}>
-      <motion.div
-        className={styles.imageLayout}
-        initial={{opacity: 0}}
-        animate={{scale: [1, 1.2, 1], opacity: [0.5, 0.5, 1]}}
-        transition={{ease: 'easeOut', duration: 1}}
-      >
-        <label htmlFor="avatar">
-          <Input
-            accept="image/*"
-            id="avatar"
-            type="file"
-            onChange={onFileChange}
-            disabled={true}
-          />
-          <div className={styles.avatarContainer}>
-            {!!iconFile.url && <img src={iconFile.url} alt="user-image" />}
-          </div>
-        </label>
-        <div className={styles.greetingMsg}>Hello {userInfo.name}</div>
-      </motion.div>
-      <div className={styles.infoLayout}>
-        {userInfo.display && (
-          <>
-            <div className={styles.heading}>
-              <div className={styles.title}>PERSONAL INFORMATION</div>
-              <EditIcon onClick={() => setFormDisabled(!formDisabled)} />
+    <div className={styles.profile}>
+      <Paper elevation={2} className={styles.profileLayout}>
+        <motion.div
+          className={styles.imageLayout}
+          initial={{opacity: 0}}
+          animate={{scale: [1, 1.2, 1], opacity: [0.5, 0.5, 1]}}
+          transition={{ease: 'easeOut', duration: 1}}
+        >
+          <label htmlFor="avatar">
+            <Input
+              accept="image/*"
+              id="avatar"
+              type="file"
+              onChange={onFileChange}
+              disabled={true}
+            />
+            <div className={styles.avatarContainer}>
+              {!!iconFile.url && <img src={iconFile.url} alt="user-image" />}
             </div>
-            <Formik
-              initialValues={userInfo}
-              onSubmit={(values, actions) => handleSubmit(values, actions)}
-              validationSchema={profileValidationSchema}
-            >
-              {({
-                values,
-                errors,
-                touched,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                isSubmitting,
-              }) => (
-                <form className={styles.form} onSubmit={handleSubmit}>
-                  <Grid container spacing={2}>
-                    {TextWrappedInGrid(
-                      8,
-                      'name',
-                      'Name',
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      'email',
-                      'Email',
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                      true,
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      'address',
-                      'Address',
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      'city',
-                      'City',
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      'state',
-                      'State',
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                    )}
-                    {TextWrappedInGrid(
-                      8,
-                      'pin',
-                      'Pin code',
-                      values,
-                      handleChange,
-                      handleBlur,
-                      touched,
-                      errors,
-                    )}
-                    <Grid item xs={8}>
-                      <Button
-                        style={{minWidth: '150px'}}
-                        type="submit"
-                        color="primary"
-                        size="medium"
-                        aria-label="save"
-                        variant="contained"
-                        disabled={isSubmitting || formDisabled}
-                      >
-                        SAVE
-                      </Button>
-                    </Grid>
+          </label>
+          <div className={styles.greetingMsg}>Hello {userInfo.name}</div>
+        </motion.div>
+        <div className={styles.infoLayout}>
+          <div className={styles.heading}>
+            <div className={styles.title}>PERSONAL INFORMATION</div>
+            <EditIcon onClick={() => setFormDisabled(!formDisabled)} />
+          </div>
+          <Formik
+            enableReinitialize
+            initialValues={userInfo}
+            onSubmit={(values, actions) => handleSubmit(values, actions)}
+            validationSchema={profileValidationSchema}
+          >
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              isSubmitting,
+            }) => (
+              <form className={styles.form} onSubmit={handleSubmit}>
+                <Grid container spacing={2}>
+                  {TextWrappedInGrid(
+                    12,
+                    'name',
+                    'Name',
+                    values,
+                    handleChange,
+                    handleBlur,
+                    touched,
+                    errors,
+                  )}
+                  {TextWrappedInGrid(
+                    12,
+                    'email',
+                    'Email',
+                    values,
+                    handleChange,
+                    handleBlur,
+                    touched,
+                    errors,
+                    true,
+                  )}
+                  <Grid item xs={8}>
+                    <Button
+                      type="submit"
+                      color="primary"
+                      size="medium"
+                      aria-label="save"
+                      variant="contained"
+                      disabled={isSubmitting || formDisabled}
+                    >
+                      SAVE
+                    </Button>
                   </Grid>
-                </form>
-              )}
-            </Formik>
-          </>
+                </Grid>
+              </form>
+            )}
+          </Formik>
+        </div>
+      </Paper>
+      <Paper elevation={2} className={styles.addressLayout}>
+        {showAddAddBtn ? (
+          <Button
+            variant="outlined"
+            className={styles.addNewBtn}
+            onClick={() => setShowAddAddBtn(false)}
+          >
+            + ADD A NEW ADDRESS
+          </Button>
+        ) : (
+          <AddressAccordion onCloseHandler={() => setShowAddAddBtn(true)} />
         )}
-      </div>
-    </Paper>
+        {!!addresses &&
+          addresses.map(address =>
+            address.showAccordion ? (
+              <AddressAccordion
+                key={address._id}
+                userAddress={address}
+                onCloseHandler={() => showAccState(address._id, false)}
+              />
+            ) : (
+              <div className={styles.addressSection}>
+                <AddressDetails address={address} />
+                <EditIcon
+                  className={styles.pencilIcon}
+                  onClick={() => showAccState(address._id, true)}
+                />
+              </div>
+            ),
+          )}
+      </Paper>
+    </div>
   );
 };
 
 const profileValidationSchema = object().shape({
   name: string().required('Required field'),
-  address: string().required('Required field'),
-  city: string().required('Required field'),
-  state: string().required('Required field'),
-  pin: string().required('Required field'),
 });
 
 export default UserProfile;

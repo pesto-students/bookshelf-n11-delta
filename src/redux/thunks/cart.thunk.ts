@@ -8,7 +8,7 @@ import {ADD_ITEM_TO_CART} from '../../shared/immutables';
 import {CartItem} from '../../shared/models';
 import {cartActions} from '../slices';
 
-export const getCartItems = createAsyncThunk(
+const getCartItems = createAsyncThunk(
   'cart/getAll',
   async (_, {dispatch, fulfillWithValue, rejectWithValue}) => {
     try {
@@ -41,7 +41,7 @@ export const getCartItems = createAsyncThunk(
   },
 );
 
-export const updateCartItem = createAsyncThunk(
+const updateCartItem = createAsyncThunk(
   'cart/updateOne',
   async (payload: AnyObject, {dispatch, fulfillWithValue, rejectWithValue}) => {
     try {

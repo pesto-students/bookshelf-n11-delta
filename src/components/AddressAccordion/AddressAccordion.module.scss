@@ -1,0 +1,26 @@
+@use '../../scss/mixins' as mixins;
+@import '../../scss/variables';
+
+.accordion {
+  border: 1px solid $divider;
+  border-radius: 4px;
+  margin: 0px !important; // to override 16px margin top& bottom added when accordion is expanded
+
+  .address {
+    margin: 0px 16px 16px;
+    color: $primary;
+    display: flex;
+    flex-direction: column;
+    @include mixins.fxLayoutGap(4px);
+
+    .title {
+      font-weight: bold;
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    @include mixins.fxLayoutHorzGap();
+  }
+}

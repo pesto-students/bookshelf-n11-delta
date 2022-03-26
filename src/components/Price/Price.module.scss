@@ -31,16 +31,13 @@
 
   .deliveryBlock {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
 
     .title {
       font-weight: bold;
       color: $darkTextGrey;
       padding: 16px;
-    }
-
-    .address {
-      padding: 4px 16px;
     }
   }
 }

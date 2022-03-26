@@ -3,73 +3,102 @@
 
 $avatarContainer: 150px;
 
-.profileLayout {
+.profile {
   display: flex;
   flex-wrap: wrap;
   height: 100%;
   margin: 16px;
-  padding: 16px;
-  background-color: $white;
-  @include mixins.fxLayoutGap();
+  gap: 16px;
 
-  .imageLayout {
-    flex: 1;
+  .profileLayout {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    flex-wrap: wrap;
+    padding: 16px;
+    flex: 1;
+    @include mixins.fxLayoutGap();
 
-    .avatarContainer {
-      height: $avatarContainer;
-      width: $avatarContainer;
-      border-radius: 50%;
-      background-image: url('../../assets/generic-user.png');
-      background-position: center;
-      background-size: cover;
-      border: 1px solid $divider;
-      overflow: hidden;
-      margin: 16px 0px;
-      cursor: pointer;
+    .imageLayout {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-      img {
-        height: 100%;
-        width: 100%;
+      .avatarContainer {
+        height: $avatarContainer;
+        width: $avatarContainer;
+        border-radius: 50%;
+        background-image: url('../../assets/generic-user.png');
+        background-position: center;
+        background-size: cover;
+        border: 1px solid $divider;
+        overflow: hidden;
+        margin: 16px 0px;
+        cursor: pointer;
+
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+
+      .greetingMsg {
+        text-align: center;
+        font-weight: bold;
       }
     }
 
-    .greetingMsg {
-      text-align: center;
-      font-weight: bold;
+    .infoLayout {
+      flex: 3;
+      flex-direction: column;
+      border: 1px solid $divider;
+      border-radius: 4px;
+
+      .heading {
+        font-weight: bold;
+        color: $primary;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        margin-left: 16px;
+        @include mixins.fxLayoutHorzGap();
+
+        .title {
+          font-size: 18px;
+        }
+      }
+
+      .form {
+        padding: 16px;
+
+        .textField {
+          margin-bottom: 16px;
+          width: 100%;
+        }
+      }
     }
   }
 
-  .infoLayout {
-    flex: 3;
+  .addressLayout {
+    display: flex;
+    flex: 2;
     flex-direction: column;
-    border: 1px solid $divider;
+    flex-wrap: wrap;
+    padding: 16px;
+    row-gap: 16px;
 
-    .heading {
-      font-weight: bold;
-      color: $primary;
+    .addressSection {
       display: flex;
-      flex-wrap: wrap;
-      margin-top: 32px;
-      margin-left: 32px;
-      @include mixins.fxLayoutHorzGap();
-
-      .title {
-        font-size: 18px;
-      }
+      justify-content: space-between;
+      border: 1px solid $divider;
+      border-radius: 4px;
+      padding: 16px 16px 16px 0px;
     }
+  }
 
-    .form {
-      margin: 16px;
-      padding: 16px;
-
-      .textField {
-        margin-bottom: 16px;
-        width: 100%;
-      }
-    }
+  .pencilIcon {
+    font-weight: bold;
+    color: $primary;
   }
 }

@@ -13,7 +13,7 @@ import environment from '../../Environment/environment';
 import {DashboardReducer, IDashboardState} from '../../reducers';
 import {Overlay} from '../../shared/components';
 import {SortTypes} from '../../shared/enums';
-import {APP_ACTIONS, DASHBOARD_ACTIONS} from '../../shared/immutables';
+import {DASHBOARD_ACTIONS} from '../../shared/immutables';
 import {Book} from '../../shared/models';
 import {BookCard} from '../BookCard/BookCard';
 import FilterDrawer from '../FilterDrawer/FilterDrawer';
@@ -29,7 +29,6 @@ const initialDashboardState: IDashboardState = {
   searchFilteredBooks: emptyBooksList,
   filteredBooks: emptyBooksList,
   dashboardFilteredBooks: emptyBooksList,
-  isLoading: true,
   sortFilter: SortTypes.RELEVANCE,
   appliedFilters: {},
   hasMore: true,
@@ -46,6 +45,7 @@ export const Dashboard = () => {
 
   const dispatch = useAppDispatch();
   const isLoaded = useAppSelector(state => state.book.isLoaded);
+  const isLoading = useAppSelector(state => state.book.isLoading);
   const books = useAppSelector(state => bookSelectors.selectAll(state.book));
   const [filterState, setFilterState] = useState(false);
 
@@ -85,13 +85,8 @@ export const Dashboard = () => {
     }
   }, [books]);
 
-  const {
-    isLoading,
-    sortFilter,
-    searchFilteredBooks,
-    hasMore,
-    dashboardFilteredBooks,
-  } = state;
+  const {sortFilter, searchFilteredBooks, hasMore, dashboardFilteredBooks} =
+    state;
 
   const gridLoader = <div className={styles.booksGridLoader}>Loading...</div>;
 
@@ -114,7 +109,7 @@ export const Dashboard = () => {
 
   return (
     <>
-      {isLoading ? (
+      {isLoading || !isLoaded ? (
         <>
           <img src={banner} className={styles.banner} alt="banner" />
           <Overlay showBackdrop={true} />
@@ -137,12 +132,14 @@ export const Dashboard = () => {
               className={styles.filterBtn}
               aria-label="filter"
               startIcon={<FilterAltOutlinedIcon />}
+              disabled={!books.length}
             />
             <Select
               variant="outlined"
               displayEmpty
               value={sortFilter}
               size="small"
+              disabled={!books.length}
               onChange={handleChange}
             >
               <MenuItem value={SortTypes.RELEVANCE}>Relevance</MenuItem>
@@ -165,8 +162,10 @@ export const Dashboard = () => {
             <Paper className={styles.notFound} elevation={2}>
               <img src={searching} alt="no search results" />
               <div className={styles.msg}>
-                "Sorry! No results found. Please check the spelling/filter or
-                try searching for something else"
+                {books.length
+                  ? `Sorry! No results found. Please check the spelling/filter or
+                try searching for something else`
+                  : `Oops! Something went wrong`}
               </div>
             </Paper>
           )}

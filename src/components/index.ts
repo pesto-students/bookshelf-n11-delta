@@ -1,5 +1,6 @@
 export * from './AddBook/AddBook';
 export * from './Admin/AdminHome';
+export * from './AddressAccordion/AddressAccordion';
 export * from './BookCard/BookCard';
 export * from './BookDetail/BookDetail';
 export * from './Dashboard/Dashboard';

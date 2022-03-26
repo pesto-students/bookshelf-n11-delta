@@ -14,7 +14,7 @@ import GoogleLogin from 'react-google-login';
 import {object, string} from 'yup';
 
 import environment from '../../Environment/environment';
-import {googleLogin, login, useAppDispatch} from '../../redux';
+import {AuthThunks, useAppDispatch} from '../../redux';
 import {Overlay} from '../../shared/components';
 import {USER_ENTRY_ACTIONS} from '../../shared/immutables';
 import {
@@ -59,7 +59,9 @@ function LoginForm({userAction}) {
 
   const handleLogin = async googleData => {
     setIsLoading(true);
-    dispatch(googleLogin(googleData)).finally(() => setIsLoading(false));
+    dispatch(AuthThunks.googleLogin(googleData)).finally(() =>
+      setIsLoading(false),
+    );
   };
 
   return (
@@ -69,7 +71,7 @@ function LoginForm({userAction}) {
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
           setIsLoading(true);
-          dispatch(login(values)).finally(() => {
+          dispatch(AuthThunks.login(values)).finally(() => {
             setIsLoading(false);
             setSubmitting(false);
           });

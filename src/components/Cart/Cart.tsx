@@ -23,6 +23,7 @@ const Cart = () => {
     products: location.state.cartItems,
     totalPrice: 0,
     orderType: location.state.orderType,
+    address: null,
   };
 
   const [cartState, dispatchCartActions] = useReducer(
@@ -107,7 +108,7 @@ const Cart = () => {
             )}
           </div>
           <div className={styles.rightLayout}>
-            <Price deliveryFee={environment.DELIVERY_FEE} address={address} />
+            <Price deliveryFee={environment.DELIVERY_FEE} />
             {activeStep === steps.length - 1 && (
               <div className={styles.borderLayoutBox}>
                 <div>

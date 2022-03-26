@@ -2,10 +2,11 @@ import {Divider, Grid} from '@mui/material';
 import {useContext, useEffect, useState} from 'react';
 
 import {HTML_SPECIAL_CHARS} from '../../shared/immutables';
+import {AddressDetails} from '../AddressDetails/AddressDetails';
 import {CartContext} from '../Cart/Cart';
 import styles from './Price.module.scss';
 
-export const Price = ({deliveryFee, address}) => {
+export const Price = ({deliveryFee}) => {
   const [total, setTotal] = useState(0);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
@@ -48,11 +49,11 @@ export const Price = ({deliveryFee, address}) => {
         {gridRow('DELIVERY FEE', `${HTML_SPECIAL_CHARS.RUPEE} ${deliveryFee}`)}
         {gridRow('TOTAL', `${HTML_SPECIAL_CHARS.RUPEE} ${total}`)}
       </div>
-      {address && (
+      {cartState.address && (
         <div className={styles.deliveryBlock}>
           <Divider />
           <div className={styles.title}>DELIVERY DETAILS</div>
-          <div className={styles.address}>{address}</div>
+          <AddressDetails address={cartState.address}></AddressDetails>
         </div>
       )}
     </div>

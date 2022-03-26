@@ -1,0 +1,14 @@
+@use '../../scss/mixins' as mixins;
+@import '../../scss/variables';
+
+.address {
+  margin: 0px 16px 16px;
+  color: $primary;
+  display: flex;
+  flex-direction: column;
+  @include mixins.fxLayoutGap(4px);
+
+  .title {
+    font-weight: bold;
+  }
+}

@@ -1,25 +1,35 @@
 @use '../../scss/mixins' as mixins;
 @import '../../scss/variables';
 
-.layout {
-  min-height: 300px;
-}
-
-.address {
-  margin: 0px 16px 16px;
-  color: $primary;
+.addressLayout {
   display: flex;
+  flex: 2;
   flex-direction: column;
-  @include mixins.fxLayoutGap(4px);
+  flex-wrap: wrap;
+  padding: 16px;
+  row-gap: 16px;
 
-  .title {
-    font-weight: bold;
+  .addressSection {
+    display: flex;
+    border: 1px solid $divider;
+    border-radius: 4px;
+    padding: 16px 16px 16px 0px;
+
+    .details {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
   }
-}
 
-.buttons {
-  margin: 0px 16px;
-  display: flex;
-  justify-content: space-between;
-  @include mixins.fxLayoutHorzGap();
+  .pencilIcon {
+    font-weight: bold;
+    color: $primary;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+    @include mixins.fxLayoutHorzGap();
+  }
 }

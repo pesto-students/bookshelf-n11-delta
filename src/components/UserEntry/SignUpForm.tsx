@@ -4,7 +4,7 @@ import {Formik} from 'formik';
 import {useEffect} from 'react';
 import {object, ref, string} from 'yup';
 
-import {signUp, useAppDispatch} from '../../redux';
+import {AuthThunks, useAppDispatch} from '../../redux';
 import {USER_ENTRY_ACTIONS} from '../../shared/immutables';
 import {
   MIN_PASSWORD_LENGTH,
@@ -33,7 +33,9 @@ function SignUpForm({userAction}) {
         initialValues={signUpInitialValues}
         onSubmit={(values, {setSubmitting}) => {
           setSubmitting(true);
-          dispatch(signUp(values)).finally(() => setSubmitting(false));
+          dispatch(AuthThunks.signUp(values)).finally(() =>
+            setSubmitting(false),
+          );
         }}
         validationSchema={signUpValidationSchema}
       >
