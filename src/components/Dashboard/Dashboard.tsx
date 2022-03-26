@@ -46,6 +46,7 @@ export const Dashboard = () => {
   const dispatch = useAppDispatch();
   const isLoaded = useAppSelector(state => state.book.isLoaded);
   const isLoading = useAppSelector(state => state.book.isLoading);
+  const currentUser = useAppSelector(state => state.auth.user);
   const books = useAppSelector(state => bookSelectors.selectAll(state.book));
   const [filterState, setFilterState] = useState(false);
 
@@ -77,7 +78,7 @@ export const Dashboard = () => {
       type: DASHBOARD_ACTIONS.SEARCH_BOOKS,
       searchOn: searchText,
     });
-  }, [searchText]);
+  }, [searchText, currentUser]);
 
   useEffect(() => {
     if (isLoaded) {

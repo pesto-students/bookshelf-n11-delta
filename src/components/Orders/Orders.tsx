@@ -120,7 +120,10 @@ const Orders = () => {
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell
                                   align="right"
-                                  style={{cursor: 'pointer'}}
+                                  style={{
+                                    cursor: 'pointer',
+                                    wordBreak: 'break-word',
+                                  }}
                                   onClick={() =>
                                     redirectToBooksPage(
                                       orderDetail?.bookId?._id,

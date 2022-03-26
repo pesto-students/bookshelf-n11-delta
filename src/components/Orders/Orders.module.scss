@@ -11,9 +11,14 @@
     border: 2px solid #e5e5e5;
     padding: 16px;
     border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
 
     .bookDetails {
       flex: 3;
+      min-width: fit-content;
     }
 
     .orderDetails {
@@ -22,7 +27,7 @@
       border: 2px solid #e5e5e5;
       padding: 16px;
       border-radius: 4px;
-      width: fit-content;
+      max-width: 250px;
     }
   }
 }
