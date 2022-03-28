@@ -32,8 +32,10 @@ const UserProfile = () => {
   const currentUser = useAppSelector(state => state.auth.user);
 
   useEffect(() => {
-    getUserInfo();
-  }, []);
+    if (currentUser) {
+      getUserInfo();
+    }
+  }, [currentUser]);
 
   function getUserInfo() {
     const profile = {

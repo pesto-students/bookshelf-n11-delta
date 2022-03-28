@@ -78,7 +78,7 @@ function AddressConfirmation({handleDelivery}) {
               onCloseHandler={() => showAccState(address._id, false)}
             />
           ) : (
-            <div className={styles.addressSection}>
+            <div key={address._id} className={styles.addressSection}>
               <Radio
                 checked={defaultAddress === address._id}
                 onChange={() => setDefaultAddress(address._id)}
