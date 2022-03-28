@@ -85,7 +85,7 @@ function App() {
     } else if (currentUser?.isSuperAdmin) {
       setAdmin(true);
     }
-  }, currentUser);
+  }, [currentUser]);
 
   return (
     <Router>

@@ -28,7 +28,7 @@ export const Price = ({deliveryFee}) => {
 
   const gridRow = (key, value) => {
     return (
-      <Grid direction="row" spacing={4} className={styles.detailRow}>
+      <Grid direction="row" className={styles.detailRow}>
         <Grid xs={8}>
           <span className={styles.key}>{key}</span>
         </Grid>

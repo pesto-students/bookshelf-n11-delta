@@ -1,11 +1,10 @@
 import {Navigate} from 'react-router-dom';
-
-import {useAppSelector} from '../redux';
+import {TokenService} from '../shared/services';
 
 const PrivateRoute = (props: any) => {
-  const currentUser = useAppSelector(state => state.auth.user);
+  const isLoggedIn = !!TokenService.getAccessToken();
 
-  return !!currentUser ? <>{props.children}</> : <Navigate to="/" />;
+  return isLoggedIn ? <>{props.children}</> : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
