@@ -48,7 +48,7 @@ function SignUpForm({userAction}) {
           handleSubmit,
           isSubmitting,
         }) => (
-          <form className={styles.loginForm} onSubmit={handleSubmit}>
+          <form className={styles.form} onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <TextField
                 name="name"

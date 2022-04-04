@@ -59,6 +59,7 @@ function AddressAccordion(props) {
       // edit
       addressData._id = userAddress._id;
       dispatch(AuthThunks.editUserAddress(addressData))
+        .unwrap()
         .then(() => {
           afterAddressUpsert(actions, 'Address details updated successfully');
         })
@@ -68,6 +69,7 @@ function AddressAccordion(props) {
     } else {
       // add
       dispatch(AuthThunks.addUserAddress(addressData))
+        .unwrap()
         .then(() => {
           afterAddressUpsert(actions, 'New Address details added');
         })
