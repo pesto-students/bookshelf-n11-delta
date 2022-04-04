@@ -1,16 +1,17 @@
 @import '../../scss/variables';
 
-.loginForm {
+.loginDialog {
+  width: 60%;
+  gap: 16px;
+}
+
+.form {
   display: flex;
   flex-direction: column;
   padding-top: 16px;
+  gap: 16px;
   min-width: 60%;
 
-  .guestLogin {
-    align-self: flex-end;
-    margin-right: -16px;
-    color: $primary;
-  }
   .inputIcon {
     margin-right: 8px;
   }
@@ -23,6 +24,12 @@
   .btn {
     box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px 0px,
       rgb(0 0 0 / 24%) 0px 0px 1px 0px;
+  }
+
+  .orText {
+    align-self: center;
+    font-size: 15px;
+    color: #00000099;
   }
 }
 

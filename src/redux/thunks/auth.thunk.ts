@@ -57,8 +57,34 @@ const login = createAsyncThunk(
   },
 );
 
+const guestLogin = createAsyncThunk(
+  'auth/guest-login',
+  async (_, {dispatch, fulfillWithValue, rejectWithValue}) => {
+    return new Promise((resolve, reject) => {
+      appAxios
+        .post(`${environment.API_URL}/login/guest`)
+        .then(({data}) => {
+          TokenService.setTokenPayload(data);
+          batch(() => {
+            dispatch(authActions.setLoading(false));
+            dispatch(me())
+              .unwrap()
+              .then((user: AnyObject) => {
+                resolve(fulfillWithValue(data) as any);
+                toast.success('Welcome Guest');
+              });
+          });
+        })
+        .catch(error => reject(rejectWithValue(error)))
+        .finally(() => {
+          dispatch(authActions.finalizeAuth());
+        });
+    });
+  },
+);
+
 const googleLogin = createAsyncThunk(
-  'auth/googleLogin',
+  'auth/google-login',
   async (
     payload: GoogleLoginResponse,
     {dispatch, fulfillWithValue, rejectWithValue},
@@ -177,6 +203,7 @@ export const AuthThunks = {
   me,
   login,
   googleLogin,
+  guestLogin,
   signUp,
   refresh,
   updateUserInfo,

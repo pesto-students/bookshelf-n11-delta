@@ -2,16 +2,14 @@ import RegisterIcon from '@material-ui/icons/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import {Button, Stack, TextField} from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
+import {Button, Divider, Stack, TextField} from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import {Formik} from 'formik';
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import GoogleLogin from 'react-google-login';
 import {object, string} from 'yup';
+import LoginIcon from '@mui/icons-material/Login';
 
 import environment from '../../Environment/environment';
 import {AuthThunks, useAppDispatch} from '../../redux';
@@ -27,7 +25,6 @@ import styles from './UserEntry.module.scss';
 function LoginForm({userAction}) {
   const loginInitialValues = {email: '', password: ''};
 
-  const [checked, setChecked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -40,15 +37,9 @@ function LoginForm({userAction}) {
     setShowPassword(!showPassword);
   };
 
-  const handleGuestLogin = resetForm => {
-    const values = {...loginInitialValues};
-    if (!checked) {
-      values.email = environment.GUEST_EMAIL;
-      values.password = environment.GUEST_PASSWORD;
-      setShowPassword(false);
-    }
-    setChecked(!checked);
-    resetForm({values});
+  const handleGuestLogin = () => {
+    setIsLoading(true);
+    dispatch(AuthThunks.guestLogin()).finally(() => setIsLoading(false));
   };
 
   const handleFailure = () => {
@@ -86,17 +77,16 @@ function LoginForm({userAction}) {
           handleBlur,
           handleSubmit,
           isSubmitting,
-          resetForm,
         }) => (
-          <form className={styles.loginForm} onSubmit={handleSubmit}>
-            <Stack spacing={2}>
+          <div className={styles.loginDialog}>
+            <form className={styles.form} onSubmit={handleSubmit}>
               <TextField
                 name="email"
                 label="Email"
                 size="small"
                 variant="outlined"
                 value={values.email}
-                disabled={isLoading || checked}
+                disabled={isLoading}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.email && !!errors.email}
@@ -104,14 +94,7 @@ function LoginForm({userAction}) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      {checked ? (
-                        <MailIcon
-                          color="disabled"
-                          className={styles.inputIcon}
-                        />
-                      ) : (
-                        <MailIcon className={styles.inputIcon} />
-                      )}
+                      <MailIcon className={styles.inputIcon} />
                     </InputAdornment>
                   ),
                 }}
@@ -123,7 +106,7 @@ function LoginForm({userAction}) {
                 type={showPassword ? 'text' : 'password'}
                 variant="outlined"
                 value={values.password}
-                disabled={isLoading || checked}
+                disabled={isLoading}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 error={touched.password && !!errors?.password}
@@ -131,50 +114,50 @@ function LoginForm({userAction}) {
                 InputProps={{
                   endAdornment: (
                     <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleClickShowPassword}
-                        disabled={checked}
-                      >
+                      <IconButton onClick={handleClickShowPassword}>
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                       </IconButton>
                     </InputAdornment>
                   ),
                 }}
               />
-              <FormGroup className={styles.guestLogin}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={checked}
-                      onChange={() => handleGuestLogin(resetForm)}
-                    />
-                  }
-                  label="Sign in as Guest"
-                />
-              </FormGroup>
               <Button
                 className={styles.btn}
                 type="submit"
                 color="primary"
                 size="medium"
-                aria-label="submit"
+                aria-label="login"
                 variant="contained"
-                startIcon={<RegisterIcon />}
+                startIcon={<LoginIcon />}
                 disabled={isLoading || isSubmitting}
               >
                 LOGIN
               </Button>
+              <div className={styles.orText}>or</div>
+              <Button
+                className={styles.btn}
+                type="submit"
+                color="secondary"
+                size="medium"
+                aria-label="guest-login"
+                onClick={handleGuestLogin}
+                variant="contained"
+                startIcon={<RegisterIcon />}
+                disabled={isLoading || isSubmitting}
+              >
+                LOGIN AS GUEST
+              </Button>
+              <Divider />
               <GoogleLogin
                 clientId={environment.GOOGLE_CLIENT_ID}
                 className={styles.googleLoginBtn}
                 buttonText="SIGN IN WITH GOOGLE"
                 onSuccess={handleLogin}
-                disabled={checked}
                 onFailure={handleFailure}
                 cookiePolicy={'single_host_origin'}
               ></GoogleLogin>
-            </Stack>
-          </form>
+            </form>
+          </div>
         )}
       </Formik>
       <div

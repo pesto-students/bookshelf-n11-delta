@@ -28,7 +28,7 @@ Live demo [_here_](https://n11-bookshelf.netlify.app/)
     Username : admin_bookshelf@gmail.com \
     Password : Mnbvcxz@12
 
-Project also provide guest login functionality, just check `Sign in as Guest` checkbox and hit `Sign in` button
+Project also provide guest login functionality, just click `LOGIN AS GUEST` button
 ## Installation
 
 - Clone this repository to your local machine
@@ -44,9 +44,6 @@ REACT_APP_API_URL= // required, backend server url
 
 REACT_APP_STRIPE_API_KEY= // required, stripe public key
 REACT_APP_GOOGLE_CLIENT_ID= //required, OAuth client id created on GCP for app SSO
-
-REACT_APP_GUEST_EMAIL= // required, account username used for guest login
-REACT_APP_GUEST_PASSWORD= // required, account username used for guest login
 
 // delay added for infinite scrolling -- in ms
 REACT_APP_LOADING_DELAY= // optional (defaults to 1000)
